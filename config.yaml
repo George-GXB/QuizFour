@@ -1,0 +1,9 @@
+cookie:
+  expiry_days: 30
+  key: english_quiz_secret_cookie_key_2024
+  name: quiz_auth_cookie
+credentials:
+  usernames:
+    george:
+      nickname: ジョージ
+      password: $2b$12$hrdFc3G3a1WQ01Hp2g4C6Oi46uUfUXd9AS9IWz8Z1EGw5pAwvbPC.
