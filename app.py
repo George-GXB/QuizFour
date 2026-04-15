@@ -7,9 +7,6 @@ import random
 import re
 
 import streamlit as st
-import streamlit_authenticator as stauth
-import yaml
-from yaml.loader import SafeLoader
 
 from quiz_logic import (
     Question,
@@ -18,48 +15,34 @@ from quiz_logic import (
     get_category_options,
     is_correct,
     limit_questions,
-    load_question_stats,
     load_questions_from_db,
-    record_answer_history,
     reload_db_from_csvs,
-    reset_answer_history,
     sync_csvs_to_db,
     update_correct_index,
+)
+from local_storage_helper import (
+    init_local_storage,
+    ensure_loaded,
+    save_app_data,
+    get_registered_users,
+    register_user,
+    user_exists,
+    get_last_user,
+    set_last_user,
+    get_question_stats,
+    record_answer,
+    reset_user_stats,
+    delete_user,
 )
 
 INPUT_DIR = Path(__file__).parent / "input"
 DB_PATH = Path(__file__).parent / "quiz.db"
-CONFIG_PATH = Path(__file__).parent / "config.yaml"
 
 st.set_page_config(page_title="English Quiz", page_icon="📘", layout="centered")
 
-# ── 認証設定の読み込み ────────────────────────────────
-with open(CONFIG_PATH, encoding="utf-8") as _f:
-    _config = yaml.load(_f, Loader=SafeLoader)
-
-# name→nickname自動変換（後方互換）
-usernames = _config.get("credentials", {}).get("usernames", {})
-changed = False
-for uname, uinfo in usernames.items():
-    if "name" in uinfo:
-        uinfo["nickname"] = uinfo.pop("name")
-        changed = True
-if changed:
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-        yaml.dump(_config, f, default_flow_style=False, allow_unicode=True)
-
-authenticator = stauth.Authenticate(
-    _config["credentials"],
-    _config["cookie"]["name"],
-    _config["cookie"]["key"],
-    _config["cookie"]["expiry_days"],
-)
-
-
-def _save_config() -> None:
-    """config.yaml にユーザー情報の変更を書き戻す。"""
-    with open(CONFIG_PATH, "w", encoding="utf-8") as f:
-        yaml.dump(_config, f, default_flow_style=False, allow_unicode=True)
+# ── ブラウザ localStorage の初期化 ──────────────────────────
+ls = init_local_storage()
+ensure_loaded(ls)
 
 
 def load_questions() -> list[Question]:
@@ -140,7 +123,7 @@ def _answer_question(choice_index: int) -> None:
         st.session_state.correct_count += 1
 
     try:
-        record_answer_history(DB_PATH, current_question.id, answer_is_correct, st.session_state.get("user_name", ""))
+        record_answer(current_question.id, answer_is_correct, st.session_state.get("user_name", ""))
     except Exception as exc:
         st.session_state["record_error"] = f"履歴記録に失敗しました: {exc}"
 
@@ -230,7 +213,7 @@ def render_category_buttons(title: str, options: list[str], state_key: str, sing
 
 
 def _build_recommended_pool(
-    questions: list[Question], db_path: Path, count: int, user_name: str = ""
+    questions: list[Question], count: int, user_name: str = ""
 ) -> tuple[list[Question], str]:
     """おすすめモード用の出題プールを作成する。
 
@@ -238,17 +221,30 @@ def _build_recommended_pool(
     - 全問出題済み → 正解率が低い順に count 問選んでシャッフル
     戻り値: (シャッフル済み選択問題リスト, 説明メッセージ)
     """
-    stats = load_question_stats(db_path, user_name)  # {question_id: (asked, correct, incorrect)}
+    stats = get_question_stats(user_name)  # {question_id: (asked, correct, incorrect)}
     unanswered = [q for q in questions if q.id not in stats]
 
     if unanswered:
-        selected = random.sample(unanswered, min(count, len(unanswered)))
-        desc = f"未出題 {len(unanswered)} 問からシャッフルで {len(selected)} 問出題"
+        if len(unanswered) >= count:
+            selected = random.sample(unanswered, count)
+            desc = f"未出題 {len(unanswered)} 問からシャッフルで {len(selected)} 問出題"
+        else:
+            # 未出題が足りない場合は、残りを正解率が低い順に出題済みから補う
+            needed = count - len(unanswered)
+            def _rate(q: Question) -> float:
+                asked, correct, _ = stats.get(q.id, (1, 0, 0))
+                return correct / asked if asked > 0 else 0.0
+            # 出題済みの中から正解率が低い順に不足分を選ぶ
+            already_asked = [q for q in questions if q.id in stats]
+            already_asked_sorted = sorted(already_asked, key=_rate)
+            supplement = already_asked_sorted[:needed]
+            # 未出題はシャッフル、補充分はそのまま
+            selected = random.sample(unanswered, len(unanswered)) + supplement
+            desc = f"未出題{len(unanswered)}問＋正解率低い{len(supplement)}問を出題"
     else:
         def _rate(q: Question) -> float:
             asked, correct, _ = stats.get(q.id, (1, 0, 0))
             return correct / asked if asked > 0 else 0.0
-
         sorted_by_rate = sorted(questions, key=_rate)
         candidates = sorted_by_rate[:count]
         selected = random.sample(candidates, len(candidates))
@@ -268,29 +264,23 @@ def _reload_db_from_input() -> None:
 
 def _reset_answer_history_only() -> None:
     user_name = st.session_state.get("user_name", "")
-    reset_answer_history(DB_PATH, user_name)
+    reset_user_stats(user_name)
     st.session_state.reload_notice = f"「{user_name}」の学習成績をリセットしました。"
 
 
 def render_setup(all_questions: list[Question]) -> None:
     st.title("English Quiz")
     user_name = st.session_state.get("user_name", "")
-    # ニックネーム取得（空ならuser_nameをfallback）
-    nickname = _config["credentials"]["usernames"].get(user_name, {}).get("nickname") or user_name
-    # st.info(f"user_name: '{user_name}' (nickname: '{nickname}')")  # デバッグ用: 実際の値を表示
 
     header_col, logout_col = st.columns([5, 1])
     with header_col:
         if user_name:
-            st.caption(f"👤 {user_name}（{nickname}）")
+            st.caption(f"👤 {user_name}")
     with logout_col:
-        authenticator.logout("ログアウト", location="main")
-
-    # ログアウト後は login に戻す
-    if not st.session_state.get("authentication_status"):
-        st.session_state.stage = "login"
-        st.session_state.user_name = ""
-        st.rerun()
+        if st.button("切替", key="switch_user"):
+            st.session_state.stage = "login"
+            st.session_state.user_name = ""
+            st.rerun()
 
     notice = st.session_state.get("reload_notice", "")
     if notice:
@@ -342,7 +332,7 @@ def render_setup(all_questions: list[Question]) -> None:
 
     if order_mode == "おすすめ":
         user_name = st.session_state.get("user_name", "")
-        quiz_questions, recommend_desc = _build_recommended_pool(target_questions, DB_PATH, question_count, user_name)
+        quiz_questions, recommend_desc = _build_recommended_pool(target_questions, question_count, user_name)
         st.info(f"🌟 おすすめ：{recommend_desc}（対象問題数: {len(target_questions)}）")
     else:
         if order_mode == "シャッフル":
@@ -352,7 +342,7 @@ def render_setup(all_questions: list[Question]) -> None:
         elif order_mode == "順番通り（出題少ない順）":
             # 出題回数が少ない順にソート（同回数なら元の並び順を維持）
             user_name = st.session_state.get("user_name", "")
-            stats = load_question_stats(DB_PATH, user_name)
+            stats = get_question_stats(user_name)
             pool = sorted(
                 target_questions,
                 key=lambda q: stats.get(q.id, (0, 0, 0))[0],  # total_asked 昇順
@@ -382,18 +372,6 @@ def render_setup(all_questions: list[Question]) -> None:
     category1_options, category2_options = get_category_options(all_questions)
     with st.expander("カテゴリ範囲を選ぶ", expanded=False):
         render_category_buttons("Category1（複数選択可）", category1_options, "selected_category_values", single_row=True)
-
-    # ── パスワード変更 ──────────────────────────────────
-    with st.expander("パスワードを変更する"):
-        try:
-            if authenticator.reset_password(
-                st.session_state.get("username", ""),
-                location="main",
-            ):
-                _save_config()
-                st.success("パスワードを変更しました。")
-        except Exception as exc:
-            st.error(str(exc))
 
     st.divider()
 
@@ -482,6 +460,17 @@ def render_setup(all_questions: list[Question]) -> None:
                     st.session_state["confirm_reset"] = False
                     st.rerun()
 
+    # ── initial.csvからDBを更新するボタン ──
+    st.divider()
+    if st.button("initial.csvからDBを更新する", key="reload_db_initial_csv"):
+        try:
+            imported_count = reload_db_from_csvs(INPUT_DIR, DB_PATH)
+            reloaded_questions = load_questions_from_db(DB_PATH)
+            st.session_state.reload_notice = f"DBをinitial.csvから再構築しました（取込CSV: {imported_count}件 / 問題数: {len(reloaded_questions)}件）"
+            st.rerun()
+        except Exception as exc:
+            st.error(f"initial.csvからのDB再構築に失敗しました: {exc}")
+
 
 
 def _rate_bar(rate: float) -> str:
@@ -513,7 +502,7 @@ def _sorted_cat1(keys: list[str]) -> list[str]:
 def _render_all_questions_tree() -> None:
     all_questions = load_questions_from_db(DB_PATH)
     user_name = st.session_state.get("user_name", "")
-    stats = load_question_stats(DB_PATH, user_name)  # {question_id: (asked, correct, incorrect)}
+    stats = get_question_stats(user_name)  # {question_id: (asked, correct, incorrect)}
 
     if not all_questions:
         st.info("問題がありません。")
@@ -568,45 +557,55 @@ def _render_all_questions_tree() -> None:
 def render_login() -> None:
     st.title("📘 English Quiz")
 
-    # ── ログインフォーム ──
-    authenticator.login(location="main")
+    # ── 既存ユーザー選択 ──
+    users = get_registered_users()
+    last_user = get_last_user()
 
-    if st.session_state.get("authentication_status") is True:
-        # 認証成功 → user_name をセットしてメイン画面へ
-        st.session_state.user_name = st.session_state.get("username", "")
-        st.session_state.stage = "setup"
-        st.rerun()
-    elif st.session_state.get("authentication_status") is False:
-        st.error("ユーザー名またはパスワードが正しくありません。")
+    if users:
+        st.subheader("ユーザーを選択")
+        user_names = [u["user_name"] for u in users]
+
+        # 前回のユーザーをデフォルトに
+        default_idx = 0
+        if last_user in user_names:
+            default_idx = user_names.index(last_user)
+
+        selected_user = st.selectbox(
+            "ユーザー",
+            options=user_names,
+            index=default_idx,
+        )
+
+        col_login, col_delete = st.columns([2, 1])
+        with col_login:
+            if st.button("ログイン", type="primary"):
+                st.session_state.user_name = selected_user
+                set_last_user(selected_user)
+                st.session_state.stage = "setup"
+                st.rerun()
+        with col_delete:
+            if st.button("ユーザー削除", key="delete_user_btn"):
+                delete_user(selected_user)
+                st.success(f"ユーザー「{selected_user}」を削除しました。")
+                st.rerun()
+    else:
+        st.info("ユーザーが登録されていません。下の「新規ユーザー登録」から登録してください。")
 
     # ── 新規ユーザー登録 ──
     st.divider()
     with st.expander("新規ユーザー登録"):
         with st.form("register_form"):
-            new_username = st.text_input("ユーザー名（ログインID）※半角英数字", max_chars=32)
-            new_nickname = st.text_input("ニックネーム（表示名）", max_chars=32)
-            new_password = st.text_input("パスワード", type="password")
-            new_password2 = st.text_input("パスワード（確認）", type="password")
-            submitted = st.form_submit_button("Register")
+            new_username = st.text_input("ユーザー名", max_chars=32)
+            submitted = st.form_submit_button("登録")
         if submitted:
-            import bcrypt
-            # 入力バリデーション
-            if not new_username or not new_nickname or not new_password:
-                st.error("すべての項目を入力してください。")
-            elif not new_username.isalnum():
-                st.error("ユーザー名は半角英数字のみ使用できます。")
-            elif new_password != new_password2:
-                st.error("パスワードが一致しません。")
-            elif new_username in _config["credentials"]["usernames"]:
+            if not new_username or not new_username.strip():
+                st.error("ユーザー名を入力してください。")
+            elif user_exists(new_username.strip()):
                 st.error("このユーザー名は既に登録されています。別のユーザー名を入力してください。")
             else:
-                hashed_pw = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
-                _config["credentials"]["usernames"][new_username] = {
-                    "nickname": new_nickname,
-                    "password": hashed_pw
-                }
-                _save_config()
-                st.success(f"ユーザー「{new_nickname}」を登録しました。上のフォームからログインしてください。")
+                register_user(new_username.strip())
+                st.success(f"ユーザー「{new_username.strip()}」を登録しました。上のリストからログインしてください。")
+                st.rerun()
 
 
 def render_history() -> None:
@@ -761,8 +760,8 @@ def render_quiz() -> None:
                     st.session_state[correcting_key] = True
                     st.rerun()
 
-    if st.session_state.show_japanese and q.prompt:
-        st.caption(f"日本語: {q.prompt}")
+    if st.session_state.show_japanese and q.japanese:
+        st.caption(f"日本語: {q.japanese}")
 
 
 def render_result() -> None:
@@ -814,13 +813,6 @@ except Exception as exc:
     st.error(f"問題データの読み込みに失敗しました: {exc}")
     st.stop()
 
-# cookie で認証済みならログインステージをスキップ
-if (
-    st.session_state.get("authentication_status") is True
-    and st.session_state.stage == "login"
-):
-    st.session_state.user_name = st.session_state.get("username", "")
-    st.session_state.stage = "setup"
 
 if st.session_state.stage == "login":
     render_login()
@@ -832,4 +824,7 @@ elif st.session_state.stage == "history":
     render_history()
 else:
     render_result()
+
+# ── ページ描画後にブラウザ localStorage へ永続化 ──────────────
+save_app_data(ls)
 

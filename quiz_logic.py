@@ -105,6 +105,15 @@ def init_db(db_path: Path) -> None:
             )
             """
         )
+        # 登録ユーザーテーブル
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS users (
+                user_name TEXT PRIMARY KEY,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP
+            )
+            """
+        )
 
 
 def reset_db(db_path: Path) -> None:
@@ -500,3 +509,35 @@ def get_all_users(db_path: Path) -> list[str]:
             "SELECT DISTINCT user_name FROM answer_history WHERE user_name != '' ORDER BY user_name"
         ).fetchall()
     return [row[0] for row in rows]
+
+
+def register_user(db_path: Path, user_name: str) -> None:
+    """Register a new user."""
+    init_db(db_path)
+    with sqlite3.connect(db_path) as conn:
+        conn.execute(
+            "INSERT INTO users (user_name) VALUES (?)",
+            (user_name,),
+        )
+        conn.commit()
+
+
+def get_registered_users(db_path: Path) -> list[dict[str, str]]:
+    """Return all registered users as a list of dicts with 'user_name'."""
+    init_db(db_path)
+    with sqlite3.connect(db_path) as conn:
+        rows = conn.execute(
+            "SELECT user_name FROM users ORDER BY user_name"
+        ).fetchall()
+    return [{"user_name": row[0]} for row in rows]
+
+
+def user_exists(db_path: Path, user_name: str) -> bool:
+    """Check if a user name is already registered."""
+    init_db(db_path)
+    with sqlite3.connect(db_path) as conn:
+        row = conn.execute(
+            "SELECT 1 FROM users WHERE user_name = ?", (user_name,)
+        ).fetchone()
+    return row is not None
+
