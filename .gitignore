@@ -1,7 +1,6 @@
 *.mp4
 .idea/
 output/
-input/
 *.png
 *.jpg
 
