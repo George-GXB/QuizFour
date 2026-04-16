@@ -33,7 +33,12 @@ from local_storage_helper import (
     record_answer,
     reset_user_stats,
     delete_user,
+    get_all_tags,
+    set_all_tags,
+    get_question_tags,
+    set_question_tags,
 )
+from db_initializer import initialize_db_from_initial_csv
 
 INPUT_DIR = Path(__file__).parent / "input"
 DB_PATH = Path(__file__).parent / "quiz.db"
@@ -368,10 +373,9 @@ def render_setup(all_questions: list[Question]) -> None:
         st.session_state.stage = "history"
         st.rerun()
 
-    # ── カテゴリ範囲選択（一番下） ──────────────────────────
-    category1_options, category2_options = get_category_options(all_questions)
-    with st.expander("カテゴリ範囲を選ぶ", expanded=False):
-        render_category_buttons("Category1（複数選択可）", category1_options, "selected_category_values", single_row=True)
+    if st.button("🏷️ タグ管理"):
+        st.session_state.stage = "tag_manage"
+        st.rerun()
 
     st.divider()
 
@@ -460,17 +464,7 @@ def render_setup(all_questions: list[Question]) -> None:
                     st.session_state["confirm_reset"] = False
                     st.rerun()
 
-    # ── initial.csvからDBを更新するボタン ──
-    st.divider()
-    if st.button("initial.csvからDBを更新する", key="reload_db_initial_csv"):
-        try:
-            imported_count = reload_db_from_csvs(INPUT_DIR, DB_PATH)
-            reloaded_questions = load_questions_from_db(DB_PATH)
-            st.session_state.reload_notice = f"DBをinitial.csvから再構築しました（取込CSV: {imported_count}件 / 問題数: {len(reloaded_questions)}件）"
-            st.rerun()
-        except Exception as exc:
-            st.error(f"initial.csvからのDB再構築に失敗しました: {exc}")
-
+    # ...existing code...
 
 
 def _rate_bar(rate: float) -> str:
@@ -511,7 +505,7 @@ def _render_all_questions_tree() -> None:
     # ツリー構築（questions は source_csv, number, id 順で取得済み → 挿入順 = CSV並び順）
     tree: dict[str, list[Question]] = defaultdict(list)
     for q in all_questions:
-        tree[q.category].append(q)
+        tree[q.source_csv].append(q)
 
     for cat1 in tree.keys():
         qs_cat1 = tree[cat1]
@@ -617,6 +611,109 @@ def render_history() -> None:
         st.rerun()
 
 
+def render_tag_manage() -> None:
+    """タグ管理画面：どの問題にどのハッシュタグが付いているかを一覧・編集できる。"""
+    st.title("🏷️ タグ管理")
+
+    all_questions = load_questions_from_db(DB_PATH)
+    question_tags = get_question_tags()
+    all_tags = get_all_tags()
+
+    if st.button("メイン画面に戻る", type="primary", key="tag_manage_back"):
+        st.session_state.stage = "setup"
+        st.rerun()
+
+    # ── タグ一覧と新規タグ作成 ──
+    st.subheader("タグ一覧")
+    if all_tags:
+        st.write("　".join([f"`#{t}`" for t in all_tags]))
+    else:
+        st.caption("タグはまだありません。下のフォームから作成してください。")
+
+    with st.form("tag_manage_add_form", clear_on_submit=True):
+        new_tag = st.text_input("新しいタグを作成", placeholder="タグ名を入力")
+        if st.form_submit_button("タグを作成"):
+            if new_tag.strip():
+                tag = new_tag.strip()
+                if tag not in all_tags:
+                    all_tags.append(tag)
+                    set_all_tags(all_tags)
+                    st.rerun()
+                else:
+                    st.warning(f"タグ「#{tag}」は既に存在します。")
+
+    # ── タグ削除 ──
+    if all_tags:
+        with st.expander("タグを削除する"):
+            del_tag = st.selectbox("削除するタグ", options=all_tags, key="del_tag_select")
+            if st.button("このタグを削除", key="del_tag_btn"):
+                all_tags = [t for t in all_tags if t != del_tag]
+                set_all_tags(all_tags)
+                for qid in list(question_tags.keys()):
+                    question_tags[qid] = [t for t in question_tags[qid] if t != del_tag]
+                    if not question_tags[qid]:
+                        del question_tags[qid]
+                set_question_tags(question_tags)
+                st.rerun()
+
+    st.divider()
+
+    # ── フィルタ：タグで絞り込み ──
+    st.subheader("問題一覧")
+    filter_options = ["すべて", "タグ付きのみ", "タグなしのみ"] + [f"#{t}" for t in all_tags]
+    tag_filter = st.selectbox("フィルタ", options=filter_options, key="tag_manage_filter")
+
+    filtered_questions: list[Question] = []
+    for q in all_questions:
+        qid = str(q.id)
+        q_tags = question_tags.get(qid, [])
+        if tag_filter == "タグ付きのみ" and not q_tags:
+            continue
+        if tag_filter == "タグなしのみ" and q_tags:
+            continue
+        if tag_filter.startswith("#"):
+            if tag_filter[1:] not in q_tags:
+                continue
+        filtered_questions.append(q)
+
+    if not filtered_questions:
+        st.caption("該当する問題がありません。")
+    else:
+        tag_col_count = len(all_tags)
+        col_widths = [4] + [1] * tag_col_count if tag_col_count > 0 else [1]
+        header_cols = st.columns(col_widths)
+        header_cols[0].markdown("**問題文**")
+        for i, tag in enumerate(all_tags):
+            header_cols[i + 1].markdown(f"**#{tag}**")
+
+        for q in filtered_questions:
+            qid = str(q.id)
+            q_tags = question_tags.get(qid, [])
+            row_cols = st.columns(col_widths)
+            english_short = (q.english or "(No English text)")[:80]
+            if len(q.english or "") > 80:
+                english_short += "…"
+            row_cols[0].caption(english_short)
+            for i, tag in enumerate(all_tags):
+                is_on = tag in q_tags
+                cb_key = f"tm_cb_{q.id}_{tag}"
+                if row_cols[i + 1].checkbox(
+                    "　", value=is_on, key=cb_key, label_visibility="collapsed"
+                ):
+                    if not is_on:
+                        new_q_tags = q_tags + [tag]
+                        question_tags[qid] = new_q_tags
+                        set_question_tags(question_tags)
+                else:
+                    if is_on:
+                        new_q_tags = [t for t in q_tags if t != tag]
+                        if new_q_tags:
+                            question_tags[qid] = new_q_tags
+                        elif qid in question_tags:
+                            del question_tags[qid]
+                        set_question_tags(question_tags)
+
+
 def render_quiz() -> None:
     questions = st.session_state.quiz_questions
     index = st.session_state.current_index
@@ -626,6 +723,7 @@ def render_quiz() -> None:
         st.rerun()
 
     q = questions[index]
+
 
     record_error = st.session_state.pop("record_error", "")
     if record_error:
@@ -715,7 +813,6 @@ def render_quiz() -> None:
                             updated_q = Question(
                                 id=q.id,
                                 source_csv=q.source_csv,
-                                category=q.category,
                                 english=q.english,
                                 choice1=q.choice1,
                                 choice2=q.choice2,
@@ -762,6 +859,51 @@ def render_quiz() -> None:
 
     if st.session_state.show_japanese and q.japanese:
         st.caption(f"日本語: {q.japanese}")
+
+    # --- タグ管理UI（画面一番下） ---
+    question_tags = get_question_tags()
+    all_tags = get_all_tags()
+    qid = str(q.id)
+    q_tags = question_tags.get(qid, [])
+
+    st.markdown("---")
+    st.markdown("#### タグ（ハッシュタグ）")
+    if all_tags:
+        tag_cols = st.columns(len(all_tags))
+        for i, tag in enumerate(all_tags):
+            selected = tag in q_tags
+            btn_label = f"#{tag}" if not selected else f"✅ #{tag}"
+            if tag_cols[i].button(btn_label, key=f"tagbtn_{q.id}_{tag}"):
+                if selected:
+                    new_tags = [t for t in q_tags if t != tag]
+                else:
+                    new_tags = q_tags + [tag]
+                if new_tags != q_tags:
+                    question_tags[qid] = new_tags
+                    set_question_tags(question_tags)
+                    st.rerun()
+    else:
+        st.caption("タグはまだありません")
+
+    # 新規タグ追加
+    with st.form(f"add_tag_form_{q.id}", clear_on_submit=True):
+        new_tag = st.text_input("新しいタグを追加", key=f"new_tag_input_{q.id}")
+        submitted = st.form_submit_button("追加")
+        if submitted and new_tag.strip():
+            tag = new_tag.strip()
+            updated = False
+            if tag not in all_tags:
+                all_tags.append(tag)
+                set_all_tags(all_tags)
+                updated = True
+            q_tags = question_tags.get(qid, [])
+            if tag not in q_tags:
+                q_tags.append(tag)
+                question_tags[qid] = q_tags
+                set_question_tags(question_tags)
+                updated = True
+            if updated:
+                st.rerun()
 
 
 def render_result() -> None:
@@ -822,6 +964,8 @@ elif st.session_state.stage == "quiz":
     render_quiz()
 elif st.session_state.stage == "history":
     render_history()
+elif st.session_state.stage == "tag_manage":
+    render_tag_manage()
 else:
     render_result()
 

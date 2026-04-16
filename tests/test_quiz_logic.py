@@ -54,47 +54,48 @@ def test_reload_db_from_csvs_rebuilds_questions(tmp_path: Path) -> None:
     assert len(questions_after) == len(questions_before)
 
 
-def test_filter_questions_by_category(tmp_path: Path) -> None:
-    input_dir = Path(__file__).resolve().parents[1] / "input"
-    db_path = tmp_path / "quiz.db"
-    sync_csvs_to_db(input_dir, db_path)
-    questions = load_questions_from_db(db_path)
+# カテゴリ関連テストは廃止
+# def test_filter_questions_by_category(tmp_path: Path) -> None:
+#     input_dir = Path(__file__).resolve().parents[1] / "input"
+#     db_path = tmp_path / "quiz.db"
+#     sync_csvs_to_db(input_dir, db_path)
+#     questions = load_questions_from_db(db_path)
 
-    target = questions[0]
-    filtered = filter_questions(questions, "category", target.category)
+#     target = questions[0]
+#     filtered = filter_questions(questions, "category", target.category)
 
-    assert len(filtered) > 0
-    assert all(q.category == target.category for q in filtered)
-
-
-def test_filter_questions_by_multiple_categories(tmp_path: Path) -> None:
-    input_dir = Path(__file__).resolve().parents[1] / "input"
-    db_path = tmp_path / "quiz.db"
-    sync_csvs_to_db(input_dir, db_path)
-    questions = load_questions_from_db(db_path)
-
-    category_values = sorted({q.category for q in questions if q.category})
-    selected_category = category_values[:2]
-
-    filtered = filter_questions(questions, "category", selected_category)
-
-    assert len(filtered) > 0
-    assert all(q.category in set(selected_category) for q in filtered)
+#     assert len(filtered) > 0
+#     assert all(q.category == target.category for q in filtered)
 
 
-def test_filter_questions_all_mode_respects_selected_categories_and_order(tmp_path: Path) -> None:
-    input_dir = Path(__file__).resolve().parents[1] / "input"
-    db_path = tmp_path / "quiz.db"
-    sync_csvs_to_db(input_dir, db_path)
-    questions = load_questions_from_db(db_path)
+# def test_filter_questions_by_multiple_categories(tmp_path: Path) -> None:
+#     input_dir = Path(__file__).resolve().parents[1] / "input"
+#     db_path = tmp_path / "quiz.db"
+#     sync_csvs_to_db(input_dir, db_path)
+#     questions = load_questions_from_db(db_path)
 
-    target = questions[0]
-    selected_category = [target.category]
-    expected = [q for q in questions if q.category in set(selected_category)]
+#     category_values = sorted({q.category for q in questions if q.category})
+#     selected_category = category_values[:2]
 
-    filtered = filter_questions(questions, "all", selected_category)
+#     filtered = filter_questions(questions, "category", selected_category)
 
-    assert filtered == expected
+#     assert len(filtered) > 0
+#     assert all(q.category in set(selected_category) for q in filtered)
+
+
+# def test_filter_questions_all_mode_respects_selected_categories_and_order(tmp_path: Path) -> None:
+#     input_dir = Path(__file__).resolve().parents[1] / "input"
+#     db_path = tmp_path / "quiz.db"
+#     sync_csvs_to_db(input_dir, db_path)
+#     questions = load_questions_from_db(db_path)
+
+#     target = questions[0]
+#     selected_category = [target.category]
+#     expected = [q for q in questions if q.category in set(selected_category)]
+
+#     filtered = filter_questions(questions, "all", selected_category)
+
+#     assert filtered == expected
 
 
 def test_is_correct(tmp_path: Path) -> None:

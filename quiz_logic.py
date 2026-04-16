@@ -15,7 +15,6 @@ CSV_ENCODINGS = ("utf-8-sig", "cp932", "shift_jis", "utf-8")
 class Question:
     id: int
     source_csv: str
-    category: str
     english: str
     choice1: str
     choice2: str
@@ -49,13 +48,12 @@ def init_db(db_path: Path) -> None:
             )
             """
         )
-        # 新フォーマットに合わせたquestionsテーブル
+        # Categoryカラムを除外したquestionsテーブル
         conn.execute(
             """
             CREATE TABLE IF NOT EXISTS questions (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 source_csv TEXT NOT NULL,
-                category TEXT NOT NULL,
                 english TEXT NOT NULL,
                 choice1 TEXT NOT NULL,
                 choice2 TEXT NOT NULL,
@@ -233,13 +231,12 @@ def sync_csvs_to_db(input_dir: Path, db_path: Path) -> int:
             conn.executemany(
                 """
                 INSERT INTO questions (
-                    source_csv, category, english, choice1, choice2, choice3, choice4, answer, japanese, row_index
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    source_csv, english, choice1, choice2, choice3, choice4, answer, japanese, row_index
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 [
                     (
                         source_csv,
-                        q.category,
                         q.english,
                         q.choice1,
                         q.choice2,
@@ -272,7 +269,7 @@ def load_questions_from_db(db_path: Path) -> list[Question]:
     with sqlite3.connect(db_path) as conn:
         rows = conn.execute(
             """
-            SELECT id, source_csv, category, english, choice1, choice2, choice3, choice4, answer, japanese, row_index
+            SELECT id, source_csv, english, choice1, choice2, choice3, choice4, answer, japanese, row_index
             FROM questions
             ORDER BY source_csv, row_index
             """
@@ -282,15 +279,14 @@ def load_questions_from_db(db_path: Path) -> list[Question]:
         Question(
             id=int(row[0]),
             source_csv=row[1],
-            category=row[2],
-            english=row[3],
-            choice1=row[4],
-            choice2=row[5],
-            choice3=row[6],
-            choice4=row[7],
-            answer=int(row[8]),
-            japanese=row[9],
-            row_index=int(row[10]),
+            english=row[2],
+            choice1=row[3],
+            choice2=row[4],
+            choice3=row[5],
+            choice4=row[6],
+            answer=int(row[7]),
+            japanese=row[8],
+            row_index=int(row[9]),
         )
         for row in rows
     ]
@@ -338,7 +334,7 @@ def load_answer_summaries(db_path: Path, user_name: str = "") -> list[AnswerSumm
     with sqlite3.connect(db_path) as conn:
         rows = conn.execute(
             """
-            SELECT q.id, q.category, '', q.english,
+            SELECT q.id, '', '', q.english,
                    ah.answered_date, ah.total_asked, ah.total_correct, ah.total_incorrect
             FROM answer_history ah
             INNER JOIN (
@@ -356,8 +352,8 @@ def load_answer_summaries(db_path: Path, user_name: str = "") -> list[AnswerSumm
     return [
         AnswerSummary(
             question_id=int(row[0]),
-            category1=row[1],
-            category2=row[2],
+            category1=row[1],  # 空文字
+            category2=row[2],  # 空文字
             english=row[3],
             answered_date=row[4],
             total_asked=int(row[5]),
@@ -406,7 +402,7 @@ def _clean_text(value: object) -> str:
 
 
 def normalize_questions(df: pd.DataFrame) -> list[Question]:
-    required_columns = {"Category", "English", "1", "2", "3", "4", "Answer", "Japanese"}
+    required_columns = {"English", "1", "2", "3", "4", "Answer", "Japanese"}
     missing = required_columns - set(df.columns)
     if missing:
         missing_text = ", ".join(sorted(missing))
@@ -414,7 +410,6 @@ def normalize_questions(df: pd.DataFrame) -> list[Question]:
 
     questions: list[Question] = []
     for idx, row in df.iterrows():
-        # idxがint型でなければ0にフォールバック
         try:
             idx_int = int(idx)
         except Exception:
@@ -429,7 +424,6 @@ def normalize_questions(df: pd.DataFrame) -> list[Question]:
             Question(
                 id=0,
                 source_csv="",  # filename不要
-                category=_clean_text(row["Category"]),
                 english=_clean_text(row["English"]),
                 choice1=_clean_text(row["1"]),
                 choice2=_clean_text(row["2"]),
@@ -444,9 +438,8 @@ def normalize_questions(df: pd.DataFrame) -> list[Question]:
 
 
 def get_category_options(questions: list[Question]) -> tuple[list[str], list[str]]:
-    category_options = sorted({q.category for q in questions if q.category})
-    # category2は現状未使用のため空リスト返却
-    return category_options, []
+    # カテゴリ機能廃止のため空リスト返却
+    return [], []
 
 
 def _normalize_selection(selected: str | list[str] | tuple[str, ...] | set[str] | None) -> set[str] | None:

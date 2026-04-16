@@ -29,7 +29,7 @@ _SESSION_KEY = "_app_data"
 
 
 def _default_data() -> dict[str, Any]:
-    return {"users": [], "last_user": "", "stats": {}}
+    return {"users": [], "last_user": "", "stats": {}, "all_tags": [], "question_tags": {}}
 
 
 def init_local_storage() -> LocalStorage:
@@ -184,5 +184,32 @@ def reset_user_stats(user_name: str) -> None:
     stats = data.get("stats", {})
     if user_name in stats:
         del stats[user_name]
+    _set_data(data)
+
+
+# ── Tag management ────────────────────────────────────────────
+
+
+def get_all_tags() -> list[str]:
+    """Return the list of all tags."""
+    return list(_get_data().get("all_tags", []))
+
+
+def set_all_tags(tags: list[str]) -> None:
+    """Overwrite the full tag list."""
+    data = _get_data()
+    data["all_tags"] = tags
+    _set_data(data)
+
+
+def get_question_tags() -> dict[str, list[str]]:
+    """Return {question_id_str: [tag, ...]} mapping."""
+    return dict(_get_data().get("question_tags", {}))
+
+
+def set_question_tags(question_tags: dict[str, list[str]]) -> None:
+    """Overwrite the full question-tags mapping."""
+    data = _get_data()
+    data["question_tags"] = question_tags
     _set_data(data)
 
