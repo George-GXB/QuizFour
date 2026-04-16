@@ -15,6 +15,7 @@ from quiz_logic import (
     get_category_options,
     is_correct,
     limit_questions,
+    load_default_tags,
     load_questions_from_db,
     reload_db_from_csvs,
     sync_csvs_to_db,
@@ -48,6 +49,36 @@ st.set_page_config(page_title="English Quiz", page_icon="📘", layout="centered
 # ── ブラウザ localStorage の初期化 ──────────────────────────
 ls = init_local_storage()
 ensure_loaded(ls)
+
+
+def _apply_default_tags() -> None:
+    """DBのdefault_tagsをlocalStorageのタグ情報にマージする（未設定の問題のみ）。"""
+    db_defaults = load_default_tags(DB_PATH)
+    if not db_defaults:
+        return
+    all_tags = get_all_tags()
+    question_tags = get_question_tags()
+    changed = False
+    for qid, tag in db_defaults.items():
+        qid_str = str(qid)
+        # 既にタグが付いている問題はスキップ
+        if qid_str in question_tags and question_tags[qid_str]:
+            continue
+        # タグ一覧に無ければ追加
+        if tag not in all_tags:
+            all_tags.append(tag)
+            changed = True
+        question_tags[qid_str] = [tag]
+        changed = True
+    if changed:
+        set_all_tags(all_tags)
+        set_question_tags(question_tags)
+
+
+# 初回ロード時にデフォルトタグを適用
+if "_default_tags_applied" not in st.session_state:
+    _apply_default_tags()
+    st.session_state["_default_tags_applied"] = True
 
 
 def load_questions() -> list[Question]:
@@ -261,6 +292,11 @@ def _build_recommended_pool(
 def _reload_db_from_input() -> None:
     imported_count = reload_db_from_csvs(INPUT_DIR, DB_PATH)
     reloaded_questions = load_questions_from_db(DB_PATH)
+    # デフォルトタグを再適用（既存タグをクリアして再設定）
+    set_question_tags({})
+    set_all_tags([])
+    _apply_default_tags()
+    st.session_state["_default_tags_applied"] = True
     restart()
     st.session_state.reload_notice = (
         f"DBをクリアして再読込しました（取込CSV: {imported_count}件 / 問題数: {len(reloaded_questions)}件）"
@@ -319,13 +355,28 @@ def render_setup(all_questions: list[Question]) -> None:
     )
     show_japanese = st.checkbox("日本語を表示する", value=st.session_state.show_japanese)
 
-    # カテゴリフィルタ（session_stateに保存済みの値で絞り込み）
-    target_questions = filter_questions(
-        all_questions,
-        "all",
-        st.session_state.selected_category_values,
-        [],
+    # ── タグで出題範囲を絞り込み ──
+    all_tags = get_all_tags()
+    question_tags = get_question_tags()
+    tag_filter_options = ["すべて"] + [f"#{t}" for t in all_tags] + ["未タグのみ"]
+    selected_tag_filter = st.radio(
+        "タグで絞り込み",
+        options=tag_filter_options,
+        horizontal=True,
+        key="setup_tag_filter",
     )
+
+    if selected_tag_filter == "すべて":
+        target_questions = all_questions
+    elif selected_tag_filter == "未タグのみ":
+        tagged_ids = {qid for qid, tags in question_tags.items() if tags}
+        target_questions = [q for q in all_questions if str(q.id) not in tagged_ids]
+    else:
+        filter_tag = selected_tag_filter[1:]  # remove #
+        target_questions = [
+            q for q in all_questions
+            if filter_tag in question_tags.get(str(q.id), [])
+        ]
 
     count_mode = st.radio(
         "出題数",
@@ -497,31 +548,48 @@ def _render_all_questions_tree() -> None:
     all_questions = load_questions_from_db(DB_PATH)
     user_name = st.session_state.get("user_name", "")
     stats = get_question_stats(user_name)  # {question_id: (asked, correct, incorrect)}
+    question_tags = get_question_tags()
+    all_tags = get_all_tags()
 
     if not all_questions:
         st.info("問題がありません。")
         return
 
-    # ツリー構築（questions は source_csv, number, id 順で取得済み → 挿入順 = CSV並び順）
-    tree: dict[str, list[Question]] = defaultdict(list)
-    for q in all_questions:
-        tree[q.source_csv].append(q)
+    # タグごとにグルーピング（複数タグがある問題は各タグに重複表示）
+    tag_groups: dict[str, list[Question]] = {}
+    for tag in all_tags:
+        tag_groups[tag] = []
+    tag_groups["未タグ"] = []
 
-    for cat1 in tree.keys():
-        qs_cat1 = tree[cat1]
-        answered_cat1 = [q for q in qs_cat1 if q.id in stats]
-        asked_total = sum(stats[q.id][0] for q in answered_cat1)
-        correct_total = sum(stats[q.id][1] for q in answered_cat1)
-        cat1_rate_str = (
+    for q in all_questions:
+        qid = str(q.id)
+        q_tags = question_tags.get(qid, [])
+        if not q_tags:
+            tag_groups["未タグ"].append(q)
+        else:
+            for tag in q_tags:
+                if tag in tag_groups:
+                    tag_groups[tag].append(q)
+
+    # 表示順: 定義済みタグ → 未タグ
+    display_order = all_tags + ["未タグ"]
+
+    for group_name in display_order:
+        qs = tag_groups.get(group_name, [])
+        if not qs:
+            continue
+
+        answered_qs = [q for q in qs if q.id in stats]
+        asked_total = sum(stats[q.id][0] for q in answered_qs)
+        correct_total = sum(stats[q.id][1] for q in answered_qs)
+        rate_str = (
             f"　正解率: {correct_total/asked_total*100:.1f}%" if asked_total > 0 else ""
         )
-        label_cat1 = (
-            f"📁 {cat1}　{len(answered_cat1)}/{len(qs_cat1)}問回答済{cat1_rate_str}"
-        )
+        label = f"🏷️ #{group_name}　{len(answered_qs)}/{len(qs)}問回答済{rate_str}"
 
-        with st.expander(label_cat1, expanded=False):
+        with st.expander(label, expanded=False):
             html_parts = []
-            for q in qs_cat1:
+            for q in qs:
                 english_text = html.escape(q.english or "(No English text)")
                 if q.id in stats:
                     asked, correct, incorrect = stats[q.id]
@@ -658,60 +726,61 @@ def render_tag_manage() -> None:
 
     st.divider()
 
-    # ── フィルタ：タグで絞り込み ──
+    # ── Excel風テーブル（st.data_editor） ──
     st.subheader("問題一覧")
-    filter_options = ["すべて", "タグ付きのみ", "タグなしのみ"] + [f"#{t}" for t in all_tags]
-    tag_filter = st.selectbox("フィルタ", options=filter_options, key="tag_manage_filter")
 
-    filtered_questions: list[Question] = []
-    for q in all_questions:
-        qid = str(q.id)
-        q_tags = question_tags.get(qid, [])
-        if tag_filter == "タグ付きのみ" and not q_tags:
-            continue
-        if tag_filter == "タグなしのみ" and q_tags:
-            continue
-        if tag_filter.startswith("#"):
-            if tag_filter[1:] not in q_tags:
-                continue
-        filtered_questions.append(q)
-
-    if not filtered_questions:
-        st.caption("該当する問題がありません。")
+    if not all_questions:
+        st.caption("問題がありません。")
+    elif not all_tags:
+        st.caption("タグを作成すると、ここに問題×タグの表が表示されます。")
     else:
-        tag_col_count = len(all_tags)
-        col_widths = [4] + [1] * tag_col_count if tag_col_count > 0 else [1]
-        header_cols = st.columns(col_widths)
-        header_cols[0].markdown("**問題文**")
-        for i, tag in enumerate(all_tags):
-            header_cols[i + 1].markdown(f"**#{tag}**")
+        import pandas as pd
 
-        for q in filtered_questions:
+        # DataFrame構築: 問題ID(hidden), 問題文, 各タグ(bool)
+        rows = []
+        for q in all_questions:
             qid = str(q.id)
             q_tags = question_tags.get(qid, [])
-            row_cols = st.columns(col_widths)
-            english_short = (q.english or "(No English text)")[:80]
-            if len(q.english or "") > 80:
-                english_short += "…"
-            row_cols[0].caption(english_short)
-            for i, tag in enumerate(all_tags):
-                is_on = tag in q_tags
-                cb_key = f"tm_cb_{q.id}_{tag}"
-                if row_cols[i + 1].checkbox(
-                    "　", value=is_on, key=cb_key, label_visibility="collapsed"
-                ):
-                    if not is_on:
-                        new_q_tags = q_tags + [tag]
-                        question_tags[qid] = new_q_tags
-                        set_question_tags(question_tags)
-                else:
-                    if is_on:
-                        new_q_tags = [t for t in q_tags if t != tag]
-                        if new_q_tags:
-                            question_tags[qid] = new_q_tags
-                        elif qid in question_tags:
-                            del question_tags[qid]
-                        set_question_tags(question_tags)
+            row: dict = {
+                "_qid": qid,
+                "問題文": (q.english or "(No English text)")[:100],
+            }
+            for tag in all_tags:
+                row[f"#{tag}"] = tag in q_tags
+            rows.append(row)
+
+        df = pd.DataFrame(rows)
+
+        edited_df = st.data_editor(
+            df,
+            column_config={
+                "_qid": None,  # 非表示
+                "問題文": st.column_config.TextColumn("問題文", disabled=True, width="large"),
+                **{
+                    f"#{tag}": st.column_config.CheckboxColumn(f"#{tag}", default=False)
+                    for tag in all_tags
+                },
+            },
+            hide_index=True,
+            use_container_width=True,
+            key="tag_data_editor",
+        )
+
+        # 変更を検出して保存
+        changed = False
+        for _, erow in edited_df.iterrows():
+            qid = str(erow["_qid"])
+            new_tags = [tag for tag in all_tags if erow.get(f"#{tag}", False)]
+            old_tags = question_tags.get(qid, [])
+            if sorted(new_tags) != sorted(old_tags):
+                if new_tags:
+                    question_tags[qid] = new_tags
+                elif qid in question_tags:
+                    del question_tags[qid]
+                changed = True
+        if changed:
+            set_question_tags(question_tags)
+            st.rerun()
 
 
 def render_quiz() -> None:

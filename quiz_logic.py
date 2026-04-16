@@ -65,6 +65,16 @@ def init_db(db_path: Path) -> None:
             )
             """
         )
+        # CSVから読み込んだデフォルトタグを保持するテーブル
+        conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS default_tags (
+                question_id INTEGER PRIMARY KEY,
+                tag TEXT NOT NULL,
+                FOREIGN KEY (question_id) REFERENCES questions(id)
+            )
+            """
+        )
         # マイグレーション: row_index カラムが無ければ追加
         cols = [r[1] for r in conn.execute("PRAGMA table_info(questions)").fetchall()]
         if "row_index" not in cols:
@@ -118,6 +128,7 @@ def reset_db(db_path: Path) -> None:
     """Clear all imported question data while keeping schema intact."""
     init_db(db_path)
     with sqlite3.connect(db_path) as conn:
+        conn.execute("DELETE FROM default_tags")
         conn.execute("DELETE FROM answer_history")
         conn.execute("DELETE FROM questions")
         conn.execute("DELETE FROM imported_files")
@@ -226,7 +237,7 @@ def sync_csvs_to_db(input_dir: Path, db_path: Path) -> int:
                 continue
 
             df = read_quiz_csv(csv_path)
-            questions = normalize_questions(df)
+            questions, default_tags = normalize_questions(df)
 
             conn.executemany(
                 """
@@ -249,6 +260,15 @@ def sync_csvs_to_db(input_dir: Path, db_path: Path) -> int:
                     for q in questions
                 ],
             )
+            # 挿入した問題のIDを取得してデフォルトタグを保存
+            last_id = conn.execute("SELECT last_insert_rowid()").fetchone()[0]
+            first_id = last_id - len(questions) + 1
+            for i, tag in enumerate(default_tags):
+                if tag:
+                    conn.execute(
+                        "INSERT INTO default_tags (question_id, tag) VALUES (?, ?)",
+                        (first_id + i, tag),
+                    )
             conn.execute("INSERT INTO imported_files (source_csv) VALUES (?)", (source_csv,))
             imported_files.add(source_csv)
             imported_file_count += 1
@@ -262,6 +282,14 @@ def reload_db_from_csvs(input_dir: Path, db_path: Path) -> int:
     """Rebuild question data from all CSV files under input_dir."""
     reset_db(db_path)
     return sync_csvs_to_db(input_dir, db_path)
+
+
+def load_default_tags(db_path: Path) -> dict[int, str]:
+    """Return {question_id: tag} for all questions with a default tag from CSV."""
+    init_db(db_path)
+    with sqlite3.connect(db_path) as conn:
+        rows = conn.execute("SELECT question_id, tag FROM default_tags").fetchall()
+    return {int(row[0]): row[1] for row in rows}
 
 
 def load_questions_from_db(db_path: Path) -> list[Question]:
@@ -401,14 +429,21 @@ def _clean_text(value: object) -> str:
     return str(value).strip()
 
 
-def normalize_questions(df: pd.DataFrame) -> list[Question]:
+def normalize_questions(df: pd.DataFrame) -> tuple[list[Question], list[str]]:
+    """CSVからQuestion一覧とDefaultTagリストを返す。
+
+    Returns: (questions, default_tags)  ※ default_tags[i] は questions[i] に対応
+    """
     required_columns = {"English", "1", "2", "3", "4", "Answer", "Japanese"}
     missing = required_columns - set(df.columns)
     if missing:
         missing_text = ", ".join(sorted(missing))
         raise ValueError(f"CSV is missing required columns: {missing_text}")
 
+    has_default_tag = "DefaultTag" in df.columns
+
     questions: list[Question] = []
+    default_tags: list[str] = []
     for idx, row in df.iterrows():
         try:
             idx_int = int(idx)
@@ -423,7 +458,7 @@ def normalize_questions(df: pd.DataFrame) -> list[Question]:
         questions.append(
             Question(
                 id=0,
-                source_csv="",  # filename不要
+                source_csv="",
                 english=_clean_text(row["English"]),
                 choice1=_clean_text(row["1"]),
                 choice2=_clean_text(row["2"]),
@@ -434,7 +469,8 @@ def normalize_questions(df: pd.DataFrame) -> list[Question]:
                 row_index=idx_int,
             )
         )
-    return questions
+        default_tags.append(_clean_text(row["DefaultTag"]) if has_default_tag else "")
+    return questions, default_tags
 
 
 def get_category_options(questions: list[Question]) -> tuple[list[str], list[str]]:
