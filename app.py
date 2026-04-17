@@ -38,6 +38,10 @@ from local_storage_helper import (
     set_all_tags,
     get_question_tags,
     set_question_tags,
+    get_default_tags,
+    set_default_tags,
+    get_default_question_tags,
+    set_default_question_tags,
 )
 from db_initializer import initialize_db_from_initial_csv
 
@@ -52,33 +56,78 @@ ensure_loaded(ls)
 
 
 def _apply_default_tags() -> None:
-    """DBのdefault_tagsをlocalStorageのタグ情報にマージする（未設定の問題のみ）。"""
+    """DBのdefault_tagsをlocalStorageのデフォルトタグ情報にマージする。"""
     db_defaults = load_default_tags(DB_PATH)
     if not db_defaults:
         return
-    all_tags = get_all_tags()
-    question_tags = get_question_tags()
+    default_tags = get_default_tags()
+    default_question_tags = get_default_question_tags()
     changed = False
     for qid, tag in db_defaults.items():
         qid_str = str(qid)
-        # 既にタグが付いている問題はスキップ
-        if qid_str in question_tags and question_tags[qid_str]:
-            continue
-        # タグ一覧に無ければ追加
-        if tag not in all_tags:
-            all_tags.append(tag)
+        if tag not in default_tags:
+            default_tags.append(tag)
             changed = True
-        question_tags[qid_str] = [tag]
+        default_question_tags[qid_str] = [tag]
         changed = True
     if changed:
-        set_all_tags(all_tags)
-        set_question_tags(question_tags)
+        set_default_tags(default_tags)
+        set_default_question_tags(default_question_tags)
 
 
-# 初回ロード時にデフォルトタグを適用
+# 初回ロード時にデフォルトタグを適用 & ユーザータグの重複除去
 if "_default_tags_applied" not in st.session_state:
     _apply_default_tags()
     st.session_state["_default_tags_applied"] = True
+# 毎回起動時: ユーザータグからデフォルトタグと重複するものを除去
+_dt = set(get_default_tags())
+if _dt:
+    _ut = get_all_tags()
+    _cleaned = [t for t in _ut if t not in _dt]
+    if len(_cleaned) != len(_ut):
+        set_all_tags(_cleaned)
+        _uqt = get_question_tags()
+        _changed = False
+        for _qid in list(_uqt.keys()):
+            _new = [t for t in _uqt[_qid] if t not in _dt]
+            if len(_new) != len(_uqt[_qid]):
+                if _new:
+                    _uqt[_qid] = _new
+                else:
+                    del _uqt[_qid]
+                _changed = True
+        if _changed:
+            set_question_tags(_uqt)
+
+
+def _get_combined_tags() -> list[str]:
+    """ユーザータグ + デフォルトタグの統合リストを返す（重複なし）。"""
+    user_tags = get_all_tags()
+    default_tags = get_default_tags()
+    combined = list(user_tags)
+    for t in default_tags:
+        if t not in combined:
+            combined.append(t)
+    return combined
+
+
+def _get_combined_question_tags() -> dict[str, list[str]]:
+    """ユーザータグ + デフォルトタグの統合question_tagsを返す。ユーザータグ優先。"""
+    default_qt = get_default_question_tags()
+    user_qt = get_question_tags()
+    combined: dict[str, list[str]] = {}
+    # デフォルトを先に入れる
+    for qid, tags in default_qt.items():
+        combined[qid] = list(tags)
+    # ユーザータグで上書き/追加
+    for qid, tags in user_qt.items():
+        if qid in combined:
+            for t in tags:
+                if t not in combined[qid]:
+                    combined[qid].append(t)
+        else:
+            combined[qid] = list(tags)
+    return combined
 
 
 def load_questions() -> list[Question]:
@@ -99,6 +148,8 @@ def init_state() -> None:
         "selected_category_values": [],
         "reload_notice": "",
         "answer_history": [],
+        "voice_mode": False,
+        "voice_repeat": 2,
     }
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -292,9 +343,9 @@ def _build_recommended_pool(
 def _reload_db_from_input() -> None:
     imported_count = reload_db_from_csvs(INPUT_DIR, DB_PATH)
     reloaded_questions = load_questions_from_db(DB_PATH)
-    # デフォルトタグを再適用（既存タグをクリアして再設定）
-    set_question_tags({})
-    set_all_tags([])
+    # デフォルトタグをリセットして再適用
+    set_default_tags([])
+    set_default_question_tags({})
     _apply_default_tags()
     st.session_state["_default_tags_applied"] = True
     restart()
@@ -354,10 +405,13 @@ def render_setup(all_questions: list[Question]) -> None:
         help="おすすめ：未出題問題を優先。全問済みなら正解率の低い問題をシャッフル出題",
     )
     show_japanese = st.checkbox("日本語を表示する", value=st.session_state.show_japanese)
+    voice_mode = st.checkbox("🔊 音声モード（自動読み上げ）", value=st.session_state.get("voice_mode", False))
+    st.session_state.voice_mode = voice_mode
+    st.session_state.voice_repeat = 1
 
     # ── タグで出題範囲を絞り込み ──
-    all_tags = get_all_tags()
-    question_tags = get_question_tags()
+    all_tags = _get_combined_tags()
+    question_tags = _get_combined_question_tags()
     tag_filter_options = ["すべて"] + [f"#{t}" for t in all_tags] + ["未タグのみ"]
     selected_tag_filter = st.radio(
         "タグで絞り込み",
@@ -548,8 +602,8 @@ def _render_all_questions_tree() -> None:
     all_questions = load_questions_from_db(DB_PATH)
     user_name = st.session_state.get("user_name", "")
     stats = get_question_stats(user_name)  # {question_id: (asked, correct, incorrect)}
-    question_tags = get_question_tags()
-    all_tags = get_all_tags()
+    question_tags = _get_combined_question_tags()
+    all_tags = _get_combined_tags()
 
     if not all_questions:
         st.info("問題がありません。")
@@ -684,103 +738,128 @@ def render_tag_manage() -> None:
     st.title("🏷️ タグ管理")
 
     all_questions = load_questions_from_db(DB_PATH)
-    question_tags = get_question_tags()
-    all_tags = get_all_tags()
+    user_tags = get_all_tags()
+    user_question_tags = get_question_tags()
+    default_tags = get_default_tags()
+    default_question_tags = get_default_question_tags()
+    combined_tags = _get_combined_tags()
+    combined_question_tags = _get_combined_question_tags()
 
     if st.button("メイン画面に戻る", type="primary", key="tag_manage_back"):
         st.session_state.stage = "setup"
         st.rerun()
 
-    # ── タグ一覧と新規タグ作成 ──
+    # ── タグ一覧 ──
     st.subheader("タグ一覧")
-    if all_tags:
-        st.write("　".join([f"`#{t}`" for t in all_tags]))
-    else:
+    if user_tags:
+        st.write("🏷️ ユーザータグ：" + "　".join([f"`#{t}`" for t in user_tags]))
+    if default_tags:
+        st.write("📋 デフォルトタグ：" + "　".join([f"`#{t}`" for t in default_tags]))
+    if not user_tags and not default_tags:
         st.caption("タグはまだありません。下のフォームから作成してください。")
 
     with st.form("tag_manage_add_form", clear_on_submit=True):
-        new_tag = st.text_input("新しいタグを作成", placeholder="タグ名を入力")
+        new_tag = st.text_input("新しいユーザータグを作成", placeholder="タグ名を入力")
         if st.form_submit_button("タグを作成"):
             if new_tag.strip():
                 tag = new_tag.strip()
-                if tag not in all_tags:
-                    all_tags.append(tag)
-                    set_all_tags(all_tags)
+                if tag not in combined_tags:
+                    user_tags.append(tag)
+                    set_all_tags(user_tags)
                     st.rerun()
                 else:
                     st.warning(f"タグ「#{tag}」は既に存在します。")
 
-    # ── タグ削除 ──
-    if all_tags:
-        with st.expander("タグを削除する"):
-            del_tag = st.selectbox("削除するタグ", options=all_tags, key="del_tag_select")
+    # ── ユーザータグ削除 ──
+    if user_tags:
+        with st.expander("ユーザータグを削除する"):
+            del_tag = st.selectbox("削除するタグ", options=user_tags, key="del_tag_select")
             if st.button("このタグを削除", key="del_tag_btn"):
-                all_tags = [t for t in all_tags if t != del_tag]
-                set_all_tags(all_tags)
-                for qid in list(question_tags.keys()):
-                    question_tags[qid] = [t for t in question_tags[qid] if t != del_tag]
-                    if not question_tags[qid]:
-                        del question_tags[qid]
-                set_question_tags(question_tags)
+                user_tags = [t for t in user_tags if t != del_tag]
+                set_all_tags(user_tags)
+                for qid in list(user_question_tags.keys()):
+                    user_question_tags[qid] = [t for t in user_question_tags[qid] if t != del_tag]
+                    if not user_question_tags[qid]:
+                        del user_question_tags[qid]
+                set_question_tags(user_question_tags)
                 st.rerun()
 
     st.divider()
 
-    # ── Excel風テーブル（st.data_editor） ──
+    # ── テーブル（st.dataframe + 行選択） ──
     st.subheader("問題一覧")
 
     if not all_questions:
         st.caption("問題がありません。")
-    elif not all_tags:
+    elif not combined_tags:
         st.caption("タグを作成すると、ここに問題×タグの表が表示されます。")
     else:
         import pandas as pd
 
-        # DataFrame構築: 問題ID(hidden), 問題文, 各タグ(bool)
         rows = []
         for q in all_questions:
             qid = str(q.id)
-            q_tags = question_tags.get(qid, [])
+            q_tags = combined_question_tags.get(qid, [])
             row: dict = {
-                "_qid": qid,
-                "問題文": (q.english or "(No English text)")[:100],
+                "No": len(rows) + 1,
+                "問題文": (q.english or "(No English text)")[:80],
             }
-            for tag in all_tags:
-                row[f"#{tag}"] = tag in q_tags
+            for tag in combined_tags:
+                row[f"#{tag}"] = "✅" if tag in q_tags else ""
             rows.append(row)
 
         df = pd.DataFrame(rows)
 
-        edited_df = st.data_editor(
+        event = st.dataframe(
             df,
             column_config={
-                "_qid": None,  # 非表示
-                "問題文": st.column_config.TextColumn("問題文", disabled=True, width="large"),
-                **{
-                    f"#{tag}": st.column_config.CheckboxColumn(f"#{tag}", default=False)
-                    for tag in all_tags
-                },
+                "No": st.column_config.NumberColumn("No", width="small"),
+                "問題文": st.column_config.TextColumn("問題文", width="large"),
             },
             hide_index=True,
             use_container_width=True,
-            key="tag_data_editor",
+            on_select="rerun",
+            selection_mode="single-row",
+            key="tag_table_select",
         )
 
-        # 変更を検出して保存
-        changed = False
-        for _, erow in edited_df.iterrows():
-            qid = str(erow["_qid"])
-            new_tags = [tag for tag in all_tags if erow.get(f"#{tag}", False)]
-            old_tags = question_tags.get(qid, [])
-            if sorted(new_tags) != sorted(old_tags):
-                if new_tags:
-                    question_tags[qid] = new_tags
-                elif qid in question_tags:
-                    del question_tags[qid]
-                changed = True
-        if changed:
-            set_question_tags(question_tags)
-            st.rerun()
+        selected_rows = event.selection.rows if event and event.selection else []
+        if selected_rows:
+            sel_idx = selected_rows[0]
+            sel_q = all_questions[sel_idx]
+            sel_qid = str(sel_q.id)
+            sel_text = sel_q.english or "(No English text)"
+
+            st.info(f"**#{sel_idx + 1}**: {sel_text}")
+
+            # ユーザータグ（1行目）
+            if user_tags:
+                st.caption("🏷️ ユーザータグ")
+                current_user_tags = user_question_tags.get(sel_qid, [])
+                ut_cols = st.columns(min(len(user_tags), 6))
+                for i, tag in enumerate(user_tags):
+                    col = ut_cols[i % len(ut_cols)]
+                    is_on = tag in current_user_tags
+                    label = f"✅ #{tag}" if is_on else f"#{tag}"
+                    if col.button(label, key=f"tm_utag_{sel_qid}_{tag}"):
+                        if is_on:
+                            new_tags = [t for t in current_user_tags if t != tag]
+                        else:
+                            new_tags = current_user_tags + [tag]
+                        if new_tags:
+                            user_question_tags[sel_qid] = new_tags
+                        elif sel_qid in user_question_tags:
+                            del user_question_tags[sel_qid]
+                        set_question_tags(user_question_tags)
+                        st.rerun()
+
+            # デフォルトタグ（2行目）
+            if default_tags:
+                st.caption("📋 デフォルトタグ（CSV由来・読み取り専用）")
+                dt_tags = default_question_tags.get(sel_qid, [])
+                st.write("　".join([f"✅ `#{t}`" if t in dt_tags else f"`#{t}`" for t in default_tags]))
+        else:
+            st.caption("👆 テーブルの行をクリックすると、タグを編集できます。")
 
 
 def render_quiz() -> None:
@@ -829,6 +908,314 @@ def render_quiz() -> None:
         st.session_state[shuffle_key] = order
     shuffle_order: list[int] = st.session_state[shuffle_key]
     choices = [q.choice1, q.choice2, q.choice3, q.choice4]
+
+    # 🔊 読み上げボタン（Web Speech API - 括弧部分は効果音で置換）
+    # （ ）や( )で文を分割し、間に効果音を挟む
+    tts_parts = re.split(r"[（(]\s*[）)]", question_text)
+    tts_parts_js = [p.replace("\\", "\\\\").replace("`", "\\`").replace("'", "\\'").replace("\n", " ") for p in tts_parts]
+    parts_json = ",".join([f"'{p}'" for p in tts_parts_js])
+    # シャッフル順の選択肢テキスト
+    choices_js = []
+    for dp, oi in enumerate(shuffle_order):
+        c = choices[oi].replace("\\", "\\\\").replace("`", "\\`").replace("'", "\\'").replace("\n", " ")
+        choices_js.append(f"'{dp + 1}. {c}'")
+    choices_json = ",".join(choices_js)
+    # 読み上げ回数の設定
+    voice_repeat = st.session_state.get("voice_repeat", 2)
+    max_rounds_js = voice_repeat
+    voice_mode = st.session_state.get("voice_mode", False)
+    auto_play_js = "true" if voice_mode and not st.session_state.answered else "false"
+    st.components.v1.html(
+        f"""
+        <button id="ttsBtn" onclick="speakWithBeep()" style="
+            background: #f0f2f6; border: 1px solid #ccc; border-radius: 8px;
+            padding: 6px 18px; font-size: 1rem; cursor: pointer;
+        ">🔊 読み上げ</button>
+        <script>
+        function playStartJingle() {{
+            return new Promise(function(resolve) {{
+                try {{
+                    var ctx = new (window.parent.AudioContext || window.parent.webkitAudioContext || window.AudioContext || window.webkitAudioContext)();
+                    var notes = [523.25, 659.25, 783.99];  // C5, E5, G5
+                    var dur = 0.25;  // 各音の長さ
+                    var gap = 0.08;  // 音と音の間
+                    var ni = 0;
+                    function playNote() {{
+                        if (ni >= notes.length) {{ setTimeout(resolve, 200); return; }}
+                        var g = ctx.createGain();
+                        g.gain.setValueAtTime(0.25, ctx.currentTime);
+                        g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
+                        g.connect(ctx.destination);
+                        var o = ctx.createOscillator();
+                        o.frequency.value = notes[ni];
+                        o.type = 'triangle';
+                        o.connect(g);
+                        o.start(ctx.currentTime);
+                        o.stop(ctx.currentTime + dur);
+                        ni++;
+                        o.onended = function() {{ setTimeout(playNote, gap * 1000); }};
+                    }}
+                    playNote();
+                }} catch(e) {{ resolve(); }}
+            }});
+        }}
+        function playBeep() {{
+            return new Promise(function(resolve) {{
+                try {{
+                    var ctx = new (window.parent.AudioContext || window.parent.webkitAudioContext || window.AudioContext || window.webkitAudioContext)();
+                    var g = ctx.createGain();
+                    g.gain.setValueAtTime(0.3, ctx.currentTime);
+                    g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+                    g.connect(ctx.destination);
+                    var o1 = ctx.createOscillator();
+                    o1.frequency.value = 880;
+                    o1.type = 'sine';
+                    o1.connect(g);
+                    o1.start(ctx.currentTime);
+                    o1.stop(ctx.currentTime + 0.15);
+                    var g2 = ctx.createGain();
+                    g2.gain.setValueAtTime(0.3, ctx.currentTime + 0.18);
+                    g2.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.55);
+                    g2.connect(ctx.destination);
+                    var o2 = ctx.createOscillator();
+                    o2.frequency.value = 1175;
+                    o2.type = 'sine';
+                    o2.connect(g2);
+                    o2.start(ctx.currentTime + 0.18);
+                    o2.stop(ctx.currentTime + 0.35);
+                    setTimeout(resolve, 550);
+                }} catch(e) {{ resolve(); }}
+            }});
+        }}
+        function speakWithBeep() {{
+            var synth = window.parent.speechSynthesis || window.speechSynthesis;
+            synth.cancel();
+            var parts = [{parts_json}];
+            var choices = [{choices_json}];
+            var maxRounds = {max_rounds_js};
+            var qNum = {index + 1};
+            var round = 0;
+            var i = 0;
+            // 効果音 → "Question N" → 問題文
+            playStartJingle().then(function() {{
+                var u = new SpeechSynthesisUtterance('Question ' + qNum);
+                u.lang = 'en-US';
+                u.rate = 0.9;
+                u.onend = function() {{ setTimeout(nextPart, 500); }};
+                synth.speak(u);
+            }});
+            function nextPart() {{
+                if (i >= parts.length) {{
+                    // 問題文1回分終了
+                    if (round < maxRounds - 1) {{
+                        // まだ繰り返しあり → 3秒待って次のラウンド
+                        round++;
+                        i = 0;
+                        setTimeout(nextPart, 3000);
+                    }} else {{
+                        // 2回目終了 → 3秒待って選択肢へ
+                        setTimeout(speakChoices, 3000);
+                    }}
+                    return;
+                }}
+                var text = parts[i].trim();
+                i++;
+                if (text) {{
+                    var u = new SpeechSynthesisUtterance(text);
+                    u.lang = 'en-US';
+                    u.rate = 0.9;
+                    u.onend = function() {{
+                        if (i < parts.length) {{
+                            playBeep().then(nextPart);
+                        }} else {{
+                            nextPart();
+                        }}
+                    }};
+                    synth.speak(u);
+                }} else {{
+                    if (i < parts.length) {{
+                        playBeep().then(nextPart);
+                    }} else {{
+                        nextPart();
+                    }}
+                }}
+            }}
+            var ci = 0;
+            function speakChoices() {{
+                if (ci >= choices.length) {{
+                    // 選択肢読み上げ完了後、自動で音声認識開始
+                    setTimeout(startListening, 500);
+                    return;
+                }}
+                var u = new SpeechSynthesisUtterance(choices[ci]);
+                u.lang = 'en-US';
+                u.rate = 0.9;
+                ci++;
+                u.onend = function() {{ setTimeout(speakChoices, 200); }};
+                synth.speak(u);
+            }}
+        }}
+        function speakQuestionOnly() {{
+            var synth = window.parent.speechSynthesis || window.speechSynthesis;
+            synth.cancel();
+            var parts = [{parts_json}];
+            var qi = 0;
+            function nextQ() {{
+                if (qi >= parts.length) {{ setTimeout(startListening, 500); return; }}
+                var text = parts[qi].trim();
+                qi++;
+                if (text) {{
+                    var u = new SpeechSynthesisUtterance(text);
+                    u.lang = 'en-US'; u.rate = 0.9;
+                    u.onend = function() {{
+                        if (qi < parts.length) {{ playBeep().then(nextQ); }}
+                        else {{ setTimeout(startListening, 500); }}
+                    }};
+                    synth.speak(u);
+                }} else {{
+                    if (qi < parts.length) {{ playBeep().then(nextQ); }}
+                    else {{ setTimeout(startListening, 500); }}
+                }}
+            }}
+            nextQ();
+        }}
+        function speakChoicesOnly() {{
+            var synth = window.parent.speechSynthesis || window.speechSynthesis;
+            synth.cancel();
+            var choices = [{choices_json}];
+            var ci2 = 0;
+            function nextC() {{
+                if (ci2 >= choices.length) {{ setTimeout(startListening, 500); return; }}
+                var u = new SpeechSynthesisUtterance(choices[ci2]);
+                u.lang = 'en-US'; u.rate = 0.9;
+                ci2++;
+                u.onend = function() {{ setTimeout(nextC, 200); }};
+                synth.speak(u);
+            }}
+            nextC();
+        }}
+
+        var recognition = null;
+        function startListening() {{
+            try {{
+                var SpeechRecognition = window.parent.SpeechRecognition || window.parent.webkitSpeechRecognition || window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {{ setStatus('⚠️ このブラウザは音声認識に対応していません'); return; }}
+                recognition = new SpeechRecognition();
+                recognition.lang = 'ja-JP';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 10;
+                setStatus('🎤 聞いています… (いち〜よん を言ってください)');
+                recognition.onresult = function(event) {{
+                    var raw = event.results[0][0].transcript.trim();
+                    setStatus('🎤 認識: ' + raw);
+                    var num = -1;
+                    function detect(s) {{
+                        s = s.replace(/\\s/g, '');
+                        // 完全一致
+                        var exact = {{'いち':1,'１':1,'1':1,'一':1,'壱':1,
+                            'に':2,'２':2,'2':2,'二':2,'弐':2,
+                            'さん':3,'３':3,'3':3,'三':3,'参':3,
+                            'し':4,'よん':4,'４':4,'4':4,'四':4,'肆':4,'よ':4}};
+                        if (exact[s] !== undefined) return exact[s];
+                        // 部分一致（「いち」「にー」「さんばん」等）
+                        if (s.indexOf('いち') >= 0 || s.indexOf('一') >= 0) return 1;
+                        if (s.indexOf('にばん') >= 0 || s.indexOf('にー') >= 0 || s.indexOf('二') >= 0) return 2;
+                        if (s.indexOf('さん') >= 0 || s.indexOf('三') >= 0) return 3;
+                        if (s.indexOf('よん') >= 0 || s.indexOf('よ') >= 0 || s.indexOf('し') >= 0 || s.indexOf('四') >= 0) return 4;
+                        // 数字抽出
+                        var m = s.match(/[1-4１-４]/);
+                        if (m) {{ var n = m[0].replace(/１/,'1').replace(/２/,'2').replace(/３/,'3').replace(/４/,'4'); return parseInt(n); }}
+                        return -1;
+                    }}
+                    // 全候補をチェック
+                    for (var a = 0; a < event.results[0].length; a++) {{
+                        var alt = event.results[0][a].transcript.trim();
+                        var r = detect(alt);
+                        if (r >= 1) {{ num = r; break; }}
+                    }}
+                    if (num === -1) num = detect(raw);
+                    // 「もう一回」検出 → 再読み上げ
+                    var rawNorm = raw.replace(/\\s/g, '');
+                    var isRepeat = false;
+                    for (var a2 = 0; a2 < event.results[0].length; a2++) {{
+                        var alt2 = event.results[0][a2].transcript.replace(/\\s/g, '');
+                        if (alt2.indexOf('もう一回') >= 0 || alt2.indexOf('もういっかい') >= 0 || alt2.indexOf('もう1回') >= 0 || alt2.indexOf('リピート') >= 0) {{
+                            isRepeat = true; break;
+                        }}
+                    }}
+                    if (!isRepeat && (rawNorm.indexOf('もう一回') >= 0 || rawNorm.indexOf('もういっかい') >= 0 || rawNorm.indexOf('もう1回') >= 0 || rawNorm.indexOf('リピート') >= 0)) {{
+                        isRepeat = true;
+                    }}
+                    if (isRepeat) {{
+                        setStatus('🔄 もう一回読み上げます');
+                        speakWithBeep();
+                        return;
+                    }}
+                    // 「問題文」検出 → 問題文のみ読み上げ
+                    var isQuestion = false;
+                    var isChoices = false;
+                    for (var a3 = 0; a3 < event.results[0].length; a3++) {{
+                        var alt3 = event.results[0][a3].transcript.replace(/\\s/g, '');
+                        if (alt3.indexOf('問題文') >= 0 || alt3.indexOf('もんだいぶん') >= 0 || alt3.indexOf('問題') >= 0) isQuestion = true;
+                        if (alt3.indexOf('選択肢') >= 0 || alt3.indexOf('せんたくし') >= 0) isChoices = true;
+                    }}
+                    if (!isQuestion) {{ if (rawNorm.indexOf('問題文') >= 0 || rawNorm.indexOf('もんだいぶん') >= 0 || rawNorm.indexOf('問題') >= 0) isQuestion = true; }}
+                    if (!isChoices) {{ if (rawNorm.indexOf('選択肢') >= 0 || rawNorm.indexOf('せんたくし') >= 0) isChoices = true; }}
+                    if (isQuestion) {{
+                        setStatus('📖 問題文を読み上げます');
+                        speakQuestionOnly();
+                        return;
+                    }}
+                    if (isChoices) {{
+                        setStatus('📋 選択肢を読み上げます');
+                        speakChoicesOnly();
+                        return;
+                    }}
+                    if (num >= 1 && num <= 4) {{
+                        setStatus('✅ 回答: ' + num);
+                        // Streamlitの選択肢ボタンをクリック
+                        var buttons = window.parent.document.querySelectorAll('button[kind="secondary"]');
+                        for (var b = 0; b < buttons.length; b++) {{
+                            if (buttons[b].textContent.trim().startsWith(num + '.')) {{
+                                buttons[b].click();
+                                return;
+                            }}
+                        }}
+                        setStatus('⚠️ ボタンが見つかりません: ' + num);
+                    }} else {{
+                        setStatus('❓ 「' + transcript + '」→ 番号を認識できませんでした。もう一度お試しください');
+                    }}
+                }};
+                recognition.onerror = function(e) {{
+                    if (e.error === 'no-speech') {{
+                        setStatus('🔇 音声が検出されませんでした');
+                    }} else {{
+                        setStatus('⚠️ エラー: ' + e.error);
+                    }}
+                }};
+                recognition.start();
+            }} catch(e) {{
+                setStatus('⚠️ 音声認識を開始できません: ' + e.message);
+            }}
+        }}
+        function setStatus(msg) {{
+            document.getElementById('stt_status').textContent = msg;
+        }}
+        </script>
+        <div style="margin-top:4px;">
+            <button onclick="startListening()" style="
+                background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 8px;
+                padding: 6px 18px; font-size: 1rem; cursor: pointer;
+            ">🎤 音声で回答</button>
+            <span id="stt_status" style="margin-left:10px; font-size:0.85rem; color:#666;"></span>
+        </div>
+        <script>
+        if ({auto_play_js}) {{ setTimeout(function() {{ var s = window.parent.speechSynthesis || window.speechSynthesis; s.cancel(); speakWithBeep(); }}, 300); }}
+        </script>
+        """,
+        height=90,
+    )
+
 
     for display_pos, original_idx in enumerate(shuffle_order):
         choice = choices[original_idx]
@@ -907,12 +1294,48 @@ def render_quiz() -> None:
                         st.rerun()
         else:
             # 通常の回答後表示
+            correct_original_idx = q.answer - 1
+            correct_choice_text = choices[correct_original_idx]
+            # 括弧を正解で埋めた完全な文を作成
+            full_sentence = re.sub(r"[（(]\s*[）)]", correct_choice_text, question_text)
             if is_correct(q, selected):
                 st.success("正解です！")
+                result_tts = f"Correct! ... {full_sentence}"
             else:
-                correct_original_idx = q.answer - 1
                 correct_display_pos = shuffle_order.index(correct_original_idx) + 1
-                st.error(f"不正解です。正解は {correct_display_pos}. {choices[correct_original_idx]}")
+                st.error(f"不正解です。正解は {correct_display_pos}. {correct_choice_text}")
+                result_tts = f"Incorrect. The answer is {correct_choice_text}. ... {full_sentence}"
+
+            # 結果を音声で読み上げ、3秒後に自動で次の問題へ
+            result_tts_escaped = result_tts.replace("\\", "\\\\").replace("'", "\\'")
+            auto_next_key = f"_auto_next_{index}"
+            if auto_next_key not in st.session_state:
+                st.session_state[auto_next_key] = True
+                st.components.v1.html(
+                    f"""<script>
+                    (function() {{
+                        var synth = window.parent.speechSynthesis || window.speechSynthesis;
+                        synth.cancel();
+                        var u = new SpeechSynthesisUtterance('{result_tts_escaped}');
+                        u.lang = 'en-US';
+                        u.rate = 0.9;
+                        u.onend = function() {{
+                            setTimeout(function() {{
+                                // 「次の問題へ」ボタンをクリック
+                                var buttons = window.parent.document.querySelectorAll('button[kind="primaryFormSubmit"], button[kind="primary"]');
+                                for (var b = 0; b < buttons.length; b++) {{
+                                    if (buttons[b].textContent.trim() === '次の問題へ') {{
+                                        buttons[b].click();
+                                        return;
+                                    }}
+                                }}
+                            }}, 2000);
+                        }};
+                        synth.speak(u);
+                    }})();
+                    </script>""",
+                    height=0,
+                )
 
             if st.button("次の問題へ", type="primary"):
                 st.session_state.current_index += 1
@@ -930,46 +1353,60 @@ def render_quiz() -> None:
         st.caption(f"日本語: {q.japanese}")
 
     # --- タグ管理UI（画面一番下） ---
-    question_tags = get_question_tags()
-    all_tags = get_all_tags()
+    user_question_tags = get_question_tags()
+    user_tags = get_all_tags()
+    default_tags = get_default_tags()
+    default_question_tags = get_default_question_tags()
     qid = str(q.id)
-    q_tags = question_tags.get(qid, [])
 
     st.markdown("---")
     st.markdown("#### タグ（ハッシュタグ）")
-    if all_tags:
-        tag_cols = st.columns(len(all_tags))
-        for i, tag in enumerate(all_tags):
-            selected = tag in q_tags
-            btn_label = f"#{tag}" if not selected else f"✅ #{tag}"
+
+    # ユーザータグ（1行目・編集可能）
+    if user_tags:
+        u_q_tags = user_question_tags.get(qid, [])
+        tag_cols = st.columns(len(user_tags))
+        for i, tag in enumerate(user_tags):
+            selected = tag in u_q_tags
+            btn_label = f"✅ #{tag}" if selected else f"#{tag}"
             if tag_cols[i].button(btn_label, key=f"tagbtn_{q.id}_{tag}"):
                 if selected:
-                    new_tags = [t for t in q_tags if t != tag]
+                    new_tags = [t for t in u_q_tags if t != tag]
                 else:
-                    new_tags = q_tags + [tag]
-                if new_tags != q_tags:
-                    question_tags[qid] = new_tags
-                    set_question_tags(question_tags)
-                    st.rerun()
-    else:
+                    new_tags = u_q_tags + [tag]
+                if new_tags:
+                    user_question_tags[qid] = new_tags
+                else:
+                    user_question_tags.pop(qid, None)
+                set_question_tags(user_question_tags)
+                st.rerun()
+
+    # デフォルトタグ（2行目・読み取り専用）
+    if default_tags:
+        d_q_tags = default_question_tags.get(qid, [])
+        dt_display = "　".join([f"✅ `#{t}`" if t in d_q_tags else f"`#{t}`" for t in default_tags])
+        st.caption(f"📋 デフォルト: {dt_display}")
+
+    if not user_tags and not default_tags:
         st.caption("タグはまだありません")
 
-    # 新規タグ追加
+    # 新規ユーザータグ追加
     with st.form(f"add_tag_form_{q.id}", clear_on_submit=True):
         new_tag = st.text_input("新しいタグを追加", key=f"new_tag_input_{q.id}")
         submitted = st.form_submit_button("追加")
         if submitted and new_tag.strip():
             tag = new_tag.strip()
             updated = False
-            if tag not in all_tags:
-                all_tags.append(tag)
-                set_all_tags(all_tags)
+            combined = _get_combined_tags()
+            if tag not in combined:
+                user_tags.append(tag)
+                set_all_tags(user_tags)
                 updated = True
-            q_tags = question_tags.get(qid, [])
-            if tag not in q_tags:
-                q_tags.append(tag)
-                question_tags[qid] = q_tags
-                set_question_tags(question_tags)
+            u_q_tags = user_question_tags.get(qid, [])
+            if tag not in u_q_tags:
+                u_q_tags.append(tag)
+                user_question_tags[qid] = u_q_tags
+                set_question_tags(user_question_tags)
                 updated = True
             if updated:
                 st.rerun()

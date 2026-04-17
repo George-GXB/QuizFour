@@ -29,7 +29,7 @@ _SESSION_KEY = "_app_data"
 
 
 def _default_data() -> dict[str, Any]:
-    return {"users": [], "last_user": "", "stats": {}, "all_tags": [], "question_tags": {}}
+    return {"users": [], "last_user": "", "stats": {}, "all_tags": [], "question_tags": {}, "default_tags": [], "default_question_tags": {}}
 
 
 def init_local_storage() -> LocalStorage:
@@ -213,3 +213,28 @@ def set_question_tags(question_tags: dict[str, list[str]]) -> None:
     data["question_tags"] = question_tags
     _set_data(data)
 
+
+# ── Default tag management (from CSV) ────────────────────────
+
+def get_default_tags() -> list[str]:
+    """Return the list of default tags (from CSV)."""
+    return list(_get_data().get("default_tags", []))
+
+
+def set_default_tags(tags: list[str]) -> None:
+    """Overwrite the default tag list."""
+    data = _get_data()
+    data["default_tags"] = tags
+    _set_data(data)
+
+
+def get_default_question_tags() -> dict[str, list[str]]:
+    """Return {question_id_str: [tag, ...]} mapping for default tags."""
+    return dict(_get_data().get("default_question_tags", {}))
+
+
+def set_default_question_tags(question_tags: dict[str, list[str]]) -> None:
+    """Overwrite the default question-tags mapping."""
+    data = _get_data()
+    data["default_question_tags"] = question_tags
+    _set_data(data)
