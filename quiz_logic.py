@@ -469,7 +469,8 @@ def normalize_questions(df: pd.DataFrame) -> tuple[list[Question], list[str]]:
                 row_index=idx_int,
             )
         )
-        default_tags.append(_clean_text(row["DefaultTag"]) if has_default_tag else "")
+        dt_raw = _clean_text(row["DefaultTag"]) if has_default_tag else ""
+        default_tags.append("" if not dt_raw or dt_raw.lower() == "none" else dt_raw)
     return questions, default_tags
 
 

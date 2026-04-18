@@ -29,7 +29,7 @@ _SESSION_KEY = "_app_data"
 
 
 def _default_data() -> dict[str, Any]:
-    return {"users": [], "last_user": "", "stats": {}, "all_tags": [], "question_tags": {}, "default_tags": [], "default_question_tags": {}}
+    return {"users": [], "last_user": "", "stats": {}, "all_tags": [], "question_tags": {}, "default_tags": [], "default_question_tags": {}, "system_tags": [], "system_question_tags": {}}
 
 
 def init_local_storage() -> LocalStorage:
@@ -132,28 +132,54 @@ def delete_user(user_name: str) -> None:
     stats = data.get("stats", {})
     if user_name in stats:
         del stats[user_name]
+    # share_emailsから削除
+    share_emails = data.get("share_emails", {})
+    if user_name in share_emails:
+        del share_emails[user_name]
     # last_userが該当ユーザーなら空に
     if data.get("last_user") == user_name:
         data["last_user"] = ""
     _set_data(data)
 
 
+# ── Share email management ───────────────────────────────────
+
+
+def get_share_emails(user_name: str) -> list[str]:
+    """Return the list of share email addresses for *user_name*."""
+    if not user_name:
+        return []
+    return list(_get_data().get("share_emails", {}).get(user_name, []))
+
+
+def set_share_emails(user_name: str, emails: list[str]) -> None:
+    """Overwrite the share email list for *user_name*."""
+    if not user_name:
+        return
+    data = _get_data()
+    share_emails = data.setdefault("share_emails", {})
+    share_emails[user_name] = emails
+    _set_data(data)
+
+
 # ── Answer statistics ────────────────────────────────────────────
 
 
-def get_question_stats(user_name: str) -> dict[int, tuple[int, int, int]]:
+def get_question_stats(user_name: str) -> dict[int, tuple[int, int, int, int]]:
     """Return per-question stats for *user_name*.
 
-    Returns ``{question_id: (total_asked, total_correct, total_incorrect)}``.
+    Returns ``{question_id: (total_asked, total_correct, total_incorrect, streak)}``.
+    streak = current consecutive correct answers count.
     """
     if not user_name:
         return {}
     user_stats = _get_data().get("stats", {}).get(user_name, {})
-    result: dict[int, tuple[int, int, int]] = {}
+    result: dict[int, tuple[int, int, int, int]] = {}
     for k, v in user_stats.items():
         try:
             qid = int(k)
-            result[qid] = (int(v[0]), int(v[1]), int(v[2]))
+            streak = int(v[3]) if len(v) > 3 else 0
+            result[qid] = (int(v[0]), int(v[1]), int(v[2]), streak)
         except (ValueError, IndexError, TypeError):
             continue
     return result
@@ -168,11 +194,12 @@ def record_answer(question_id: int, is_correct_answer: bool, user_name: str) -> 
     user_stats = stats.setdefault(user_name, {})
 
     qid = str(question_id)
-    prev = user_stats.get(qid, [0, 0, 0])
+    prev = user_stats.get(qid, [0, 0, 0, 0])
     asked = int(prev[0]) + 1
     correct = int(prev[1]) + (1 if is_correct_answer else 0)
     incorrect = int(prev[2]) + (0 if is_correct_answer else 1)
-    user_stats[qid] = [asked, correct, incorrect]
+    streak = (int(prev[3]) if len(prev) > 3 else 0) + 1 if is_correct_answer else 0
+    user_stats[qid] = [asked, correct, incorrect, streak]
     _set_data(data)
 
 
@@ -238,3 +265,30 @@ def set_default_question_tags(question_tags: dict[str, list[str]]) -> None:
     data = _get_data()
     data["default_question_tags"] = question_tags
     _set_data(data)
+
+
+# ── System tag management ────────────────────────────────────
+
+def get_system_tags() -> list[str]:
+    """Return the list of system tags."""
+    return list(_get_data().get("system_tags", []))
+
+
+def set_system_tags(tags: list[str]) -> None:
+    """Overwrite the system tag list."""
+    data = _get_data()
+    data["system_tags"] = tags
+    _set_data(data)
+
+
+def get_system_question_tags() -> dict[str, list[str]]:
+    """Return {question_id_str: [tag, ...]} mapping for system tags."""
+    return dict(_get_data().get("system_question_tags", {}))
+
+
+def set_system_question_tags(question_tags: dict[str, list[str]]) -> None:
+    """Overwrite the system question-tags mapping."""
+    data = _get_data()
+    data["system_question_tags"] = question_tags
+    _set_data(data)
+

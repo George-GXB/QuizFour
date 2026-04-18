@@ -42,6 +42,12 @@ from local_storage_helper import (
     set_default_tags,
     get_default_question_tags,
     set_default_question_tags,
+    get_system_tags,
+    set_system_tags,
+    get_system_question_tags,
+    set_system_question_tags,
+    get_share_emails,
+    set_share_emails,
 )
 from db_initializer import initialize_db_from_initial_csv
 
@@ -64,6 +70,8 @@ def _apply_default_tags() -> None:
     default_question_tags = get_default_question_tags()
     changed = False
     for qid, tag in db_defaults.items():
+        if not tag or tag.lower() == "none":
+            continue
         qid_str = str(qid)
         if tag not in default_tags:
             default_tags.append(tag)
@@ -98,23 +106,45 @@ if _dt:
                 _changed = True
         if _changed:
             set_question_tags(_uqt)
+    # システムタグからもデフォルトタグと重複するものを除去
+    _st = get_system_tags()
+    _cleaned_st = [t for t in _st if t not in _dt]
+    if len(_cleaned_st) != len(_st):
+        set_system_tags(_cleaned_st)
+        _sqt = get_system_question_tags()
+        _s_changed = False
+        for _qid in list(_sqt.keys()):
+            _new = [t for t in _sqt[_qid] if t not in _dt]
+            if len(_new) != len(_sqt[_qid]):
+                if _new:
+                    _sqt[_qid] = _new
+                else:
+                    del _sqt[_qid]
+                _s_changed = True
+        if _s_changed:
+            set_system_question_tags(_sqt)
 
 
 def _get_combined_tags() -> list[str]:
-    """ユーザータグ + デフォルトタグの統合リストを返す（重複なし）。"""
+    """ユーザータグ + デフォルトタグ + システムタグの統合リストを返す（重複なし）。"""
     user_tags = get_all_tags()
     default_tags = get_default_tags()
+    system_tags = get_system_tags()
     combined = list(user_tags)
     for t in default_tags:
+        if t not in combined:
+            combined.append(t)
+    for t in system_tags:
         if t not in combined:
             combined.append(t)
     return combined
 
 
 def _get_combined_question_tags() -> dict[str, list[str]]:
-    """ユーザータグ + デフォルトタグの統合question_tagsを返す。ユーザータグ優先。"""
+    """ユーザータグ + デフォルトタグ + システムタグの統合question_tagsを返す。"""
     default_qt = get_default_question_tags()
     user_qt = get_question_tags()
+    system_qt = get_system_question_tags()
     combined: dict[str, list[str]] = {}
     # デフォルトを先に入れる
     for qid, tags in default_qt.items():
@@ -127,7 +157,100 @@ def _get_combined_question_tags() -> dict[str, list[str]]:
                     combined[qid].append(t)
         else:
             combined[qid] = list(tags)
+    # システムタグで追加
+    for qid, tags in system_qt.items():
+        if qid in combined:
+            for t in tags:
+                if t not in combined[qid]:
+                    combined[qid].append(t)
+        else:
+            combined[qid] = list(tags)
     return combined
+
+
+SYSTEM_TAG_WRONG = "間違えた問題"
+SYSTEM_TAG_MASTERED = "習得済み"
+SYSTEM_TAG_RATE_30 = "正解率30%未満"
+SYSTEM_TAG_RATE_60 = "正解率60%未満"
+SYSTEM_TAG_RATE_90 = "正解率90%未満"
+
+# 習得済み判定: 5回連続正解
+_MASTERED_STREAK = 5
+
+# すべてのシステムタグ定数
+_ALL_SYSTEM_TAGS = [
+    SYSTEM_TAG_WRONG, SYSTEM_TAG_MASTERED,
+    SYSTEM_TAG_RATE_30, SYSTEM_TAG_RATE_60, SYSTEM_TAG_RATE_90,
+]
+
+
+def _update_system_tags_on_answer(question_id: int, is_correct: bool) -> None:
+    """回答後にシステムタグを自動更新する。"""
+    sys_tags = get_system_tags()
+    sys_qt = get_system_question_tags()
+    qid = str(question_id)
+    tags = sys_qt.get(qid, [])
+    changed_tags = False
+    changed_qt = False
+
+    # システムタグが登録されていなければ追加
+    for st_tag in _ALL_SYSTEM_TAGS:
+        if st_tag not in sys_tags:
+            sys_tags.append(st_tag)
+            changed_tags = True
+
+    # ── 間違えた問題 ──
+    if not is_correct:
+        if SYSTEM_TAG_WRONG not in tags:
+            tags.append(SYSTEM_TAG_WRONG)
+            changed_qt = True
+
+    # ── 統計取得 ──
+    user_name = st.session_state.get("user_name", "")
+    stats = get_question_stats(user_name)
+    if question_id in stats:
+        asked, correct, _incorrect, streak = stats[question_id]
+        rate = correct / asked if asked > 0 else 0.0
+        is_mastered = streak >= _MASTERED_STREAK
+    else:
+        rate = 0.0
+        is_mastered = False
+        asked = 0
+
+    # ── 習得済み ──
+    if is_mastered:
+        if SYSTEM_TAG_MASTERED not in tags:
+            tags.append(SYSTEM_TAG_MASTERED)
+            changed_qt = True
+    else:
+        if SYSTEM_TAG_MASTERED in tags:
+            tags.remove(SYSTEM_TAG_MASTERED)
+            changed_qt = True
+
+    # ── 正解率タグ（出題済みの場合のみ） ──
+    rate_tag_map = [
+        (SYSTEM_TAG_RATE_30, rate < 0.3),
+        (SYSTEM_TAG_RATE_60, 0.3 <= rate < 0.6),
+        (SYSTEM_TAG_RATE_90, 0.6 <= rate < 0.9),
+    ]
+    for tag_name, should_have in rate_tag_map:
+        if asked > 0 and should_have:
+            if tag_name not in tags:
+                tags.append(tag_name)
+                changed_qt = True
+        else:
+            if tag_name in tags:
+                tags.remove(tag_name)
+                changed_qt = True
+
+    if changed_tags:
+        set_system_tags(sys_tags)
+    if changed_qt:
+        if tags:
+            sys_qt[qid] = tags
+        elif qid in sys_qt:
+            del sys_qt[qid]
+        set_system_question_tags(sys_qt)
 
 
 def load_questions() -> list[Question]:
@@ -211,6 +334,7 @@ def _answer_question(choice_index: int) -> None:
 
     try:
         record_answer(current_question.id, answer_is_correct, st.session_state.get("user_name", ""))
+        _update_system_tags_on_answer(current_question.id, answer_is_correct)
     except Exception as exc:
         st.session_state["record_error"] = f"履歴記録に失敗しました: {exc}"
 
@@ -318,21 +442,23 @@ def _build_recommended_pool(
         else:
             # 未出題が足りない場合は、残りを正解率が低い順に出題済みから補う
             needed = count - len(unanswered)
-            def _rate(q: Question) -> float:
-                asked, correct, _ = stats.get(q.id, (1, 0, 0))
-                return correct / asked if asked > 0 else 0.0
-            # 出題済みの中から正解率が低い順に不足分を選ぶ
+            def _sort_key(q: Question) -> tuple[float, int]:
+                asked, correct, *_ = stats.get(q.id, (1, 0, 0, 0))
+                rate = correct / asked if asked > 0 else 0.0
+                return (rate, -asked)  # 正解率昇順、同率なら出題回数多い順
+            # 出題済みの中から正解率が低い順（同率なら出題回数多い順）に不足分を選ぶ
             already_asked = [q for q in questions if q.id in stats]
-            already_asked_sorted = sorted(already_asked, key=_rate)
+            already_asked_sorted = sorted(already_asked, key=_sort_key)
             supplement = already_asked_sorted[:needed]
             # 未出題はシャッフル、補充分はそのまま
             selected = random.sample(unanswered, len(unanswered)) + supplement
             desc = f"未出題{len(unanswered)}問＋正解率低い{len(supplement)}問を出題"
     else:
-        def _rate(q: Question) -> float:
-            asked, correct, _ = stats.get(q.id, (1, 0, 0))
-            return correct / asked if asked > 0 else 0.0
-        sorted_by_rate = sorted(questions, key=_rate)
+        def _sort_key(q: Question) -> tuple[float, int]:
+            asked, correct, *_ = stats.get(q.id, (1, 0, 0, 0))
+            rate = correct / asked if asked > 0 else 0.0
+            return (rate, -asked)  # 正解率昇順、同率なら出題回数多い順
+        sorted_by_rate = sorted(questions, key=_sort_key)
         candidates = sorted_by_rate[:count]
         selected = random.sample(candidates, len(candidates))
         desc = f"全問出題済み・正解率低い {len(selected)} 問をシャッフルで出題"
@@ -412,7 +538,7 @@ def render_setup(all_questions: list[Question]) -> None:
     # ── タグで出題範囲を絞り込み ──
     all_tags = _get_combined_tags()
     question_tags = _get_combined_question_tags()
-    tag_filter_options = ["すべて"] + [f"#{t}" for t in all_tags] + ["未タグのみ"]
+    tag_filter_options = ["すべて"] + [f"#{t}" for t in all_tags] + ["タグ無し"]
     selected_tag_filter = st.radio(
         "タグで絞り込み",
         options=tag_filter_options,
@@ -494,17 +620,16 @@ def render_setup(all_questions: list[Question]) -> None:
                 st.session_state["confirm_reset"] = True
         # リセット確認ダイアログ
         if st.session_state.get("confirm_reset", False):
-            current_user = st.session_state.get("user_name", "")
-            st.warning("本当にいいですか？ もしよければユーザー名を入力してください。")
-            confirm_name = st.text_input(
-                "ユーザー名を入力",
+            st.warning("本当にいいですか？ パスワードを入力してください。")
+            confirm_pw = st.text_input(
+                "パスワードを入力",
+                type="password",
                 key="reset_confirm_input",
-                placeholder=current_user,
             )
             rc1, rc2 = st.columns(2)
             with rc1:
                 if st.button("リセット実行", key="reset_exec_btn"):
-                    if confirm_name.strip() == current_user:
+                    if confirm_pw.strip() == "1234":
                         try:
                             _reset_answer_history_only()
                         except Exception as exc:
@@ -514,7 +639,7 @@ def render_setup(all_questions: list[Question]) -> None:
                         st.session_state["confirm_reset"] = False
                         st.rerun()
                     else:
-                        st.error("ユーザー名が一致しません。リセットを中止しました。")
+                        st.error("パスワードが一致しません。リセットを中止しました。")
             with rc2:
                 if st.button("キャンセル", key="reset_cancel_btn"):
                     st.session_state["confirm_reset"] = False
@@ -543,17 +668,16 @@ def render_setup(all_questions: list[Question]) -> None:
                 st.session_state["confirm_reset"] = True
         # リセット確認ダイアログ
         if st.session_state.get("confirm_reset", False):
-            current_user = st.session_state.get("user_name", "")
-            st.warning("本当にいいですか？ もしよければユーザー名を入力してください。")
-            confirm_name = st.text_input(
-                "ユーザー名を入力",
+            st.warning("本当にいいですか？ パスワードを入力してください。")
+            confirm_pw = st.text_input(
+                "パスワードを入力",
+                type="password",
                 key="reset_confirm_input",
-                placeholder=current_user,
             )
             rc1, rc2 = st.columns(2)
             with rc1:
                 if st.button("リセット実行", key="reset_exec_btn"):
-                    if confirm_name.strip() == current_user:
+                    if confirm_pw.strip() == "1234":
                         try:
                             _reset_answer_history_only()
                         except Exception as exc:
@@ -563,11 +687,38 @@ def render_setup(all_questions: list[Question]) -> None:
                         st.session_state["confirm_reset"] = False
                         st.rerun()
                     else:
-                        st.error("ユーザー名が一致しません。リセットを中止しました。")
+                        st.error("パスワードが一致しません。リセットを中止しました。")
             with rc2:
                 if st.button("キャンセル", key="reset_cancel_btn"):
                     st.session_state["confirm_reset"] = False
                     st.rerun()
+
+    # ── シェア用メールアドレス設定 ──
+    st.divider()
+    with st.expander("📧 成績シェア用メールアドレス"):
+        current_emails = get_share_emails(user_name)
+        if current_emails:
+            st.write("登録済み: " + ", ".join(current_emails))
+            del_email = st.selectbox("削除するアドレス", options=current_emails, key="del_share_email")
+            if st.button("このアドレスを削除", key="del_share_email_btn"):
+                new_list = [e for e in current_emails if e != del_email]
+                set_share_emails(user_name, new_list)
+                st.rerun()
+        else:
+            st.caption("メールアドレスが登録されていません。")
+        with st.form("add_share_email_form", clear_on_submit=True):
+            new_email = st.text_input("メールアドレスを追加", placeholder="example@mail.com")
+            if st.form_submit_button("追加"):
+                addr = new_email.strip()
+                if addr and "@" in addr:
+                    if addr not in current_emails:
+                        current_emails.append(addr)
+                        set_share_emails(user_name, current_emails)
+                        st.rerun()
+                    else:
+                        st.warning("このアドレスは既に登録されています。")
+                else:
+                    st.error("有効なメールアドレスを入力してください。")
 
     # ...existing code...
 
@@ -613,20 +764,20 @@ def _render_all_questions_tree() -> None:
     tag_groups: dict[str, list[Question]] = {}
     for tag in all_tags:
         tag_groups[tag] = []
-    tag_groups["未タグ"] = []
+    tag_groups["タグ無し"] = []
 
     for q in all_questions:
         qid = str(q.id)
         q_tags = question_tags.get(qid, [])
         if not q_tags:
-            tag_groups["未タグ"].append(q)
+            tag_groups["タグ無し"].append(q)
         else:
             for tag in q_tags:
                 if tag in tag_groups:
                     tag_groups[tag].append(q)
 
     # 表示順: 定義済みタグ → 未タグ
-    display_order = all_tags + ["未タグ"]
+    display_order = all_tags + ["タグ無し"]
 
     for group_name in display_order:
         qs = tag_groups.get(group_name, [])
@@ -645,8 +796,13 @@ def _render_all_questions_tree() -> None:
             html_parts = []
             for q in qs:
                 english_text = html.escape(q.english or "(No English text)")
+                choices = [q.choice1, q.choice2, q.choice3, q.choice4]
+                choices_html = " / ".join(
+                    f"<b>{html.escape(c)}</b>" if i + 1 == q.answer else html.escape(c)
+                    for i, c in enumerate(choices) if c
+                )
                 if q.id in stats:
-                    asked, correct, incorrect = stats[q.id]
+                    asked, correct, incorrect, *_ = stats[q.id]
                     rate = correct / asked if asked > 0 else 0.0
                     bg_color = "#fdecec" if rate < 0.5 else ("#fff8e6" if rate < 0.8 else "#e6f4ff")
                     item_bar = _rate_bar(rate)
@@ -654,6 +810,7 @@ def _render_all_questions_tree() -> None:
                         f"<div style='background:{bg_color};padding:0.45rem 0.7rem;"
                         "border-radius:6px;margin-bottom:0.25rem;white-space:pre-wrap;line-height:1.5;'>"
                         f"{english_text}<br>"
+                        f"<small style='color:#555;'>選択肢: {choices_html}</small><br>"
                         f"<small>{item_bar}&nbsp;|&nbsp;"
                         f"正解: {correct} / 不正解: {incorrect} / 計: {asked} 回</small>"
                         "</div>"
@@ -664,6 +821,7 @@ def _render_all_questions_tree() -> None:
                         "border-radius:6px;margin-bottom:0.25rem;white-space:pre-wrap;"
                         "line-height:1.5;color:#888;'>"
                         f"{english_text}<br>"
+                        f"<small style='color:#999;'>選択肢: {choices_html}</small><br>"
                         "<small>未出題</small>"
                         "</div>"
                     )
@@ -728,6 +886,44 @@ def render_history() -> None:
     st.title("成績リスト")
     _render_all_questions_tree()
 
+    # ── 正解率100%未満の問題をメールで送信 ──
+    all_questions = load_questions_from_db(DB_PATH)
+    user_name = st.session_state.get("user_name", "")
+    stats = get_question_stats(user_name)
+
+    # 正解率 < 100% の問題を抽出し、正解率が低い順にソート
+    incomplete: list[tuple[float, int, int, int, str]] = []  # (rate, asked, correct, incorrect, text)
+    for q in all_questions:
+        if q.id in stats:
+            asked, correct, incorrect, *_ = stats[q.id]
+            if asked > 0:
+                rate = correct / asked
+                if rate < 1.0:
+                    incomplete.append((rate, asked, correct, incorrect, q.english or ""))
+    incomplete.sort(key=lambda x: (x[0], -x[1]))  # 正解率昇順、同率なら出題回数多い順
+
+    if incomplete:
+        st.divider()
+        st.subheader("📧 正解率100%未満の問題をメールで送信")
+        import urllib.parse as _urlparse
+        _lines: list[str] = []
+        _lines.append(f"正解率100%未満の問題一覧 ({len(incomplete)}問)")
+        _lines.append("")
+        for i, (rate, asked, correct, incorrect, text) in enumerate(incomplete, 1):
+            _lines.append(f"{i}. [{rate*100:.0f}%] (正解{correct}/不正解{incorrect}/計{asked}回) {text}")
+        _mail_body = "\n".join(_lines)
+        _mail_subject = f"Quiz復習リスト: 正解率100%未満 {len(incomplete)}問"
+        _to_addrs = ",".join(get_share_emails(user_name))
+        _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_mail_subject)}&body={_urlparse.quote(_mail_body)}"
+        st.markdown(
+            f'<a href="{_mailto_url}" target="_blank" style="'
+            "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
+            'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
+            unsafe_allow_html=True,
+        )
+    else:
+        st.info("正解率100%未満の問題はありません。")
+
     if st.button("メイン画面に戻る", type="primary"):
         st.session_state.stage = "setup"
         st.rerun()
@@ -742,6 +938,8 @@ def render_tag_manage() -> None:
     user_question_tags = get_question_tags()
     default_tags = get_default_tags()
     default_question_tags = get_default_question_tags()
+    system_tags = get_system_tags()
+    system_question_tags = get_system_question_tags()
     combined_tags = _get_combined_tags()
     combined_question_tags = _get_combined_question_tags()
 
@@ -755,7 +953,9 @@ def render_tag_manage() -> None:
         st.write("🏷️ ユーザータグ：" + "　".join([f"`#{t}`" for t in user_tags]))
     if default_tags:
         st.write("📋 デフォルトタグ：" + "　".join([f"`#{t}`" for t in default_tags]))
-    if not user_tags and not default_tags:
+    if system_tags:
+        st.write("⚙️ システムタグ：" + "　".join([f"`#{t}`" for t in system_tags]))
+    if not user_tags and not default_tags and not system_tags:
         st.caption("タグはまだありません。下のフォームから作成してください。")
 
     with st.form("tag_manage_add_form", clear_on_submit=True):
@@ -783,6 +983,7 @@ def render_tag_manage() -> None:
                         del user_question_tags[qid]
                 set_question_tags(user_question_tags)
                 st.rerun()
+
 
     st.divider()
 
@@ -858,6 +1059,27 @@ def render_tag_manage() -> None:
                 st.caption("📋 デフォルトタグ（CSV由来・読み取り専用）")
                 dt_tags = default_question_tags.get(sel_qid, [])
                 st.write("　".join([f"✅ `#{t}`" if t in dt_tags else f"`#{t}`" for t in default_tags]))
+
+            # システムタグ（3行目）
+            if system_tags:
+                st.caption("⚙️ システムタグ")
+                current_sys_tags = system_question_tags.get(sel_qid, [])
+                st_cols = st.columns(min(len(system_tags), 6))
+                for i, tag in enumerate(system_tags):
+                    col = st_cols[i % len(st_cols)]
+                    is_on = tag in current_sys_tags
+                    label = f"✅ #{tag}" if is_on else f"#{tag}"
+                    if col.button(label, key=f"tm_stag_{sel_qid}_{tag}"):
+                        if is_on:
+                            new_tags = [t for t in current_sys_tags if t != tag]
+                        else:
+                            new_tags = current_sys_tags + [tag]
+                        if new_tags:
+                            system_question_tags[sel_qid] = new_tags
+                        elif sel_qid in system_question_tags:
+                            del system_question_tags[sel_qid]
+                        set_system_question_tags(system_question_tags)
+                        st.rerun()
         else:
             st.caption("👆 テーブルの行をクリックすると、タグを編集できます。")
 
@@ -1447,6 +1669,34 @@ def render_result() -> None:
             ),
             unsafe_allow_html=True,
         )
+
+    # ── メールで成績を送信 ──
+    st.subheader("成績をメールで送信")
+    # メール本文を組み立て
+    import urllib.parse as _urlparse
+    _lines: list[str] = []
+    _lines.append(f"Quiz結果: {correct} / {answered_count} 問正解")
+    if answered_count > 0:
+        _lines.append(f"正答率: {(correct / answered_count) * 100:.1f}%")
+    _lines.append("")
+    for idx in range(answered_count):
+        question = st.session_state.quiz_questions[idx]
+        history = answer_history[idx]
+        is_ok = bool(history.get("is_correct"))
+        status = "OK" if is_ok else "NG"
+        correct_text = history.get("correct_text", "")
+        _lines.append(f"{idx + 1}. [{status}] {question.english or ''}  答: {correct_text}")
+    _mail_body = "\n".join(_lines)
+    _mail_subject = f"Quiz結果: {correct}/{answered_count} 問正解"
+
+    _to_addrs = ",".join(get_share_emails(st.session_state.get("user_name", "")))
+    _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_mail_subject)}&body={_urlparse.quote(_mail_body)}"
+    st.markdown(
+        f'<a href="{_mailto_url}" target="_blank" style="'
+        "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
+        'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
+        unsafe_allow_html=True,
+    )
 
     if st.button("もう一度", type="primary"):
         restart()

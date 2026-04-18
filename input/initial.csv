@@ -9,16 +9,6 @@ DefaultTag,English,1,2,3,4,Answer,Japanese
 時制,I have never climbed Mt. Fuji before.,現在完了形,過去形,過去進行形,未来形,1,私は一度も富士山に登ったことがない。
 時制,She (          ) a letter when the phone rang.,writes,wrote,was writing,had written,3,電話が鳴ったとき、彼女は手紙を書いていた。
 時制,"He (          ) his keys, so he cannot enter the house.",loses,lost,has lost,had lost,3,彼は鍵をなくしてしまったので、家に入れない。
-時制,She (          ) to school every day.,go,goes,went,has gone,2,彼女は毎日学校に行く。
-時制,"By the time he arrived, we (          ) dinner.",finish,finished,had finished,have finished,3,彼が到着したとき、私たちはすでに夕食を終えていた。
-時制,I (          ) in Tokyo for three years when I was a child.,live,lived,have lived,had lived,2,子どものころ、私は3年間東京に住んでいた。
-時制,She (          ) English for five years and speaks it well.,study,studied,has studied,had studied,3,彼女は5年間英語を勉強していて、上手に話せる。
-時制,Look! The birds (          ) over the lake.,fly,flew,are flying,have flown,3,見て！鳥たちが湖の上を飛んでいる。
-時制,"When I called him, he (          ) a bath.",takes,took,was taking,has taken,3,私が電話したとき、彼はお風呂に入っていた。
-時制,They (          ) the project by next Friday.,will finish,finish,finished,will have finished,4,彼らは来週の金曜日までにそのプロジェクトを終わらせているだろう。
-時制,I have never climbed Mt. Fuji before.,現在完了形,過去形,過去進行形,未来形,1,私は一度も富士山に登ったことがない。
-時制,She (          ) a letter when the phone rang.,writes,wrote,was writing,had written,3,電話が鳴ったとき、彼女は手紙を書いていた。
-時制,"He (          ) his keys, so he cannot enter the house.",loses,lost,has lost,had lost,3,彼は鍵をなくしてしまったので、家に入れない。
 時制,Water (          ) at 100 degrees Celsius.,boil,boils,is boiling,boiled,2,水は摂氏100度で沸騰する。
 時制,The sun (          ) in the east.,rise,is rising,rises,rose,3,太陽は東から昇る。
 時制,He always (          ) his homework before dinner.,do,does,did,is doing,2,彼はいつも夕食前に宿題をする。
@@ -208,6 +198,7 @@ DefaultTag,English,1,2,3,4,Answer,Japanese
 受動態,The project (          ) without proper planning.,cannot succeed,cannot be succeeded,could not succeed,could not be succeeded,1,適切な計画なしにそのプロジェクトは成功できない。
 受動態,The new rule (          ) into effect from next April.,will put,will be put,is put,was put,2,新しい規則は来年4月から施行される。
 受動態,She (          ) by the committee for outstanding achievement.,awarded,was awarded,has award,is awarding,2,彼女は優れた業績により委員会から表彰された。
+受動態,The new library (          ) last year.,builds,was built,has built,is building,2,その新しい図書館は昨年建てられた。
 動名詞,She enjoys (          ) in the park on weekends.,walk,to walk,walking,walked,3,彼女は週末に公園を散歩することを楽しんでいる。
 動名詞,He finished (          ) his report an hour ago.,write,to write,writing,written,3,彼は1時間前にレポートを書き終えた。
 動名詞,They avoided (          ) about the problem.,talk,to talk,talking,talked,3,彼らはその問題について話すことを避けた。
@@ -407,3 +398,704 @@ DefaultTag,English,1,2,3,4,Answer,Japanese
 不定詞,He is smart enough (          ) the problem without help.,solve,solving,to solve,solved,3,彼はとても賢いので助けなしにその問題を解ける。
 不定詞,She was too nervous (          ) a word.,say,saying,to say,said,3,彼女はあまりにも緊張して一言も言えなかった。
 不定詞,The water is warm enough (          ) in.,swim,swimming,to swim,swam,3,水は十分温かく泳げる。
+不定詞,She went to the store (          ) some milk.,buy,buying,to buy,bought,3,彼女は牛乳を買うために店へ行った。
+分詞,The (          ) child ran to her mother.,cry,cried,crying,cries,3,泣いている子どもが母親のところへ走った。
+分詞,I saw a dog (          ) in the park.,sleep,slept,sleeping,sleeps,3,私は公園で眠っている犬を見た。
+分詞,The man (          ) over there is my uncle.,stand,stood,standing,stands,3,あそこに立っている男性は私のおじだ。
+分詞,She picked up the (          ) leaves from the garden.,fall,fallen,falling,fell,3,彼女は庭から落ちてくる葉を拾い上げた。
+分詞,The (          ) train is always crowded.,approach,approached,approaching,approaches,3,近づいてくる電車はいつも混んでいる。
+分詞,We watched the (          ) fireworks from the rooftop.,explode,exploded,exploding,explodes,3,私たちは屋上から打ち上げられる花火を見た。
+分詞,The (          ) water made it hard to see the bottom.,swirl,swirled,swirling,swirls,3,渦巻く水が底を見えにくくしていた。
+分詞,She comforted the (          ) boy.,sob,sobbed,sobbing,sobs,3,彼女は泣きじゃくる男の子を慰めた。
+分詞,The (          ) crowd cheered for their team.,excite,excited,exciting,excites,2,興奮した群衆はチームに声援を送った。
+分詞,He watched the (          ) sun set over the mountains.,set,sets,setting,settled,3,彼は山に沈んでいく太陽を見た。
+分詞,The (          ) window needs to be repaired.,break,breaking,broken,broke,3,割れた窓は修理する必要がある。
+分詞,She wore a (          ) dress to the party.,design,designing,designed,designs,3,彼女はパーティーにデザインされたドレスを着ていった。
+分詞,The (          ) letter was hard to read.,handwrite,handwriting,handwritten,handwrote,3,手書きの手紙は読みにくかった。
+分詞,He found a (          ) wallet on the street.,abandon,abandoning,abandoned,abandons,3,彼は道路に捨てられた財布を見つけた。
+分詞,The (          ) soldier was taken to the hospital.,wound,wounding,wounded,wounds,3,負傷した兵士は病院に運ばれた。
+分詞,She served a (          ) meal to her guests.,cook,cooking,cooked,cooks,3,彼女はゲストに調理された食事を出した。
+分詞,The (          ) road was slippery after the rain.,pave,paving,paved,paves,3,雨の後、舗装された道路は滑りやすかった。
+分詞,He returned the (          ) book to the library.,borrow,borrowing,borrowed,borrows,3,彼は借りた本を図書館に返した。
+分詞,The (          ) treasure was finally found.,bury,burying,buried,buries,3,埋められた宝物がついに見つかった。
+分詞,She ate the (          ) cake her mother had made.,bake,baking,baked,bakes,3,彼女は母が焼いたケーキを食べた。
+分詞,The movie was (          ). I could not stop watching.,fascinate,fascinated,fascinating,fascinates,3,その映画は魅力的で、見るのをやめられなかった。
+分詞,The news was (          ) to everyone in the office.,shock,shocked,shocking,shocks,3,そのニュースはオフィスの全員にとって衝撃的だった。
+分詞,The lecture was so (          ) that many students fell asleep.,bore,bored,boring,bores,3,講義があまりにも退屈で、多くの学生が眠ってしまった。
+分詞,The result of the experiment was (          ).,amaze,amazed,amazing,amazes,3,実験の結果は驚くべきものだった。
+分詞,The situation is (          ) more serious than expected.,become,became,becoming,becomes,3,状況は予想以上に深刻になってきている。
+分詞,She was (          ) by the unexpected gift.,move,moving,moved,moves,3,彼女は思いがけないプレゼントに感動した。
+分詞,He was (          ) when he heard the news.,shock,shocking,shocked,shocks,3,彼はそのニュースを聞いてショックを受けた。
+分詞,The students were (          ) by the difficult exam.,confuse,confusing,confused,confuses,3,生徒たちは難しい試験に困惑した。
+分詞,I was (          ) with the service at the restaurant.,satisfy,satisfying,satisfied,satisfies,3,私はそのレストランのサービスに満足した。
+分詞,She felt (          ) after the long journey.,exhaust,exhausting,exhausted,exhausts,3,彼女は長い旅の後、疲れ果てていた。
+分詞,He was (          ) in the history of ancient Rome.,interest,interesting,interested,interests,3,彼は古代ローマの歴史に興味があった。
+分詞,The children were (          ) by the magician's tricks.,amuse,amusing,amused,amuses,3,子どもたちはマジシャンのトリックに楽しんだ。
+分詞,She was (          ) to hear such rude words.,surprise,surprising,surprised,surprises,3,彼女はそんな失礼な言葉を聞いて驚いた。
+分詞,He felt (          ) when nobody came to his party.,disappoint,disappointing,disappointed,disappoints,3,誰もパーティーに来なかったとき、彼は失望した。
+分詞,I am (          ) in trying a new restaurant tonight.,interest,interesting,interested,interests,3,私は今夜新しいレストランを試すことに興味がある。
+分詞,"(          ) her homework, she listened to music.",Do,Did,Doing,Done,3,宿題をしながら、彼女は音楽を聴いた。
+分詞,"(          ) along the river, he found an old bridge.",Walk,Walked,Walking,Walks,3,川沿いを歩いていると、彼は古い橋を見つけた。
+分詞,"(          ) the door, she found no one inside.",Open,Opened,Opening,Opens,3,ドアを開けると、中には誰もいなかった。
+分詞,"(          ) the letter, he realized his mistake.",Read,Reads,Reading,Readed,3,手紙を読んで、彼は自分の間違いに気づいた。
+分詞,"(          ) her name called, she stood up.",Hear,Heard,Hearing,Hears,3,名前を呼ばれて、彼女は立ち上がった。
+分詞,"(          ) in a hurry, he forgot his keys.",Be,Been,Being,Was,3,急いでいたので、彼は鍵を忘れた。
+分詞,"(          ) the problem, they came up with a solution.",Discuss,Discussed,Discussing,Discusses,3,問題について話し合って、彼らは解決策を思いついた。
+分詞,"(          ) the mountain, they took a short rest.",Climb,Climbed,Climbing,Climbs,3,山を登りながら、彼らは少し休憩した。
+分詞,"(          ) tired, she went to bed early.",Feel,Felt,Feeling,Feels,3,疲れていたので、彼女は早く床についた。
+分詞,"(          ) all the evidence, the detective solved the case.",Examine,Examined,Examining,Examines,3,すべての証拠を調べて、刑事は事件を解決した。
+分詞,"(          ) from a wealthy family, he never understood poverty.",Come,Came,Coming,Comes,3,裕福な家庭の出身だったので、彼は貧困を理解できなかった。
+分詞,"(          ) the instructions carefully, she assembled the furniture.",Follow,Followed,Following,Follows,3,説明書を丁寧に読んで、彼女は家具を組み立てた。
+分詞,"(          ) the deadline was approaching, they worked faster.",Know,Knew,Knowing,Known,3,締め切りが近づいていることを知っていたので、彼らはより速く働いた。
+分詞,"(          ) from above, the city looks like a map.",See,Saw,Seen,Seeing,3,上から見ると、その都市は地図のように見える。
+分詞,"(          ) all things into account, I think her plan is reasonable.",Take,Took,Taking,Taken,3,すべてのことを考慮すると、彼女の計画は合理的だと思う。
+分詞,"(          ) more time, she could have done better.",Give,Gave,Giving,Given,4,もっと時間があれば、彼女はもっとうまくできただろう。
+分詞,"(          ) left alone, the child began to cry.",Leave,Left,Leaving,Leaved,2,一人にされると、その子は泣き始めた。
+分詞,She sat on the bench with her eyes (          ).,close,closing,closed,closes,3,彼女は目を閉じてベンチに座っていた。
+分詞,He was walking with his dog (          ) behind him.,follow,following,followed,follows,2,彼は犬を後ろについてこさせながら歩いていた。
+分詞,She fell asleep with the TV (          ).,turn on,turning on,turned on,turns on,3,彼女はテレビをつけたまま眠ってしまった。
+分詞,He stood there with his arms (          ).,fold,folding,folded,folds,3,彼は腕を組んでそこに立っていた。
+分詞,She spoke with her voice (          ).,tremble,trembling,trembled,trembles,2,彼女は声を震わせながら話した。
+分詞,The boy sat in the corner with his head (          ).,hang,hanging,hung,hangs,2,男の子は頭を垂れてコーナーに座っていた。
+分詞,He worked all night with the light (          ) on.,leave,leaving,left,leaves,3,彼は電気をつけたまま一晩中働いた。
+分詞,"The weather (          ) fine, we decided to go on a picnic.",be,was,being,been,3,天気が良かったので、私たちはピクニックに行くことにした。
+分詞,"(          ) speaking, he is not qualified for the job.",General,Generalize,Generally,Generalized,3,一般的に言って、彼はその仕事に適格ではない。
+分詞,"(          ) into account his age, his performance was impressive.",Take,Took,Taking,Taken,3,彼の年齢を考慮すると、彼のパフォーマンスは印象的だった。
+分詞,"(          ) the circumstances, I think she made the right choice.",Consider,Considered,Considering,Considers,3,状況を考えると、彼女は正しい選択をしたと思う。
+分詞,"(          ) frankly, I do not think the plan will work.",Speak,Spoke,Speaking,Spoken,3,率直に言って、その計画はうまくいかないと思う。
+分詞,"(          ) weather permitting, the event will be held outdoors.",All,The,It,Other,1,天候が許せば、そのイベントは屋外で開催される。
+分詞,The documentary was (          ). I learned a lot.,interest,interesting,interested,interests,2,そのドキュメンタリーは興味深かった。多くのことを学んだ。
+分詞,He was (          ) in photography as a hobby.,interest,interesting,interested,interests,3,彼は趣味として写真に興味があった。
+分詞,The roller coaster ride was (          ).,excite,exciting,excited,excites,2,ジェットコースターは興奮するものだった。
+分詞,The children were (          ) about the trip.,excite,exciting,excited,excites,3,子どもたちは旅行について興奮していた。
+分詞,The horror movie was really (          ).,terrify,terrifying,terrified,terrifies,2,そのホラー映画は本当に恐ろしかった。
+分詞,She was (          ) by the height of the building.,terrify,terrifying,terrified,terrifies,3,彼女はそのビルの高さに恐怖を感じた。
+分詞,The speech was (          ) to everyone in the audience.,move,moving,moved,moves,2,その演説は聴衆全員の心を動かすものだった。
+分詞,He was deeply (          ) by her kindness.,move,moving,moved,moves,3,彼は彼女の優しさに深く感動した。
+分詞,The game was (          ) until the very end.,thrill,thrilling,thrilled,thrills,2,その試合は最後まで手に汗握るものだった。
+分詞,She was (          ) to win first prize.,thrill,thrilling,thrilled,thrills,3,彼女は1位を取れて大喜びだった。
+分詞,I saw him (          ) out of the store quickly.,come,came,coming,comes,3,私は彼が素早く店から出てくるのを見た。
+分詞,She felt her heart (          ) faster.,beat,beats,beating,beaten,3,彼女は心臓がより速く鼓動するのを感じた。
+分詞,He kept the engine (          ) all night.,run,ran,running,runs,3,彼はエンジンを一晩中かけたままにしておいた。
+分詞,I noticed him (          ) something in his pocket.,hide,hid,hiding,hidden,3,私は彼がポケットに何かを隠しているのに気づいた。
+分詞,She watched the children (          ) in the pool.,splash,splashed,splashing,splashes,3,彼女は子どもたちがプールではしゃいでいるのを見ていた。
+分詞,"(          ) what to say, he remained silent.",Not knowing,Knowing not,Not known,No knowing,1,何を言えばよいか分からなかったので、彼は黙っていた。
+分詞,"(          ) all the options, she made her final decision.",Considering,Having considered,Not considered,Being considering,2,すべての選択肢を検討した上で、彼女は最終決定を下した。
+分詞,"(          ) in Japan for many years, she speaks Japanese fluently.",Living,Having lived,Not living,Lived,2,長年日本に住んでいたので、彼女は日本語を流暢に話す。
+分詞,"(          ) such a long distance, he was exhausted.",Walking,Having walked,Not walked,Not walking,2,そんなに長い距離を歩いたので、彼は疲れ果てていた。
+分詞,"(          ) the meeting, she was not aware of the decision.",Not attending,Attending not,Not attended,No attending,1,会議に出席しなかったので、彼女はその決定を知らなかった。
+分詞,The report (          ) to the manager was rejected.,submitting,submitted,submit,submits,2,マネージャーに提出されたレポートは却下された。
+分詞,"(          ) to the left, you will find the post office.",Turning,Turned,Turn,Turns,1,左に曲がると、郵便局が見つかります。
+分詞,"The plan (          ), they had to start from scratch.",failing,failed,fail,fails,2,計画が失敗したので、彼らは一からやり直さなければならなかった。
+分詞,There were many students (          ) in the library.,study,studied,studying,studies,3,図書館では多くの学生が勉強していた。
+分詞,"The suspect, (          ) by the police, confessed immediately.",surrounding,surrounded,surround,surrounds,2,警察に取り囲まれた容疑者はすぐに自白した。
+分詞,"(          ) his best, he still could not win the race.",Do,Done,Doing,Did,3,最善を尽くしても、彼はレースに勝てなかった。
+分詞,The wall (          ) with ivy looked beautiful.,cover,covering,covered,covers,3,ツタで覆われた壁は美しく見えた。
+分詞,"(          ) a native English speaker, she rarely makes grammar mistakes.",Be,Was,Being,Been,3,ネイティブの英語話者なので、彼女は文法的なミスをほとんどしない。
+分詞,The child (          ) in the corner turned out to be lost.,found,finding,found sitting,sitting,4,コーナーに座っていた子どもは迷子だとわかった。
+分詞,"(          ) all the facts, the judge gave a fair verdict.",Weigh,Weighing,Weighed,Weighs,2,すべての事実を考慮して、裁判官は公正な判決を下した。
+分詞,"The city, (          ) in the 10th century, has a long history.",founding,founded,found,founds,2,10世紀に建設されたその都市は長い歴史を持つ。
+分詞,"(          ) the broken pipe, the plumber fixed it quickly.",Identify,Identified,Identifying,Identifies,3,壊れたパイプを特定して、配管工はすぐに修理した。
+分詞,"She stood at the door, (          ) whether to enter or not.",wonder,wondered,wondering,wonders,3,彼女はドアのところに立ち、入るべきか悩んでいた。
+分詞,"(          ) with flowers, the garden looked stunning in spring.",Fill,Filled,Filling,Fills,2,花で満たされた庭は春に見事な景色だった。
+分詞,"His hands (          ), he could not type properly.",shake,shook,shaking,shaken,3,手が震えていたので、彼はうまくタイピングできなかった。
+関係詞,The man (          ) lives next door is a doctor.,which,who,whom,whose,2,隣に住んでいる男性は医師だ。
+関係詞,She has a friend (          ) speaks five languages.,which,who,whom,whose,2,彼女には5か国語を話す友人がいる。
+関係詞,The teacher (          ) taught me English was very kind.,which,who,whom,whose,2,私に英語を教えてくれた先生はとても親切だった。
+関係詞,I know a girl (          ) wants to become an astronaut.,which,who,whom,whose,2,私は宇宙飛行士になりたい女の子を知っている。
+関係詞,The students (          ) passed the exam were very happy.,which,who,whom,whose,2,試験に合格した学生たちはとても嬉しかった。
+関係詞,Anyone (          ) wants to join the club should sign up by Friday.,which,who,whom,whose,2,クラブに参加したい人は金曜日までに申し込むべきだ。
+関係詞,The woman (          ) I met at the party was very interesting.,which,who,whom,whose,2,パーティーで会った女性はとても面白かった。
+関係詞,The person (          ) you recommended turned out to be excellent.,which,who,whom,whose,2,あなたが推薦した人は優秀だということがわかった。
+関係詞,The doctor (          ) she saw yesterday gave her good advice.,which,who,whom,whose,2,彼女が昨日診てもらった医師は良いアドバイスをくれた。
+関係詞,The professor (          ) I spoke to was very knowledgeable.,who,which,whom,whose,3,私が話しかけた教授はとても博識だった。
+関係詞,The candidate (          ) they selected was highly qualified.,who,which,whom,whose,3,彼らが選んだ候補者は非常に有能だった。
+関係詞,The man (          ) she married is a successful businessman.,who,which,whom,whose,3,彼女が結婚した男性は成功したビジネスマンだ。
+関係詞,I have a friend (          ) father is a famous painter.,who,which,whom,whose,4,私には父が有名な画家の友人がいる。
+関係詞,The student (          ) essay won first prize was very proud.,who,which,whom,whose,4,エッセイが1位を受賞した学生はとても誇りに思っていた。
+関係詞,The house (          ) roof was damaged in the storm has been repaired.,who,which,whom,whose,4,嵐で屋根が損傷した家は修理された。
+関係詞,She met a woman (          ) daughter had just won a gold medal.,who,which,whom,whose,4,彼女は娘がちょうど金メダルを獲得した女性に会った。
+関係詞,The company (          ) CEO resigned last month is struggling.,who,which,whom,whose,4,先月CEOが辞任した会社は苦境に立たされている。
+関係詞,The book (          ) is on the desk belongs to me.,who,which,whom,whose,2,机の上にある本は私のものだ。
+関係詞,The train (          ) arrives at 8 a.m. is always on time.,who,which,whom,whose,2,午前8時に到着する電車はいつも時間通りだ。
+関係詞,She bought a dress (          ) was on sale.,who,which,whom,whose,2,彼女はセール中のドレスを買った。
+関係詞,The movie (          ) won the award was directed by a young filmmaker.,who,which,whom,whose,2,賞を受賞した映画は若い映像作家が監督した。
+関係詞,The report (          ) she submitted was highly praised.,who,which,whom,whose,2,彼女が提出したレポートは高く評価された。
+関係詞,The cake (          ) he made was delicious.,who,which,whom,whose,2,彼が作ったケーキはとても美味しかった。
+関係詞,The problem (          ) they solved took three hours.,who,which,whom,whose,2,彼らが解いた問題には3時間かかった。
+関係詞,The letter (          ) I received yesterday was from my pen pal.,who,which,whom,whose,2,昨日受け取った手紙は文通相手からのものだった。
+関係詞,The book (          ) I borrowed from the library is very interesting.,who,which,that,whose,3,図書館から借りた本はとても面白い。
+関係詞,She is the most talented person (          ) I have ever met.,who,which,that,whom,3,彼女は私が今まで会った中で最も才能のある人だ。
+関係詞,Everything (          ) he said was true.,who,which,that,whom,3,彼が言ったことはすべて本当だった。
+関係詞,The first person (          ) arrives will get a prize.,who,which,that,whom,3,最初に到着した人が賞をもらえる。
+関係詞,All the students (          ) studied hard passed the exam.,who,which,that,whom,3,一生懸命勉強したすべての学生が試験に合格した。
+関係詞,The woman (          ) I saw in the park was my neighbor.,who,that,whom,(省略可),4,公園で見かけた女性は私の隣人だった。
+関係詞,The movie (          ) we watched last night was boring.,which,that,who,(省略可),4,昨夜見た映画は退屈だった。
+関係詞,The coffee (          ) she made was too strong.,which,that,who,(省略可),4,彼女が作ったコーヒーは濃すぎた。
+関係詞,This is the town (          ) I was born.,which,that,where,when,3,ここは私が生まれた町だ。
+関係詞,The restaurant (          ) we had dinner last night was excellent.,which,that,where,when,3,昨夜夕食を食べたレストランは素晴らしかった。
+関係詞,She showed me the house (          ) she grew up.,which,that,where,when,3,彼女は自分が育った家を見せてくれた。
+関係詞,The school (          ) he studied is now closed.,which,that,where,when,3,彼が学んだ学校は今は閉校している。
+関係詞,Is there a place (          ) I can sit down?,which,that,where,when,3,どこか座れる場所はありますか？
+関係詞,I remember the day (          ) we first met.,which,that,where,when,4,私たちが初めて会った日のことを覚えている。
+関係詞,There are times (          ) I feel lonely.,which,that,where,when,4,孤独を感じることがある。
+関係詞,Spring is the season (          ) flowers bloom.,which,that,where,when,4,春は花が咲く季節だ。
+関係詞,Do you remember the year (          ) the earthquake happened?,which,that,where,when,4,その地震が起きた年を覚えていますか？
+関係詞,That is the reason (          ) she quit her job.,which,that,why,when,3,それが彼女が仕事を辞めた理由だ。
+関係詞,I do not understand the reason (          ) he was so angry.,which,that,why,when,3,彼がそんなに怒っていた理由が理解できない。
+関係詞,Can you explain the reason (          ) you were late?,which,that,why,when,3,遅刻した理由を説明してもらえますか？
+関係詞,This is (          ) she managed to finish the project on time.,the way how,how,the way,what,3,これが彼女がプロジェクトを時間通りに終わらせた方法だ。
+関係詞,I do not know (          ) he solved the problem so quickly.,the way how,how,the way which,what,2,彼がどのようにその問題をそんなに速く解いたか分からない。
+関係詞,"My brother, (          ) lives in Osaka, is a teacher.",that,which,who,whom,3,大阪に住んでいる私の兄は教師だ。
+関係詞,"She passed the exam, (          ) surprised everyone.",that,which,who,whom,2,彼女は試験に合格した。それは全員を驚かせた。
+関係詞,"He gave me a book, (          ) I found very useful.",that,which,who,whom,2,彼は私に本をくれた。それはとても役に立った。
+関係詞,"We visited Tokyo Tower, (          ) is one of the most famous landmarks.",that,which,who,whom,2,私たちは東京タワーを訪れた。それは最も有名なランドマークの一つだ。
+関係詞,"My father, (          ) I respect deeply, is a retired engineer.",that,which,who,whom,3,私が深く尊敬している父は退職したエンジニアだ。
+関係詞,"She spoke to the manager, (          ) agreed to refund her money.",that,which,who,whom,3,彼女はマネージャーに話しかけた。マネージャーは返金に同意した。
+関係詞,"He moved to Canada, (          ) his sister also lives.",that,where,who,which,2,彼はカナダに引っ越した。そこには彼の妹も住んでいる。
+関係詞,The company (          ) which he works has over 500 employees.,at,for,to,in,2,彼が勤める会社には500人以上の従業員がいる。
+関係詞,The hotel (          ) which we stayed was very comfortable.,at,in,to,for,2,私たちが泊まったホテルはとても快適だった。
+関係詞,The person (          ) whom I spoke was very helpful.,at,to,in,for,2,私が話した人はとても親切だった。
+関係詞,The topic (          ) which she spoke was fascinating.,at,about,in,for,2,彼女が話したトピックは魅力的だった。
+関係詞,The university (          ) which he graduated is well known.,at,from,in,for,2,彼が卒業した大学はよく知られている。
+関係詞,(          ) comes first will receive a gift.,Who,Whoever,Whom,Whomever,2,最初に来た人は誰でもプレゼントをもらえる。
+関係詞,She will hire (          ) is best qualified for the job.,who,whoever,whom,whomever,2,彼女はその仕事に最もふさわしい人を誰でも雇うつもりだ。
+関係詞,"(          ) he chooses, I will support his decision.",Who,Whoever,Whichever,Whatever,3,彼がどちらを選んでも、私は彼の決断を支持する。
+関係詞,"(          ) you decide, make sure it is the right choice.",However,Wherever,Whatever,Whenever,3,何を決めるにしても、それが正しい選択であることを確かめなさい。
+関係詞,"(          ) she goes, she makes friends easily.",However,Wherever,Whatever,Whenever,2,どこへ行っても、彼女は簡単に友達ができる。
+関係詞,"(          ) you need help, just call me.",However,Wherever,Whatever,Whenever,4,助けが必要なときはいつでも、電話して。
+関係詞,"(          ) hard he tries, he cannot seem to pass the test.",However,Wherever,Whatever,Whenever,1,どんなに一生懸命やっても、彼はテストに合格できないようだ。
+関係詞,(          ) he said surprised everyone in the room.,That,Which,What,Who,3,彼が言ったことは部屋の全員を驚かせた。
+関係詞,I could not believe (          ) I saw at the scene.,that,which,what,who,3,私は現場で見たものが信じられなかった。
+関係詞,This is (          ) I have been looking for.,that,which,what,who,3,これがずっと探していたものだ。
+関係詞,"(          ) matters most is your effort, not the result.",That,Which,What,Who,3,最も重要なのは結果ではなくあなたの努力だ。
+関係詞,She told me (          ) had happened during the meeting.,that,which,what,who,3,彼女は会議中に何が起きたかを私に話してくれた。
+関係詞,(          ) you see is (          ) you get.,That/that,Which/which,What/what,Who/who,3,見たままが手に入るものだ。
+関係詞,Students (          ) study hard will pass the exam.,who,which,whose,whom,1,一生懸命勉強する学生は試験に合格するだろう。
+関係詞,"My sister, (          ) is a nurse, works night shifts.",that,which,who,whom,3,看護師である私の姉は夜勤で働いている。
+関係詞,The report (          ) was submitted late was rejected.,who,that,whose,whom,2,遅れて提出されたレポートは却下された。
+関係詞,"His new novel, (          ) I have already read, is excellent.",that,which,who,whom,2,彼の新作小説は素晴らしい。私はすでに読んだ。
+関係詞,This is the house (          ) Shakespeare was born.,which,that,in which,in that,3,これはシェイクスピアが生まれた家だ。
+関係詞,The era (          ) we live is full of rapid changes.,which,in which,where,when,2,私たちが生きている時代は急速な変化に満ちている。
+関係詞,She is the only one (          ) knows the answer.,who,which,that,whom,3,答えを知っているのは彼女だけだ。
+関係詞,That is all (          ) I can do for now.,who,which,that,whom,3,今のところ私にできることはそれだけだ。
+関係詞,He is not the man (          ) he used to be.,who,that,which,whom,2,彼はかつての彼ではない。
+関係詞,"The letter, the content of (          ) was shocking, was sent anonymously.",it,which,that,who,2,その手紙は匿名で送られ、内容は衝撃的だった。
+関係詞,There is no one here (          ) can solve this puzzle.,who,which,that,whom,3,ここにはこのパズルを解ける人は誰もいない。
+関係詞,She donated everything (          ) she owned to charity.,who,which,that,whom,3,彼女は自分が持っているものすべてを慈善事業に寄付した。
+関係詞,The fact (          ) he had lied was soon discovered.,that,which,who,what,1,彼が嘘をついていたという事実はすぐに発覚した。
+関係詞,The idea (          ) she proposed was accepted by the board.,that,which,who,what,2,彼女が提案したアイデアは取締役会に受け入れられた。
+関係詞,"(          ) is known to all, honesty is the best policy.",That,Which,As,What,3,誰もが知っているように、正直は最善の策だ。
+関係詞,"She moved to Paris, (          ) she had always dreamed of living.",that,which,where,when,3,彼女はパリに引っ越した。ずっと住むことを夢見ていた場所だ。
+関係詞,"The scientist, (          ) research changed medicine, won the Nobel Prize.",who,which,whose,whom,3,医学を変えた研究を行った科学者がノーベル賞を受賞した。
+関係詞,He apologized for (          ) he had done wrong.,that,which,what,who,3,彼は自分がしてしまった悪いことについて謝罪した。
+関係詞,The news (          ) the war had ended spread quickly.,that,which,what,who,1,戦争が終わったというニュースはすぐに広まった。
+関係詞,This is the very book (          ) I have been looking for.,who,which,that,what,3,これがまさに私が探していた本だ。
+関係詞,The town (          ) we visited last summer has a beautiful castle.,which,that,where,when,3,去年の夏訪れた町には美しい城がある。
+関係詞,I will never forget the moment (          ) I heard the news.,which,that,where,when,4,そのニュースを聞いた瞬間を決して忘れない。
+関係詞,"He has two sons, both of (          ) are doctors.",who,whom,which,that,2,彼には息子が2人いて、2人とも医師だ。
+関係詞,"She has three cats, one of (          ) is black.",who,whom,which,that,3,彼女には猫が3匹いて、1匹は黒い。
+関係詞,"The bridge, the construction of (          ) took five years, is now open.",it,which,that,who,2,建設に5年かかったその橋は今や開通している。
+関係詞,I cannot remember (          ) it was that told me the secret.,who,whom,which,whose,1,その秘密を教えてくれたのが誰だったか思い出せない。
+関係詞,"(          ) the outcome may be, we must stay positive.",However,Whatever,Wherever,Whenever,2,結果がどうであれ、私たちはポジティブでいなければならない。
+関係詞,The reason (          ) he gave for his absence was unconvincing.,why,that,which,when,2,彼が欠席の理由として述べた理由は説得力がなかった。
+接続詞,"She was tired, (          ) she kept working.",so,but,and,or,2,彼女は疲れていたが、働き続けた。
+接続詞,"He studied hard, (          ) he passed the exam.",but,or,so,yet,3,彼は一生懸命勉強したので、試験に合格した。
+接続詞,Would you like tea (          ) coffee?,but,or,so,and,2,紅茶とコーヒーのどちらがよいですか？
+接続詞,She was not only kind (          ) also very intelligent.,but,and,or,so,1,彼女は親切なだけでなく、とても聡明でもあった。
+接続詞,"He could not swim, (          ) he wore a life jacket.",but,or,so,yet,3,彼は泳げなかったので、救命胴衣をつけた。
+接続詞,"It was raining, (          ) we decided to stay home.",but,or,so,yet,3,雨が降っていたので、私たちは家にいることにした。
+接続詞,"She was exhausted, (          ) she did not give up.",so,but,and,or,2,彼女は疲れ果てていたが、あきらめなかった。
+接続詞,Neither he (          ) his brother could solve the problem.,and,but,nor,or,3,彼も彼の兄も、その問題を解くことができなかった。
+接続詞,"Hurry up, (          ) you will miss the bus.",and,but,or,so,3,急ぎなさい、さもなければバスに乗り遅れますよ。
+接続詞,"Study hard, (          ) you will pass the exam.",and,but,or,so,1,一生懸命勉強すれば、試験に合格しますよ。
+接続詞,"He is poor, (          ) he is always happy.",so,and,yet,or,3,彼は貧しいが、いつも幸せだ。
+接続詞,I like neither cats (          ) dogs.,and,but,nor,or,3,私は猫も犬も好きではない。
+接続詞,"(          ) she arrived, the meeting had already started.",Before,When,Until,Unless,2,彼女が到着したとき、会議はすでに始まっていた。
+接続詞,I will wait here (          ) you come back.,when,while,until,since,3,あなたが戻ってくるまでここで待ちます。
+接続詞,"(          ) I was walking to school, I saw an accident.",Until,While,Since,Unless,2,学校へ歩いていたとき、事故を目撃した。
+接続詞,"(          ) he finishes his homework, he can watch TV.",Until,When,Once,Unless,3,宿題を終えれば、テレビを見てもよい。
+接続詞,"(          ) she left home, she has not contacted anyone.",While,When,Since,Until,3,彼女が家を出てから、誰にも連絡していない。
+接続詞,Please lock the door (          ) you leave.,while,when,before,since,3,出発する前にドアに鍵をかけてください。
+接続詞,"(          ) the alarm went off, everyone evacuated the building.",While,As soon as,Until,Since,2,警報が鳴るとすぐに、全員がビルから避難した。
+接続詞,I had just sat down (          ) the phone rang.,when,while,until,since,1,座ったとたん、電話が鳴った。
+接続詞,"(          ) it stops raining, we will go for a walk.",While,When,Until,Since,2,雨がやんだら、散歩に行こう。
+接続詞,"(          ) she was speaking, everyone listened carefully.",While,When,Until,Since,1,彼女が話している間、全員が注意深く聞いていた。
+接続詞,"(          ) it rains tomorrow, we will cancel the picnic.",Unless,If,Although,Since,2,明日雨が降れば、ピクニックをキャンセルします。
+接続詞,"(          ) you study harder, you will fail the exam.",If,Unless,Although,Since,2,もっと一生懸命勉強しなければ、試験に落ちますよ。
+接続詞,You can borrow my car (          ) you promise to be careful.,unless,if,although,since,2,注意すると約束してくれれば、車を貸してあげます。
+接続詞,"(          ) he had studied harder, he would have passed.",If,Unless,Although,Even if,1,もっと一生懸命勉強していれば、合格していただろう。
+接続詞,"(          ) you leave now, you will arrive on time.",Unless,If,Although,Since,2,今すぐ出発すれば、時間通りに到着できます。
+接続詞,"(          ) I were you, I would accept the offer.",If,Unless,Although,Since,1,もし私があなたなら、その申し出を受け入れるだろう。
+接続詞,"(          ) it is expensive, she will buy it.",Even if,Unless,Although,Since,1,たとえ高くても、彼女はそれを買うだろう。
+接続詞,"(          ) you practice every day, you will never improve.",If,Unless,Although,Since,2,毎日練習しなければ、決して上達しないだろう。
+接続詞,She stayed home (          ) she was sick.,although,because,unless,until,2,彼女は病気だったので家にいた。
+接続詞,"(          ) it was late, we decided to take a taxi.",Although,Since,Unless,Until,2,遅かったので、タクシーに乗ることにした。
+接続詞,He was praised (          ) he had done excellent work.,although,because,unless,until,2,彼は優れた仕事をしたので称賛された。
+接続詞,"(          ) she had not eaten anything, she felt dizzy.",Although,As,Unless,Until,2,何も食べていなかったので、彼女はめまいを感じた。
+接続詞,He apologized (          ) he had been rude.,although,because,unless,until,2,彼は失礼だったので謝った。
+接続詞,"(          ) the traffic was heavy, she arrived late.",Although,Now that,Since,Until,3,交通渋滞のせいで、彼女は遅刻した。
+接続詞,"(          ) you have finished your homework, you can go out and play.",Although,Now that,Unless,Until,2,宿題が終わったので、外に遊びに行ってもよい。
+接続詞,"(          ) she was tired, she kept on working.",Because,Although,Since,Until,2,疲れていたが、彼女は働き続けた。
+接続詞,"(          ) it was cold, we went swimming.",Although,Because,Unless,Until,1,寒かったけれど、私たちは泳ぎに行った。
+接続詞,He passed the exam (          ) he had not studied much.,because,although,since,until,2,あまり勉強しなかったのに、彼は試験に合格した。
+接続詞,"(          ) she tried her best, she could not win.",Because,Even though,Since,Until,2,最善を尽くしたにもかかわらず、彼女は勝てなかった。
+接続詞,"(          ) I like him, I cannot agree with his idea.",Because,Much as,Since,Until,2,彼のことは好きだが、彼の考えには同意できない。
+接続詞,"(          ) small the donation may be, every bit helps.",Even if,However,Although,Whereas,2,どんなに少額の寄付でも、すべてが助けになる。
+接続詞,He went to work (          ) he had a fever.,although,because,since,until,1,熱があったにもかかわらず、彼は仕事に行った。
+接続詞,She spoke slowly (          ) everyone could understand her.,so that,in order,because,although,1,彼女は全員が理解できるようにゆっくり話した。
+接続詞,He saved money (          ) he could buy a new phone.,so that,in order,because,although,1,新しい電話を買えるようにお金を貯めた。
+接続詞,Speak louder (          ) everyone can hear you.,so that,because,although,unless,1,全員に聞こえるよう大きな声で話してください。
+接続詞,She studied hard (          ) pass the exam.,so that,in order to,because,although,2,試験に合格するために一生懸命勉強した。
+接続詞,He left early (          ) avoid the rush hour traffic.,so that,in order to,because,although,2,ラッシュアワーを避けるために早く出発した。
+接続詞,The teacher explained it again (          ) the students would understand.,so that,in order,because,although,1,先生は生徒が理解できるようにもう一度説明した。
+接続詞,She was so tired (          ) she fell asleep immediately.,that,so,because,although,1,彼女はとても疲れていたので、すぐに眠ってしまった。
+接続詞,It was such a beautiful day (          ) we decided to go to the beach.,that,so,because,although,1,とても天気が良い日だったので、私たちはビーチに行くことにした。
+接続詞,He ran so fast (          ) no one could catch him.,that,so,because,although,1,彼はとても速く走ったので、誰も追いつけなかった。
+接続詞,She is such a talented singer (          ) she has fans all over the world.,that,so,because,although,1,彼女はとても才能ある歌手なので、世界中にファンがいる。
+接続詞,(          ) her brother (          ) her sister came to the party.,Either/and,Both/and,Neither/and,Not/but,2,彼女の兄と妹の両方がパーティーに来た。
+接続詞,(          ) he (          ) she is responsible for the mistake.,Both/and,Either/or,Neither/nor,Not only/but,2,彼か彼女のどちらかがそのミスに責任がある。
+接続詞,She is (          ) beautiful (          ) intelligent.,both/and,either/or,neither/nor,not/but,1,彼女は美しくて聡明でもある。
+接続詞,(          ) the price (          ) the quality of the product satisfied me.,Both/and,Either/or,Neither/nor,Not only/but also,3,その商品の価格も品質も私を満足させなかった。
+接続詞,He is (          ) a good student (          ) a good athlete.,both/and,either/or,neither/nor,not/but,1,彼は優秀な学生であり、優れたアスリートでもある。
+接続詞,(          ) she finished the report (          ) did she go home.,Not until,Only when,As soon as,No sooner,1,レポートを終えてはじめて、彼女は帰宅した。
+接続詞,She speaks (          ) French (          ) Spanish fluently.,both/and,either/or,neither/nor,not only/but also,4,彼女はフランス語だけでなくスペイン語も流暢に話す。
+接続詞,I think (          ) she is right.,what,that,which,who,2,私は彼女が正しいと思う。
+接続詞,He said (          ) he would be late.,what,that,which,who,2,彼は遅れると言った。
+接続詞,It is certain (          ) she will win.,what,that,which,who,2,彼女が勝つことは確実だ。
+接続詞,The fact (          ) he lied shocked everyone.,what,that,which,who,2,彼が嘘をついたという事実は全員を驚かせた。
+接続詞,I am glad (          ) you could come.,what,that,which,who,2,来ていただけてうれしいです。
+接続詞,It is surprising (          ) she finished so quickly.,what,that,which,who,2,彼女がそんなに早く終えたのは驚くべきことだ。
+接続詞,I wonder (          ) she will come or not.,that,which,whether,what,3,彼女が来るかどうか気になる。
+接続詞,I do not know (          ) he is telling the truth.,that,which,whether,what,3,彼が本当のことを言っているかどうか分からない。
+接続詞,She asked me (          ) I liked coffee.,that,which,if,what,3,彼女は私がコーヒーが好きかどうか聞いた。
+接続詞,The question is (          ) we should continue or stop.,that,which,whether,what,3,問題は続けるべきかやめるべきかだ。
+接続詞,I am not sure (          ) this is the right decision.,that,which,whether,what,3,これが正しい決断かどうか確信が持てない。
+接続詞,"(          ) she likes jazz, her husband prefers classical music.",Because,While,Unless,Until,2,彼女はジャズが好きだが、夫はクラシック音楽を好む。
+接続詞,"He is outgoing, (          ) his sister is quite shy.",because,whereas,unless,until,2,彼は外向的だが、妹はかなり内気だ。
+接続詞,"(          ) some people love summer, others prefer winter.",Because,While,Unless,Until,2,夏が好きな人もいれば、冬を好む人もいる。
+接続詞,"She works quickly, (          ) her colleague takes his time.",because,whereas,unless,until,2,彼女は素早く仕事をするが、同僚はじっくり時間をかける。
+接続詞,"(          ) hard she tried, she could not finish on time.",Although,However,Wherever,Whenever,2,どんなに懸命に取り組んでも、彼女は時間内に終えられなかった。
+接続詞,"(          ) I know, she has never been abroad.",As long as,As far as,As soon as,As well as,2,私の知る限り、彼女は海外に行ったことがない。
+接続詞,You may stay here (          ) you keep quiet.,as long as,as far as,as soon as,as well as,1,静かにしている限り、ここにいてもよい。
+接続詞,(          ) he arrived at the station (          ) the train left.,No sooner had/than,As soon as/when,Hardly had/when,Both/and,1,彼が駅に到着するとすぐに電車が出発した。
+接続詞,Hardly had she sat down (          ) the phone rang.,than,when,as,before,2,彼女が座ったとたん、電話が鳴った。
+接続詞,"(          ) she may be, she always greets everyone kindly.",However busy,Although busy,Despite busy,Even busy,1,どんなに忙しくても、彼女はいつも全員に親切に挨拶する。
+接続詞,"(          ) what people say, he believes in himself.",Regardless of,In spite of,Because of,Instead of,1,人が何を言おうと、彼は自分を信じている。
+接続詞,"(          ) she had little money, she managed to travel the world.",Because,Although,So that,Since,2,ほとんどお金がなかったにもかかわらず、彼女はなんとか世界中を旅した。
+接続詞,He worked overtime (          ) he could meet the deadline.,so that,so as,because,although,1,締め切りに間に合うために、彼は残業した。
+接続詞,"(          ) I tried to explain, she refused to listen.",Although,Because,Since,Unless,1,説明しようとしたが、彼女は聞こうとしなかった。
+接続詞,"(          ) more you practice, the better you become.",As,The,However,Although,2,練習すればするほど、上達する。
+接続詞,He had no sooner left (          ) it started to rain.,when,than,as,before,2,彼が出発するとすぐに雨が降り始めた。
+接続詞,"(          ) brave he may be, he cannot win alone.",However,Although,Whenever,Wherever,1,どんなに勇敢でも、一人では勝てない。
+接続詞,She behaves (          ) she owns the place.,although,as if,because,since,2,彼女はまるで自分がここの主のように振る舞う。
+接続詞,"(          ) he speaks, people listen.",Wherever,Whenever,However,Whoever,2,彼が話すときはいつでも、人々は耳を傾ける。
+接続詞,"(          ) she passed the test, she was not satisfied with her score.",Because,Even though,Since,Unless,2,試験に合格したにもかかわらず、彼女は自分の点数に満足していなかった。
+接続詞,I will call you (          ) I arrive at the hotel.,until,while,as soon as,although,3,ホテルに着き次第、電話します。
+接続詞,"(          ) the weather is nice, let us go hiking this weekend.",Unless,If,Although,Until,2,天気がよければ、今週末ハイキングに行こう。
+接続詞,She studied all night (          ) she could ace the presentation.,so that,because,although,unless,1,プレゼンを完璧にこなせるよう、彼女は一晩中勉強した。
+接続詞,He was so exhausted (          ) he could barely stand.,so,that,because,although,2,彼はとても疲れ果てていて、やっと立っていられるほどだった。
+接続詞,"(          ) you finish your vegetables, you can have dessert.",Unless,If,Although,Since,2,野菜を食べ終えたら、デザートを食べてよい。
+接続詞,She acted (          ) nothing had happened.,because,as if,although,since,2,彼女は何事もなかったかのように振る舞った。
+接続詞,"(          ) the instructions were clear, some students were still confused.",Because,Even though,Since,Unless,2,指示は明確だったにもかかわらず、まだ混乱している学生がいた。
+接続詞,He kept practicing (          ) he could play the piece perfectly.,until,while,although,since,1,完璧に弾けるようになるまで、彼は練習し続けた。
+間接疑問文,I do not know (          ) his name is.,that,what,which,who,2,私は彼の名前が何か知らない。
+間接疑問文,Can you tell me (          ) time it is?,that,what,which,who,2,何時か教えてもらえますか？
+間接疑問文,She asked me (          ) I wanted for lunch.,that,what,which,who,2,彼女は私に昼食に何が食べたいか聞いた。
+間接疑問文,I wonder (          ) she is doing now.,that,what,which,who,2,彼女が今何をしているのか気になる。
+間接疑問文,Do you know (          ) the problem is?,that,what,which,who,2,問題が何か分かりますか？
+間接疑問文,He could not figure out (          ) had gone wrong.,that,what,which,who,2,彼は何がうまくいかなかったのか理解できなかった。
+間接疑問文,Please tell me (          ) you need.,that,what,which,who,2,何が必要か教えてください。
+間接疑問文,I have no idea (          ) she meant by that.,that,what,which,who,2,彼女がそれで何を意味したのか全くわからない。
+間接疑問文,She could not decide (          ) to order.,that,what,which,who,2,彼女は何を注文するか決められなかった。
+間接疑問文,Can you tell me (          ) this word means?,that,what,which,who,2,この言葉が何を意味するか教えてもらえますか？
+間接疑問文,I do not know (          ) broke the window.,that,what,which,who,4,誰が窓を割ったか知らない。
+間接疑問文,Do you know (          ) she is?,that,what,which,who,4,彼女が誰か知っていますか？
+間接疑問文,She asked me (          ) had called while she was out.,that,what,which,who,4,彼女は外出中に誰が電話してきたか私に聞いた。
+間接疑問文,Can you tell me (          ) is in charge of this project?,that,what,which,who,4,このプロジェクトを誰が担当しているか教えてもらえますか？
+間接疑問文,I wonder (          ) will win the championship.,that,what,which,who,4,誰が優勝するのか気になる。
+間接疑問文,He does not know (          ) to trust in this situation.,that,what,which,who,4,彼はこの状況で誰を信頼すればよいか分からない。
+間接疑問文,Do you have any idea (          ) left this bag here?,that,what,which,who,4,誰がここにこのバッグを置いたか分かりますか？
+間接疑問文,I do not know (          ) she lives.,when,where,why,how,2,彼女がどこに住んでいるか知らない。
+間接疑問文,Can you tell me (          ) the nearest station is?,when,where,why,how,2,最寄りの駅がどこか教えてもらえますか？
+間接疑問文,She asked me (          ) I had bought the bag.,when,where,why,how,2,彼女は私がそのバッグをどこで買ったか聞いた。
+間接疑問文,Do you know (          ) the meeting will be held?,when,where,why,how,2,会議がどこで開かれるか知っていますか？
+間接疑問文,I wonder (          ) he went after the party.,when,where,why,how,2,パーティーの後、彼がどこへ行ったのか気になる。
+間接疑問文,He could not remember (          ) he had parked his car.,when,where,why,how,2,彼は車をどこに駐車したか思い出せなかった。
+間接疑問文,I do not know (          ) she will arrive.,where,when,why,how,2,彼女がいつ到着するか知らない。
+間接疑問文,Can you tell me (          ) the next train leaves?,where,when,why,how,2,次の電車がいつ出発するか教えてもらえますか？
+間接疑問文,She asked me (          ) I had started learning Japanese.,where,when,why,how,2,彼女は私がいつ日本語を学び始めたか聞いた。
+間接疑問文,Do you know (          ) the store opens?,where,when,why,how,2,その店がいつ開くか知っていますか？
+間接疑問文,I wonder (          ) they will announce the results.,where,when,why,how,2,いつ結果が発表されるのか気になる。
+間接疑問文,I do not understand (          ) he quit his job.,where,when,why,how,3,彼がなぜ仕事を辞めたか理解できない。
+間接疑問文,Can you explain (          ) you were late?,where,when,why,how,3,なぜ遅刻したか説明してもらえますか？
+間接疑問文,She asked me (          ) I looked so sad.,where,when,why,how,3,彼女は私がなぜそんなに悲しそうに見えるか聞いた。
+間接疑問文,Do you know (          ) the project was cancelled?,where,when,why,how,3,プロジェクトがなぜキャンセルされたか知っていますか？
+間接疑問文,I wonder (          ) she did not respond to my email.,where,when,why,how,3,彼女がなぜ私のメールに返信しなかったのか気になる。
+間接疑問文,He could not understand (          ) she was so upset.,where,when,why,how,3,彼は彼女がなぜそんなに動揺しているか理解できなかった。
+間接疑問文,I do not know (          ) to get to the museum.,where,when,why,how,4,博物館へどうやって行けばよいか知らない。
+間接疑問文,Can you show me (          ) to use this machine?,where,when,why,how,4,この機械の使い方を教えてもらえますか？
+間接疑問文,She asked me (          ) I had managed to finish so quickly.,where,when,why,how,4,彼女は私がどうやってそんなに早く終えたか聞いた。
+間接疑問文,Do you know (          ) much this costs?,where,when,why,how,4,これがいくらするか知っていますか？
+間接疑問文,I wonder (          ) long it will take to get there.,where,when,why,how,4,そこに着くのにどのくらいかかるか気になる。
+間接疑問文,He could not figure out (          ) she had solved the problem.,where,when,why,how,4,彼は彼女がどうやって問題を解いたか理解できなかった。
+間接疑問文,Please tell me (          ) many people attended the event.,where,when,why,how,4,イベントに何人参加したか教えてください。
+間接疑問文,I do not know (          ) road to take.,what,which,who,where,2,どの道を行けばよいか分からない。
+間接疑問文,Can you tell me (          ) bus goes to the city center?,what,which,who,where,2,どのバスが市内中心部に行くか教えてもらえますか？
+間接疑問文,She could not decide (          ) dress to wear.,what,which,who,where,2,彼女はどのドレスを着るか決められなかった。
+間接疑問文,Do you know (          ) option is better?,what,which,who,where,2,どちらの選択肢がよいか知っていますか？
+間接疑問文,He asked me (          ) team I supported.,what,which,who,where,2,彼は私がどのチームを応援しているか聞いた。
+間接疑問文,I do not know (          ) she will come or not.,that,what,whether,who,3,彼女が来るかどうか知らない。
+間接疑問文,Can you tell me (          ) this is the right way?,that,what,if,who,3,これが正しい道か教えてもらえますか？
+間接疑問文,She asked me (          ) I had eaten breakfast.,that,what,whether,who,3,彼女は私が朝食を食べたかどうか聞いた。
+間接疑問文,Do you know (          ) the shop is open on Sundays?,that,what,if,who,3,その店が日曜日に開いているかどうか知っていますか？
+間接疑問文,I wonder (          ) he is telling the truth.,that,what,whether,who,3,彼が本当のことを言っているかどうか気になる。
+間接疑問文,He was not sure (          ) to accept the offer.,that,what,whether,who,3,彼はその申し出を受け入れるべきかどうか確信が持てなかった。
+間接疑問文,She asked (          ) anyone had seen her cat.,that,what,if,who,3,彼女は誰か猫を見かけなかったか聞いた。
+間接疑問文,I am not sure (          ) this is a good idea.,that,what,whether,who,3,これが良いアイデアかどうか確信が持てない。
+間接疑問文,I do not know where (          ).,does she live,she lives,lives she,is she living,2,彼女がどこに住んでいるか知らない。
+間接疑問文,Can you tell me what time (          )?,does the train leave,the train leaves,leaves the train,the train is leaving,2,電車が何時に出発するか教えてもらえますか？
+間接疑問文,I wonder why (          ) so early.,did she leave,she left,left she,has she left,2,彼女がなぜそんなに早く去ったのか気になる。
+間接疑問文,Do you know how long (          ) here?,has he been living,does he live,lives he,he has been living,4,彼がここにどのくらい住んでいるか知っていますか？
+間接疑問文,She asked me how much (          ).,did it cost,it cost,cost it,costs it,2,彼女は私にそれがいくらかかったか聞いた。
+間接疑問文,I have no idea when (          ).,did she arrive,she arrived,arrived she,has she arrived,2,彼女がいつ到着したか全くわからない。
+間接疑問文,Can you explain why (          ) late?,were you,you were,are you,you are,2,なぜ遅れたか説明してもらえますか？
+間接疑問文,I do not understand how (          ) so quickly.,did he finish,he finished,finished he,has he finished,2,彼がどのようにそんなに早く終えたか理解できない。
+間接疑問文,Do you know who (          ) the window?,did break,broke,has broken,break,2,誰が窓を割ったか知っていますか？
+間接疑問文,She asked me where (          ) the bag.,did I find,I had found,had I found,I found,2,彼女は私がそのバッグをどこで見つけたか聞いた。
+間接疑問文,I am not sure (          ) to do next.,that,what,whether,who,2,次に何をすべきか確信が持てない。
+間接疑問文,She did not know (          ) to turn for help.,that,where,whether,who,2,彼女は誰に助けを求めればよいか分からなかった。
+間接疑問文,He could not decide (          ) to stay or leave.,that,what,whether,who,3,彼は留まるべきか去るべきか決められなかった。
+間接疑問文,I wonder (          ) to begin the project.,that,where,whether,how,4,そのプロジェクトをどのように始めればよいか気になる。
+間接疑問文,She asked me (          ) to send the package.,that,where,whether,who,2,彼女は私に荷物をどこに送ればよいか聞いた。
+間接疑問文,Do you know (          ) to contact in an emergency?,that,what,whether,who,4,緊急時に誰に連絡すればよいか知っていますか？
+間接疑問文,He was not sure (          ) to park his car.,that,where,whether,who,2,彼は車をどこに駐車すればよいか確信が持てなかった。
+間接疑問文,I do not know (          ) to believe anymore.,that,what,whether,who,2,何を信じればよいかもはや分からない。
+間接疑問文,Nobody knows (          ) the treasure is hidden.,when,where,why,how,2,宝がどこに隠されているか誰も知らない。
+間接疑問文,The question is (          ) we can afford it.,that,what,whether,who,3,問題はそれを買う余裕があるかどうかだ。
+間接疑問文,It is unclear (          ) the meeting will be postponed.,that,what,whether,who,3,会議が延期されるかどうかは不明だ。
+間接疑問文,Can you tell me (          ) this package should be delivered?,that,where,whether,who,2,この荷物をどこに届ければよいか教えてもらえますか？
+間接疑問文,I cannot imagine (          ) she must be feeling right now.,that,what,whether,who,2,彼女が今どんな気持ちでいるか想像できない。
+間接疑問文,She explained (          ) she had made the decision.,that,what,why,who,3,彼女はなぜその決断をしたか説明した。
+間接疑問文,Do you have any idea (          ) long the surgery will take?,what,how,where,when,2,手術にどのくらいかかるか見当がつきますか？
+間接疑問文,He refused to say (          ) he had been that night.,that,what,where,who,3,彼はその夜どこにいたか言おうとしなかった。
+間接疑問文,I am curious about (          ) she reacted to the news.,that,what,how,who,3,彼女がそのニュースにどう反応したか気になる。
+間接疑問文,Please let me know (          ) you will be able to attend.,that,what,whether,who,3,出席できるかどうか教えてください。
+間接疑問文,The report explains (          ) the accident occurred.,when,where,why,how,3,レポートはなぜその事故が起きたかを説明している。
+間接疑問文,I still do not understand (          ) she meant by those words.,when,where,what,how,3,彼女があの言葉で何を意味したのかまだ理解できない。
+間接疑問文,She remembered (          ) she had first met him.,when,where,what,how,1,彼女は彼に初めて会ったのがいつだったか覚えていた。
+間接疑問文,He told the police (          ) he had been attacked.,when,where,what,how,2,彼はどこで襲われたかを警察に話した。
+間接疑問文,We discussed (          ) the new strategy should be implemented.,when,where,what,how,1,新しい戦略をいつ実施すべきか話し合った。
+間接疑問文,I would like to know (          ) you managed to stay calm.,when,where,what,how,4,あなたがどのようにして落ち着いていられたか知りたい。
+間接疑問文,She is unsure (          ) her application was accepted.,when,where,whether,how,3,彼女は自分の申込みが受け入れられたかどうか確信が持てない。
+間接疑問文,Could you explain (          ) this formula works?,when,where,what,how,4,この公式がどのように機能するか説明してもらえますか？
+間接疑問文,The investigation revealed (          ) had leaked the information.,when,where,what,who,4,調査は誰が情報を漏らしたかを明らかにした。
+間接疑問文,I cannot recall (          ) I last saw my passport.,when,where,what,how,1,パスポートを最後に見たのがいつか思い出せない。
+間接疑問文,I asked him (          ) he had finished the assignment.,when,where,whether,who,3,私は彼が課題を終えたかどうか聞いた。
+間接疑問文,Do you know (          ) caused the power outage?,when,where,what,who,4,停電の原因が何か知っていますか？
+間接疑問文,She was wondering (          ) the caf? would still be open.,when,where,whether,who,3,彼女はそのカフェがまだ開いているかどうか気になっていた。
+間接疑問文,I cannot tell (          ) he is serious or joking.,when,where,whether,who,3,彼が本気なのか冗談なのか判断できない。
+間接疑問文,He wants to find out (          ) flight is the cheapest.,when,which,whether,who,2,どのフライトが最も安いか調べたい。
+間接疑問文,She explained (          ) she had been absent from school.,when,where,why,who,3,彼女は学校を休んだ理由を説明した。
+間接疑問文,I would like to know (          ) the package will arrive.,when,where,whether,who,1,荷物がいつ届くか知りたい。
+間接疑問文,Can you tell me (          ) the head office is located?,when,where,whether,who,2,本社がどこにあるか教えてもらえますか？
+特殊構文,It (          ) she that solved the problem.,is,was,has been,had been,2,問題を解いたのは彼女だった。
+特殊構文,It was in Tokyo (          ) they first met.,which,who,that,where,3,彼らが初めて出会ったのは東京だった。
+特殊構文,It was yesterday (          ) he submitted the report.,which,who,that,when,3,彼がレポートを提出したのは昨日だった。
+特殊構文,It is hard work (          ) leads to success.,which,who,that,what,3,成功につながるのは努力だ。
+特殊構文,It was the manager (          ) approved the plan.,which,who,that,what,3,その計画を承認したのはマネージャーだった。
+特殊構文,It was not until midnight (          ) she finally came home.,which,who,that,when,3,彼女がようやく帰宅したのは真夜中になってからだった。
+特殊構文,It is kindness (          ) she values most.,which,who,that,what,3,彼女が最も大切にしているのは親切さだ。
+特殊構文,It was the heavy rain (          ) caused the flood.,which,who,that,what,3,洪水を引き起こしたのは大雨だった。
+特殊構文,It was at the library (          ) I found the rare book.,which,who,that,where,3,その珍しい本を見つけたのは図書館だった。
+特殊構文,It is his dedication (          ) sets him apart from others.,which,who,that,what,3,彼を他の人と区別しているのは彼の献身だ。
+特殊構文,Never (          ) such a beautiful sunset before.,I have seen,have I seen,I had seen,had I seen,2,このような美しい夕日を今まで見たことがなかった。
+特殊構文,Seldom (          ) to bed before midnight.,she goes,goes she,did she go,she went,2,彼女はめったに真夜中前に寝ない。
+特殊構文,Hardly (          ) sat down when the phone rang.,I had,had I,I have,have I,2,座ったとたんに電話が鳴った。
+特殊構文,No sooner (          ) arrived than it started to rain.,he had,had he,he has,has he,2,彼が到着するとすぐに雨が降り始めた。
+特殊構文,"Not only (          ) late, but he also forgot his homework.",he was,was he,he is,is he,2,彼は遅刻しただけでなく、宿題も忘れた。
+特殊構文,Rarely (          ) someone so talented.,I meet,do I meet,I have met,have I met,2,こんなに才能のある人に会うことはめったにない。
+特殊構文,Little (          ) that he was being watched.,he knew,did he know,he did know,knew he,2,彼は監視されていることをほとんど知らなかった。
+特殊構文,Under no circumstances (          ) leave this door open.,you should,should you,you must,must you,2,いかなる状況でも、このドアを開けたままにしてはいけない。
+特殊構文,Not until she apologized (          ) calm down.,he would,would he,he did,did he,2,彼女が謝ってはじめて、彼は落ち着いた。
+特殊構文,Only then (          ) how serious the situation was.,I realized,did I realize,I had realized,had I realized,2,そのときになってはじめて、状況がいかに深刻かを理解した。
+特殊構文,On the desk (          ) a pile of books.,sits,sat,was,lay,4,机の上には本の山が置かれていた。
+特殊構文,Here (          ) the bus!,come,comes,is coming,came,2,バスが来た！
+特殊構文,Down (          ) the mountain the hikers.,came,come,were coming,had come,1,登山者たちは山から下りてきた。
+特殊構文,In the corner (          ) an old piano.,stood,stands,was standing,had stood,1,コーナーに古いピアノが置かれていた。
+特殊構文,Along the road (          ) a row of cherry trees.,stretches,stretch,stretched,had stretched,3,道路沿いに桜の木が並んでいた。
+特殊構文,"If I (          ) rich, I would buy a big house.",am,was,were,had been,3,もしお金持ちなら、大きな家を買うのに。
+特殊構文,"If she (          ) here, she would help us.",is,was,were,had been,3,もし彼女がここにいれば、助けてくれるのに。
+特殊構文,I wish I (          ) speak fluent French.,can,could,would,should,2,フランス語を流暢に話せたらいいのに。
+特殊構文,"If he (          ) more carefully, he would not make so many mistakes.",reads,read,were reading,had read,2,もし彼がもっと注意深く読めば、そんなにミスをしないのに。
+特殊構文,She talks as if she (          ) everything.,knows,knew,would know,had known,2,彼女はまるで何でも知っているかのように話す。
+特殊構文,I wish it (          ) raining. I want to go outside.,stops,stopped,would stop,had stopped,3,雨がやめばいいのに。外に出たい。
+特殊構文,If only I (          ) harder when I was young.,study,studied,had studied,would study,3,若いころにもっと勉強していたら良かったのに。
+特殊構文,"If she (          ) harder, she would have passed the exam.",studied,had studied,studies,were studying,2,もし彼女がもっと一生懸命勉強していたら、試験に合格していたのに。
+特殊構文,"If I (          ) the map, I would not have gotten lost.",had,have had,had had,would have had,3,地図を持っていたら、迷子にならなかったのに。
+特殊構文,He would have succeeded if he (          ) given up.,did not,had not,would not have,was not,2,あきらめていなければ、彼は成功していただろう。
+特殊構文,"If you (          ) me, I could have helped you.",told,had told,would tell,were telling,2,私に話してくれていたら、助けられたのに。
+特殊構文,She acted as if nothing (          ).,happens,happened,had happened,would happen,3,まるで何も起きなかったかのように彼女は行動した。
+特殊構文,"If he had taken better care of himself, he (          ) healthier now.",is,was,would be,would have been,3,もし彼がもっと自分の体を大切にしていたら、今頃もっと健康だろう。
+特殊構文,"If I had studied medicine, I (          ) a doctor now.",am,was,would be,would have been,3,医学を勉強していたら、今頃医者になっていただろう。
+特殊構文,"She can play the piano, and so (          ) her sister.",do,can,does,is,2,彼女はピアノが弾けるし、姉もそうだ。
+特殊構文,"I do not like spicy food, and neither (          ) he.",do,does,is,has,2,私は辛い食べ物が好きではないし、彼もそうだ。
+特殊構文,"He was tired, and so (          ) I.",do,was,am,were,2,彼は疲れていたし、私もそうだった。
+特殊構文,"I have never been to Paris, and neither (          ) she.",does,has,is,was,2,私はパリに行ったことがないし、彼女もそうだ。
+特殊構文,"She finished her homework, and so (          ) her brother.",does,did,has,was,2,彼女は宿題を終えたし、弟もそうだ。
+特殊構文,A few more minutes (          ) us miss the train.,made,caused,had,would have,1,あと数分で私たちは電車に乗り遅れるところだった。
+特殊構文,What (          ) you think so?,does,makes,has,is,2,なぜそう思うのですか？
+特殊構文,The heavy snow (          ) us stay indoors.,caused,made,forced,kept,4,大雪のせいで私たちは室内にいるしかなかった。
+特殊構文,His careless remark (          ) her burst into tears.,did,made,had,caused,2,彼の不注意な発言が彼女を泣かせた。
+特殊構文,Five minutes' walk (          ) you to the station.,takes,brings,leads,carries,2,徒歩5分で駅に着きます。
+特殊構文,(          ) I need is more time.,It is,What,That,Which,2,私に必要なのはもっと時間だ。
+特殊構文,(          ) surprised me most was her patience.,It is,What,That,Which,2,私が最も驚いたのは彼女の忍耐強さだった。
+特殊構文,(          ) he did was apologize immediately.,It is,What,That,All,4,彼がしたのはすぐに謝ることだった。
+特殊構文,"(          ) matters is the effort, not the result.",It is,What,That,Which,2,重要なのは努力であって、結果ではない。
+特殊構文,(          ) she wants is a little peace and quiet.,It is,What,That,Which,2,彼女が求めているのは少しの静けさだ。
+特殊構文,"She is a teacher, (          )?",is she,isn't she,was she,wasn't she,2,彼女は教師ですよね？
+特殊構文,"He does not like coffee, (          )?",does he,doesn't he,did he,didn't he,1,彼はコーヒーが好きではありませんよね？
+特殊構文,"They went to the party, (          )?",do they,don't they,did they,didn't they,4,彼らはパーティーに行ったよね？
+特殊構文,"You have met her before, (          )?",have you,haven't you,did you,didn't you,2,以前彼女に会ったことがありますよね？
+特殊構文,"Let's take a break, (          )?",will we,shall we,do we,can we,2,少し休憩しましょうか？
+特殊構文,"Nobody called, (          )?",did they,didn't they,did he,didn't he,1,誰も電話してきませんでしたよね？
+特殊構文,"I am right, (          )?",am I not,aren't I,isn't I,is I not,2,私は正しいですよね？
+特殊構文,"Don't be late, (          )?",will you,won't you,shall you,do you,1,遅れないでくださいね？
+特殊構文,(          ) a cat on the roof.,It is,There is,There are,Here is,2,屋根の上に猫がいる。
+特殊構文,(          ) many people in the park today.,It is,There is,There are,Here are,3,今日は公園にたくさんの人がいる。
+特殊構文,(          ) nothing to worry about.,It is,There is,There are,Here is,2,心配することは何もない。
+特殊構文,(          ) used to be a cinema on this street.,It,There,Here,That,2,この通りにはかつて映画館があった。
+特殊構文,(          ) no point arguing about it.,It is,There is,There are,Here is,2,それについて議論しても意味がない。
+特殊構文,The news (          ) he had resigned shocked everyone.,which,that,what,who,2,彼が辞任したというニュースは全員を驚かせた。
+特殊構文,The idea (          ) we should work together is brilliant.,which,that,what,who,2,一緒に働くべきだというアイデアは素晴らしい。
+特殊構文,The fact (          ) she passed the exam made her parents proud.,which,that,what,who,2,彼女が試験に合格したという事実は両親を誇らしくさせた。
+特殊構文,The rumor (          ) the company would close turned out to be false.,which,that,what,who,2,会社が閉鎖するという噂は嘘だとわかった。
+特殊構文,I could (          ) believe what I saw.,not hardly,hardly,scarcely not,not barely,2,私は自分が見たものがほとんど信じられなかった。
+特殊構文,She (          ) left before saying goodbye.,not,never,hardly,scarcely,2,彼女は決して別れを告げずに去らなかった。
+特殊構文,He has (          ) money to spare.,not,little,few,no,4,彼には余分なお金が全くない。
+特殊構文,(          ) a word did she say during the meeting.,No,Not,Never,None,1,会議中、彼女は一言も話さなかった。
+特殊構文,I do not think (          ) of them knew the answer.,any,some,many,few,1,彼らのうち誰もその答えを知らなかったと思う。
+特殊構文,She (          ) work very hard every day.,is,does,has,was,2,彼女は本当に毎日一生懸命働く。
+特殊構文,I (          ) want you to understand how serious this is.,am,do,have,was,2,これがどれほど深刻か、ぜひ理解してほしい。
+特殊構文,"He (          ) apologize in the end, though it took a while.",was,did,has,had,2,時間はかかったが、彼は最終的に謝った。
+特殊構文,Please (          ) come to the party. It would mean a lot.,do,does,did,have,1,ぜひパーティーに来てください。とても嬉しいです。
+特殊構文,His (          ) of the language is impressive.,command,commanding,commanded,commands,1,彼の言語能力は印象的だ。
+特殊構文,She showed great (          ) in solving the crisis.,leader,leading,leadership,led,3,彼女は危機を解決するにあたり、卓越したリーダーシップを発揮した。
+特殊構文,So great (          ) her surprise that she dropped the glass.,is,was,had been,were,2,彼女の驚きはとても大きく、グラスを落としてしまった。
+特殊構文,Such (          ) the impact of the speech that many were moved to tears.,is,was,were,had been,2,演説の影響はとても大きく、多くの人が涙を流した。
+特殊構文,Only by working together (          ) solve the problem.,we can,can we,we could,could we,2,力を合わせてはじめて、その問題を解決できる。
+特殊構文,"Had (          ) known about it earlier, we could have helped.",we,us,our,ours,1,もし早く知っていたら、助けられたのに。（ifの省略）
+特殊構文,"Were (          ) in your position, I would accept the offer.",I,me,my,mine,1,もし私があなたの立場なら、その申し出を受け入れるだろう。（ifの省略）
+特殊構文,"Should (          ) need any assistance, please contact us.",you,your,yours,yourself,1,もし何かご支援が必要でしたら、ご連絡ください。（ifの省略）
+特殊構文,It is not until you lose something (          ) you realize its value.,which,that,what,when,2,何かを失ってはじめて、その価値に気づく。
+特殊構文,Never before (          ) so many people gathered in one place.,they have,have they,they had,had they,2,これほど多くの人が一か所に集まったことはかつてなかった。
+特殊構文,Not a single word (          ) during the entire ceremony.,she spoke,did she speak,she did speak,spoke she,2,式典の間中、彼女は一言も話さなかった。
+特殊構文,"The more you practice, (          ) you become.",the more better,the better,better,more better,2,練習すればするほど、うまくなる。
+特殊構文,"The sooner you start, (          ) you will finish.",the sooner,the earlier,the faster,sooner,1,早く始めるほど、早く終わる。
+特殊構文,"Tired (          ) he was, he kept on walking.",although,as,because,since,2,疲れていたにもかかわらず、彼は歩き続けた。（譲歩の倒置）
+特殊構文,"Child (          ) she is, she understands the situation well.",although,as,because,since,2,子どもながら、彼女は状況をよく理解している。（譲歩の倒置）
+特殊構文,It goes without saying (          ) health is more important than wealth.,which,that,what,who,2,健康が富より重要なのは言うまでもない。
+特殊構文,"No matter (          ) hard you try, you cannot please everyone.",what,how,which,where,2,どんなに頑張っても、全員を満足させることはできない。
+特殊構文,It was not long (          ) she realized her mistake.,when,before,after,until,2,彼女はすぐに自分のミスに気づいた。
+特殊構文,So tired was he (          ) he fell asleep at his desk.,which,that,what,when,2,彼はとても疲れていたので、机で眠ってしまった。
+特殊構文,"(          ) she may be wrong, I still support her.",Even if,Even though,Although,However,2,彼女が間違っているとしても、私は彼女を支持する。
+助動詞,She (          ) speak three languages fluently.,may,can,must,should,2,彼女は3つの言語を流暢に話すことができる。
+助動詞,(          ) you help me carry this box?,May,Can,Must,Should,2,この箱を運ぶのを手伝ってもらえますか？
+助動詞,He (          ) run very fast when he was young.,can,could,may,might,2,彼は若いころ、とても速く走ることができた。
+助動詞,I (          ) find my keys anywhere. Have you seen them?,cannot,may not,must not,should not,1,どこにも鍵が見つからない。見かけましたか？
+助動詞,(          ) you swim when you were five?,Can,Could,May,Might,2,5歳のとき泳げましたか？
+助動詞,This (          ) be the right address. It looks different.,cannot,may not,must not,should not,1,これは正しい住所のはずがない。様子が違う。
+助動詞,She (          ) not have heard the news yet.,can,may,must,should,2,彼女はまだそのニュースを聞いていないかもしれない。
+助動詞,(          ) I use your phone for a moment?,Must,Should,Can,Shall,3,少しの間、電話を使ってもいいですか？
+助動詞,You (          ) leave early if you finish your work.,must,may,should,shall,2,仕事が終わったら早退してもよい。
+助動詞,"It (          ) rain later, so take an umbrella.",must,may,should,shall,2,後で雨が降るかもしれないので、傘を持って行きなさい。
+助動詞,(          ) I come in?,Must,Should,May,Shall,3,入ってもよいですか？
+助動詞,He (          ) be at home. I saw his car outside.,might,may,must,should,3,彼は家にいるかもしれない。外で彼の車を見かけた。
+助動詞,She said I (          ) borrow her notes.,must,may,should,shall,2,彼女は私がノートを借りてもよいと言った。
+助動詞,"The story (          ) be true, but I doubt it.",might,may,must,should,1,その話は本当かもしれないが、私は疑っている。
+助動詞,(          ) you be happy in your new life!,May,Must,Should,Can,1,新しい生活で幸せでありますように！
+助動詞,You (          ) wear a seatbelt while driving.,may,might,must,should,3,運転中はシートベルトを着用しなければならない。
+助動詞,She (          ) be exhausted after running a marathon.,may,might,must,should,3,マラソンを走った後、彼女は疲れ果てているに違いない。
+助動詞,You (          ) not park here. It is a no-parking zone.,may,must,should,can,2,ここに駐車してはいけない。駐車禁止区域だ。
+助動詞,He worked all night. He (          ) be very tired now.,may,might,must,should,3,彼は一晩中働いた。今とても疲れているに違いない。
+助動詞,All passengers (          ) show their tickets at the gate.,may,might,must,would,3,すべての乗客は改札でチケットを提示しなければならない。
+助動詞,This (          ) be the answer. Everything fits perfectly.,may,might,must,should,3,これが答えに違いない。すべてがぴたりと合う。
+助動詞,You (          ) see a doctor if you feel unwell.,must,should,may,might,2,気分が悪ければ、医者に診てもらうべきだ。
+助動詞,She (          ) have called before coming over.,must,should,may,might,2,彼女は来る前に電話すべきだった。
+助動詞,The package (          ) arrive by Friday if sent today.,must,should,may,might,2,今日送れば、荷物は金曜日までに届くはずだ。
+助動詞,You (          ) not talk during the exam.,must,should,may,might,2,試験中は話してはいけない。
+助動詞,He (          ) apologize for what he said.,must,should,may,might,2,彼は言ったことについて謝るべきだ。
+助動詞,"(          ) anyone ask, tell them I am in a meeting.",Must,Should,May,Might,2,もし誰かが聞いたら、会議中だと伝えてください。
+助動詞,(          ) you please close the window?,Shall,Will,Must,Should,2,窓を閉めていただけますか？
+助動詞,She (          ) always hum while working.,will,would,must,should,2,彼女は仕事中いつも鼻歌を歌っていた。
+助動詞,I (          ) call you as soon as I arrive.,shall,will,must,should,2,到着したらすぐに電話します。
+助動詞,(          ) you like another cup of tea?,Will,Would,Must,Should,2,紅茶をもう一杯いかがですか？
+助動詞,"No matter how many times I explained, he (          ) not listen.",will,would,must,should,2,何度説明しても、彼は聞こうとしなかった。
+助動詞,(          ) I carry that for you?,Shall,Will,Must,Should,1,それを持ちましょうか？
+助動詞,She said she (          ) meet us at the station.,will,would,must,should,2,彼女は駅で会うと言った。
+助動詞,(          ) we go for a walk after dinner?,Will,Shall,Must,Should,2,夕食後に散歩に行きませんか？
+助動詞,(          ) I open the window? It is stuffy in here.,Will,Shall,Must,Should,2,窓を開けましょうか？ここは蒸し暑い。
+助動詞,What time (          ) we meet tomorrow?,will,shall,must,should,2,明日は何時に会いましょうか？
+助動詞,You (          ) finish this by tomorrow. It is urgent.,do not have to,have to,should not,might not,2,これを明日までに終わらせなければならない。急ぎだ。
+助動詞,You (          ) come if you are busy. It is not mandatory.,do not have to,must not,should not,cannot,1,忙しければ来なくてよい。必須ではない。
+助動詞,She (          ) wear a uniform at her new school.,does not have to,has to,should not,might not,2,彼女は新しい学校で制服を着なければならない。
+助動詞,We (          ) hurry. We have plenty of time.,do not have to,must not,should not,cannot,1,急がなくてよい。十分時間がある。
+助動詞,You (          ) see a doctor immediately. Your fever is very high.,might,should,had better,would rather,3,すぐに医者に診てもらった方がよい。熱がとても高い。
+助動詞,We (          ) leave now or we will miss the train.,might,should,had better,would rather,3,今出発した方がよい。さもないと電車に乗り遅れる。
+助動詞,You (          ) not say anything like that to her. She will be upset.,might,should,had better,would rather,3,彼女にそんなことを言わない方がよい。怒らせてしまう。
+助動詞,He (          ) apologize before the situation gets worse.,might,should,had better,would rather,3,状況が悪化する前に、彼は謝った方がよい。
+助動詞,I (          ) stay home than go out in this rain.,had better,would rather,should,must,2,この雨の中外出するより、家にいたい。
+助動詞,She (          ) read a book than watch TV.,had better,would rather,should,must,2,彼女はテレビを見るより本を読みたい。
+助動詞,(          ) you prefer coffee or tea?,Would,Should,Must,Shall,1,コーヒーと紅茶、どちらがよいですか？
+助動詞,He said he (          ) not discuss the matter further.,had better,would rather,should,must,2,彼はその件についてこれ以上話し合いたくないと言った。
+助動詞,She (          ) have taken the wrong bus. She is not here yet.,must,should,may,can,3,彼女は違うバスに乗ったかもしれない。まだ来ていない。
+助動詞,You (          ) have told me earlier. I could have helped.,must,should,may,can,2,もっと早く言ってくれればよかった。助けられたのに。
+助動詞,He (          ) have known about it. He was there the whole time.,must,should,may,might,1,彼はそのことを知っていたに違いない。ずっとそこにいたのだから。
+助動詞,She (          ) have left her phone at home. She cannot find it.,must,should,may,can,3,彼女は家に電話を忘れてきたかもしれない。見つからない。
+助動詞,I (          ) have been more careful. It was my fault.,must,should,may,can,2,もっと注意すべきだった。私のせいだ。
+助動詞,They (          ) have arrived by now. Something must be wrong.,should,must,may,can,1,彼らはもう到着しているはずだ。何かがおかしい。
+助動詞,He (          ) not have understood the instructions. He did it all wrong.,must,may,should,can,2,彼は指示を理解していなかったかもしれない。全部間違えた。
+助動詞,She (          ) have been sleeping when you called. She was very tired.,must,should,may,can,3,あなたが電話したとき、彼女は眠っていたかもしれない。とても疲れていたから。
+助動詞,You (          ) have driven so fast. It was very dangerous.,must not,should not,may not,could not,2,そんなに速く運転すべきではなかった。とても危険だった。
+助動詞,He (          ) have finished the project alone. It was too much work.,cannot,should not,may not,must not,1,彼が一人でそのプロジェクトを終わらせたはずがない。作業量が多すぎた。
+助動詞,(          ) you tell me where the post office is?,Must,Should,Could,Shall,3,郵便局がどこか教えていただけますか？
+助動詞,"When I was young, I (          ) climb trees easily.",can,could,may,might,2,若いころ、私は簡単に木に登れた。
+助動詞,He (          ) be at the library. He often studies there.,must,should,could,shall,3,彼は図書館にいるかもしれない。よくそこで勉強している。
+助動詞,(          ) you hold this for a moment?,Must,Should,Could,Shall,3,少しの間これを持っていただけますか？
+助動詞,She (          ) not believe what she was hearing.,could,can,may,might,1,彼女は自分が聞いていることが信じられなかった。
+助動詞,If only I (          ) turn back time.,can,could,may,might,2,時間を戻せたらいいのに。
+助動詞,You (          ) not worry about the exam. You are well prepared.,must,need,may,should,2,試験を心配する必要はない。よく準備できている。
+助動詞,(          ) she really behave so rudely in public?,Must,Need,Dare,Should,3,彼女は本当に人前でそんなに失礼に振る舞う度胸があるのか？
+助動詞,He (          ) not have said that in front of everyone.,need,dare,must,should,2,彼は全員の前でそんなことを言う必要はなかった。
+助動詞,(          ) I open the presents now?,Must,Need,May,Shall,3,今プレゼントを開けてもいいですか？
+助動詞,You (          ) as well wait here. The meeting will start soon.,might,had,could,should,1,ここで待った方がいいかもしれない。会議はもうすぐ始まる。
+助動詞,I (          ) as well give up. Nothing seems to work.,might,had,could,should,1,あきらめた方がいいかもしれない。何もうまくいかないようだ。
+助動詞,She used to (          ) to work by bicycle.,go,going,gone,went,1,彼女はかつて自転車で仕事に行っていた。
+助動詞,He (          ) to be a great musician when he was young.,used,would,could,should,1,彼は若いころ、優れた音楽家だった。
+助動詞,There (          ) to be a bakery on this corner.,used,would,could,should,1,このコーナーにはかつてパン屋があった。
+助動詞,"By now, she (          ) have reached the summit.",must,should,might,could,3,今頃、彼女は山頂に達しているかもしれない。
+助動詞,You (          ) not have bothered. I could have done it myself.,must,need,should,would,2,わざわざしてくれなくてよかったのに。自分でできたから。
+助動詞,He (          ) well be the most qualified candidate.,might,may,could,should,2,彼はおそらく最も適格な候補者かもしれない。
+助動詞,(          ) I have known you would say that!,Should,Might,Could,Would,3,あなたがそう言うと分かっていればよかった！
+助動詞,The meeting (          ) have been avoided with better communication.,should,could,must,would,2,より良いコミュニケーションがあれば、会議は避けられたかもしれない。
+助動詞,She (          ) not possibly have known about the secret.,must,could,should,would,2,彼女がその秘密を知っていたはずがない。
+助動詞,You (          ) have seen the look on his face!,should,must,could,would,3,彼の顔を見ればよかった！
+助動詞,He insisted that the report (          ) be submitted by Monday.,must,should,may,would,2,彼はレポートを月曜日までに提出すべきだと主張した。
+助動詞,It is strange that she (          ) say such a thing.,must,should,may,would,2,彼女がそんなことを言うとは奇妙だ。
+助動詞,"However hard she (          ) try, she could not open the jar.",must,should,might,would,3,どんなに頑張っても、彼女は瓶を開けられなかった。
+助動詞,(          ) he betray his own friends!,Must,Should,Dare,Would,4,彼が自分の友人を裏切るとは！
+助動詞,"If you (          ) insist, I will go with you.",will,must,should,would,1,どうしてもというなら、一緒に行きます。
+助動詞,The results (          ) vary depending on conditions.,must,may,should,shall,2,結果は条件によって異なるかもしれない。
+助動詞,She (          ) not be sleeping. Her light is still on.,must,should,can,would,3,彼女は眠っていないはずだ。電気がまだついている。
+助動詞,You (          ) have told me sooner. I wasted so much time.,could,should,might,would,2,もっと早く言ってくれればよかった。時間を無駄にした。
+助動詞,He (          ) not have meant what he said. He was just upset.,must,should,might,would,3,彼は言ったことに本気ではなかったかもしれない。ただ動揺していただけだ。
+助動詞,The train (          ) have already departed. We are too late.,must,should,can,would,1,電車はもう出発してしまったに違いない。遅すぎた。
+助動詞,I would rather you (          ) tell anyone about this.,did not,do not,will not,have not,1,誰にもこのことを話さないでほしい。
+助動詞,She demanded that he (          ) an explanation.,gives,give,gave,has given,2,彼女は彼が説明することを要求した。
+助動詞,You (          ) not use your phone during the exam. It is strictly forbidden.,should,must,may,might,2,試験中に携帯電話を使用してはならない。厳しく禁じられている。
+助動詞,(          ) you mind if I opened the window?,Will,Would,Shall,Must,2,窓を開けてもよいでしょうか？
+助動詞,She (          ) have been waiting for over an hour. She looks very impatient.,must,should,could,would,1,彼女は1時間以上待っていたに違いない。とても苛立っているように見える。
+助動詞,He (          ) to apologize for his behavior at the meeting.,ought,should,must,had better,1,彼は会議での自分の行動について謝るべきだ。
+助動詞,"I (          ) rather not talk about it right now, if you do not mind.",had,would,could,should,2,よければ、今はそのことについて話したくない。
+助動詞,They (          ) have informed us earlier about the schedule change.,must,should,can,dare,2,スケジュール変更をもっと早く知らせておくべきだった。
+助動詞,"(          ) to think of it, I left my umbrella on the train.",Come,Coming,Came,Having come,1,考えてみると、電車に傘を忘れてきた。
+仮定法,"If I (          ) more time, I would travel the world.",have,had,would have,will have,2,もっと時間があれば、世界中を旅するのに。
+仮定法,"If she (          ) harder, she would get better results.",studies,studied,would study,had studied,2,もし彼女がもっと一生懸命勉強すれば、より良い結果が得られるのに。
+仮定法,"If he (          ) taller, he could join the basketball team.",is,was,were,had been,3,もし彼がもっと背が高ければ、バスケットボールチームに入れるのに。
+仮定法,"If I (          ) you, I would accept the offer.",am,was,were,had been,3,もし私があなたなら、その申し出を受け入れるだろう。
+仮定法,"If they (          ) more money, they could buy a bigger house.",have,had,would have,will have,2,もし彼らがもっとお金があれば、より大きな家が買えるのに。
+仮定法,"If the weather (          ) better, we could go for a picnic.",is,was,were,had been,3,もし天気が良ければ、ピクニックに行けるのに。
+仮定法,"If he (          ) the answer, he would tell us.",knows,knew,would know,had known,2,もし彼が答えを知っていたら、教えてくれるのに。
+仮定法,"If I (          ) a car, I would drive to work.",have,had,would have,will have,2,もし車があれば、車で通勤するのに。
+仮定法,"If she (          ) near here, I would visit her often.",lives,lived,would live,had lived,2,もし彼女がこの近くに住んでいれば、よく会いに行くのに。
+仮定法,"If he (          ) the truth, people would trust him more.",tells,told,would tell,had told,2,もし彼が真実を話せば、人々はもっと彼を信頼するのに。
+仮定法,"If I had wings, I (          ) fly to see you.",will,would,can,could,2,もし翼があれば、あなたに会いに飛んで行くのに。
+仮定法,"If she knew the secret, she (          ) tell everyone.",will,would,can,should,2,もし彼女が秘密を知っていれば、全員に話すだろう。
+仮定法,"If we lived closer, we (          ) meet more often.",will,would,can,should,2,もし近くに住んでいれば、もっとよく会えるのに。
+仮定法,"If he had more experience, he (          ) get the job easily.",will,would,can,could,4,もし彼にもっと経験があれば、その仕事に簡単に就けるのに。
+仮定法,"If the train were on time, I (          ) be late.",will not,would not,cannot,should not,2,もし電車が時間通りなら、遅刻しないのに。
+仮定法,"If she (          ) harder, she would have passed the exam.",studied,had studied,would study,would have studied,2,もし彼女がもっと一生懸命勉強していたら、試験に合格していただろう。
+仮定法,"If I (          ) the map, I would not have gotten lost.",had,have had,had had,would have had,3,地図を持っていたら、迷子にならなかったのに。
+仮定法,"If he (          ) the warning, the accident would not have happened.",heeded,had heeded,would heed,would have heeded,2,もし彼が警告に従っていたら、事故は起きなかっただろう。
+仮定法,"If we (          ) earlier, we would have caught the plane.",left,had left,would leave,would have left,2,もし早く出発していたら、飛行機に乗れたのに。
+仮定法,"If she (          ) the truth, he would not have been so angry.",told,had told,would tell,would have told,2,もし彼女が真実を話していたら、彼はそんなに怒らなかっただろう。
+仮定法,"If I (          ) how difficult it was, I would never have started.",knew,had known,would know,would have known,2,どれほど難しいか知っていたら、決して始めなかっただろう。
+仮定法,"If they (          ) more carefully, they would have noticed the mistake.",checked,had checked,would check,would have checked,2,もし彼らがもっと注意深く確認していたら、ミスに気づいただろう。
+仮定法,"If he (          ) the offer, his career would have gone differently.",accepted,had accepted,would accept,would have accepted,2,もし彼がその申し出を受け入れていたら、キャリアは違う方向に進んでいただろう。
+仮定法,"If I (          ) that advice, I would have avoided many problems.",followed,had followed,would follow,would have followed,2,もしそのアドバイスに従っていたら、多くの問題を避けられたのに。
+仮定法,"If the weather (          ) better, the event would have been a success.",was,had been,would be,would have been,2,もし天気が良かったら、イベントは成功していただろう。
+仮定法,"If she had studied harder, she (          ) the scholarship.",wins,won,would have won,had won,3,もし彼女がもっと一生懸命勉強していたら、奨学金を得ていただろう。
+仮定法,"If he had taken the medicine, he (          ) better sooner.",feels,felt,would have felt,had felt,3,もし薬を飲んでいたら、もっと早く良くなっていただろう。
+仮定法,"If I had known about the concert, I (          ) to attend.",try,tried,would have tried,had tried,3,コンサートのことを知っていたら、参加しようとしていただろう。
+仮定法,"If we had left earlier, we (          ) the traffic.",avoid,avoided,would have avoided,had avoided,3,もし早く出発していたら、渋滞を避けられたのに。
+仮定法,"If she had not made that mistake, she (          ) the promotion.",gets,got,would have gotten,had gotten,3,もし彼女がそのミスをしなければ、昇進できたのに。
+仮定法,I wish I (          ) speak Japanese better.,can,could,would,should,2,日本語がもっと上手に話せればいいのに。
+仮定法,She wishes she (          ) more free time.,has,had,would have,will have,2,彼女はもっと自由な時間があればいいのにと思っている。
+仮定法,I wish he (          ) so rude to everyone.,is not,was not,were not,had not been,3,彼が誰にでもそんなに失礼でなければいいのに。
+仮定法,He wishes he (          ) how to cook.,knows,knew,would know,had known,2,彼は料理の仕方を知っていればいいのにと思っている。
+仮定法,I wish the weather (          ) nicer today.,is,was,were,had been,3,今日の天気がもっと良ければいいのに。
+仮定法,She wishes she (          ) live closer to her family.,can,could,would,should,2,彼女は家族の近くに住めればいいのにと思っている。
+仮定法,I wish I (          ) so much homework tonight.,do not have,did not have,would not have,had not had,2,今夜こんなに宿題がなければいいのに。
+仮定法,He wishes he (          ) a more exciting job.,has,had,would have,will have,2,彼はもっとやりがいのある仕事があればいいのにと思っている。
+仮定法,I wish I (          ) harder when I was at university.,study,studied,had studied,would study,3,大学のときにもっと一生懸命勉強していればよかった。
+仮定法,She wishes she (          ) that opportunity.,takes,took,had taken,would take,3,彼女はその機会を活かしていればよかったと思っている。
+仮定法,I wish I (          ) him the truth earlier.,tell,told,had told,would tell,3,もっと早く彼に真実を話していればよかった。
+仮定法,He wishes he (          ) so much money on that car.,does not spend,did not spend,had not spent,would not spend,3,あんなに車にお金をかけなければよかったと彼は思っている。
+仮定法,I wish we (          ) to that restaurant. The food was terrible.,do not go,did not go,had not gone,would not go,3,あのレストランに行かなければよかった。料理がひどかった。
+仮定法,She wishes she (          ) the job offer.,does not refuse,did not refuse,had not refused,would not refuse,3,彼女は仕事のオファーを断らなければよかったと思っている。
+仮定法,He talks as if he (          ) everything.,knows,knew,would know,had known,2,彼はまるで何でも知っているかのように話す。
+仮定法,She acts as if she (          ) the boss.,is,was,were,had been,3,彼女はまるで自分がボスであるかのように振る舞う。
+仮定法,He looked as if he (          ) a ghost.,sees,saw,had seen,would see,3,彼はまるで幽霊を見たかのような顔をしていた。
+仮定法,She spoke as though she (          ) there herself.,is,was,had been,would be,3,彼女はまるで自分がそこにいたかのように話した。
+仮定法,He spends money as if he (          ) a millionaire.,is,was,were,had been,3,彼はまるで億万長者であるかのようにお金を使う。
+仮定法,She smiled as if nothing (          ).,happens,happened,had happened,would happen,3,彼女はまるで何も起きなかったかのように微笑んだ。
+仮定法,He gave orders as if he (          ) in charge.,is,was,were,had been,3,彼はまるで責任者であるかのように命令した。
+仮定法,If only I (          ) more careful!,am,was,were,had been,3,もっと注意深かったらよかったのに！
+仮定法,If only she (          ) me before making that decision!,consults,consulted,had consulted,would consult,3,あの決断をする前に相談してくれていたら！
+仮定法,If only I (          ) the winning lottery ticket!,have,had,had had,would have,3,宝くじの当たりくじを持っていたら！
+仮定法,If only it (          ) raining. We could go out.,stops,stopped,would stop,had stopped,3,雨がやめばいいのに。外に出られるのに。
+仮定法,If only he (          ) the truth from the beginning!,tells,told,had told,would tell,3,最初から真実を話してくれていたら！
+仮定法,If only I (          ) her number. I would call her right now.,have,had,had had,would have,2,彼女の番号があれば、今すぐ電話するのに。
+仮定法,It is time you (          ) to bed. It is very late.,go,went,had gone,would go,2,もう寝る時間だ。とても遅い。
+仮定法,It is time he (          ) a decision about his future.,makes,made,had made,would make,2,彼はそろそろ将来について決断する時だ。
+仮定法,It is high time they (          ) the problem seriously.,take,took,had taken,would take,2,彼らはそろそろ問題を真剣に受け止める時だ。
+仮定法,It is time she (          ) responsibility for her actions.,takes,took,had taken,would take,2,彼女はそろそろ自分の行動に責任を持つ時だ。
+仮定法,It is about time he (          ) the truth.,tells,told,had told,would tell,2,そろそろ彼が真実を話す時だ。
+仮定法,I would rather you (          ) come with us.,do not,did not,had not,would not,2,あなたには一緒に来てほしくない。
+仮定法,I would rather she (          ) about it.,does not know,did not know,had not known,would not know,2,彼女にはそのことを知ってほしくない。
+仮定法,He would rather (          ) at home than go out.,stays,stayed,stay,had stayed,3,彼は外出するより家にいたい。
+仮定法,She would sooner (          ) than betray her friends.,dies,died,die,had died,3,彼女は友人を裏切るくらいなら死んだ方がましだ。
+仮定法,"(          ) I known about the traffic, I would have left earlier.",If,Had,Should,Were,2,交通渋滞を知っていたら、もっと早く出発していただろう。
+仮定法,"(          ) she to ask me, I would help her without hesitation.",If,Had,Should,Were,4,もし彼女が頼んでくれたら、迷わず助けるのに。
+仮定法,"(          ) you need any assistance, please let me know.",If,Had,Should,Were,3,もし何かご支援が必要でしたら、お知らせください。
+仮定法,"(          ) it not for your help, I could not have finished the project.",If,Had,Were,Should,3,あなたの助けがなければ、プロジェクトを終わらせることができなかっただろう。
+仮定法,"(          ) he been more experienced, he might have solved the problem.",If,Had,Were,Should,2,もし彼にもっと経験があったなら、問題を解けたかもしれない。
+仮定法,"(          ) I in your position, I would reconsider the decision.",If,Had,Were,Should,3,もし私があなたの立場なら、その決断を再考するだろう。
+仮定法,"If she had studied medicine, she (          ) a doctor now.",is,was,would be,would have been,3,もし医学を勉強していたら、今頃医者になっていただろう。
+仮定法,"If he had taken better care of himself, he (          ) healthier today.",is,was,would be,would have been,3,もし体をもっと大切にしていたら、今日もっと健康だろう。
+仮定法,"If I had saved more money back then, I (          ) able to travel now.",am,was,would be,would have been,3,あの頃もっとお金を貯めていたら、今旅行できるのに。
+仮定法,"If they had chosen a better location, the business (          ) more successful now.",is,was,would be,would have been,3,もっと良い場所を選んでいたら、今頃ビジネスはもっと成功しているだろう。
+仮定法,"If she had not dropped out of school, she (          ) a completely different life now.",lives,lived,would be living,would have lived,3,学校を中退していなければ、今頃全く違う生活を送っているだろう。
+仮定法,"(          ) your advice, I would have made a terrible mistake.",Without,But for,Except for,A and B,1,あなたのアドバイスがなければ、ひどい失敗をしていただろう。
+仮定法,"(          ) the rain, we would have enjoyed the picnic.",Without,But for,Except for,A and B,2,雨がなければ、ピクニックを楽しめたのに。
+仮定法,"(          ) his quick thinking, the situation could have been much worse.",Without,But for,Except for,A and B,2,彼の素早い判断がなければ、状況はもっと悪化していただろう。
+仮定法,"(          ) modern medicine, many diseases would be untreatable.",Without,But for,Except for,A and B,1,現代医学がなければ、多くの病気は治療できないだろう。
+仮定法,I wish it (          ) possible to turn back time.,is,was,were,had been,3,時間を戻すことができればいいのに。
+仮定法,"If I (          ) to choose again, I would make the same decision.",have,had,were,would be,3,もう一度選べるとしても、同じ決断をするだろう。
+仮定法,She acts as if the world (          ) around her.,revolves,revolved,were revolving,had revolved,3,彼女はまるで世界が自分を中心に回っているかのように振る舞う。
+仮定法,If only she (          ) listened to my advice back then!,has,had,would have,could have,2,あの時私のアドバイスを聞いてくれていれば！
+仮定法,Suppose you (          ) the last person on earth. What would you do?,are,were,had been,would be,2,もしあなたが地球上の最後の人間だったとしたら、どうしますか？
+仮定法,"Assuming he (          ) right, what would be our next step?",is,were,had been,would be,2,仮に彼が正しいとすれば、次のステップは何でしょう？
+仮定法,I would have helped you if only you (          ) asked.,have,had,would have,could have,2,お願いしてくれさえすれば、助けてあげたのに。
+仮定法,"If it (          ) not for music, my life would be much less enjoyable.",is,was,were,had been,3,音楽がなければ、私の人生はずっと楽しくないだろう。
+仮定法,She would not be so confident today if she (          ) through those challenges.,does not go,did not go,had not gone,would not go,3,あの困難を乗り越えていなかったら、彼女は今日これほど自信を持っていないだろう。
+仮定法,I wish people (          ) more considerate of others around them.,are,was,were,had been,3,人々がお互いにもっと思いやりを持ってくれればいいのに。
+仮定法,"If he (          ) followed the instructions more carefully, the machine would not have broken down.",has,had,would have,could have,2,もし彼が指示をもっと注意深く守っていれば、機械は故障しなかっただろう。
+仮定法,It is high time the government (          ) action on climate change.,takes,took,has taken,would take,2,政府がそろそろ気候変動に対して行動を起こす時だ。
+仮定法,"If she (          ) more patient, she would have succeeded in the end.",is,was,were,had been,4,もし彼女がもっと忍耐強かったなら、最終的に成功していただろう。
+仮定法,I wish I (          ) taken that opportunity when I had the chance.,have,had,would have,could have,2,あの機会があったときに活かしていればよかった。
+仮定法,"If you (          ) worked harder, you would not be in this situation now.",have,had,would have,could have,2,もっと一生懸命働いていれば、今このような状況にはなっていないだろう。
+仮定法,"(          ) it not been for your encouragement, I would have given up long ago.",If,Had,Were,Should,2,あなたの励ましがなければ、ずっと前にあきらめていただろう。
+仮定法,She talked to him as though she (          ) him for years.,knows,knew,had known,would know,3,彼女はまるで何年も彼を知っているかのように話しかけた。
+仮定法,I would rather you (          ) the decision without consulting me.,do not make,did not make,had not made,would not make,3,私に相談せずに決断してほしくなかった。
+仮定法,If only the train (          ) on time! We would not have missed the meeting.,is,was,were,had been,4,電車が時間通りだったら！会議に遅れなかったのに。
