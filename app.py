@@ -720,7 +720,6 @@ def render_setup(all_questions: list[Question]) -> None:
                 else:
                     st.error("有効なメールアドレスを入力してください。")
 
-    # ...existing code...
 
 
 def _rate_bar(rate: float) -> str:
@@ -880,6 +879,15 @@ def render_login() -> None:
                 register_user(new_username.strip())
                 st.success(f"ユーザー「{new_username.strip()}」を登録しました。上のリストからログインしてください。")
                 st.rerun()
+
+    # ── README表示 ──
+    st.divider()
+    with st.expander("📖 README（利用規約・免責事項）"):
+        readme_path = Path(__file__).parent / "README.md"
+        if readme_path.exists():
+            st.markdown(readme_path.read_text(encoding="utf-8"), unsafe_allow_html=False)
+        else:
+            st.caption("README.md が見つかりません。")
 
 
 def render_history() -> None:
@@ -1528,11 +1536,13 @@ def render_quiz() -> None:
                 st.error(f"不正解です。正解は {correct_display_pos}. {correct_choice_text}")
                 result_tts = f"Incorrect. The answer is {correct_choice_text}. ... {full_sentence}"
 
-            # 結果を音声で読み上げ、3秒後に自動で次の問題へ
+            # 結果を音声で読み上げ（音声モード時のみ自動で次の問題へ遷移）
             result_tts_escaped = result_tts.replace("\\", "\\\\").replace("'", "\\'")
             auto_next_key = f"_auto_next_{index}"
+            is_voice_mode = st.session_state.get("voice_mode", False)
             if auto_next_key not in st.session_state:
                 st.session_state[auto_next_key] = True
+                auto_next_js = "true" if is_voice_mode else "false"
                 st.components.v1.html(
                     f"""<script>
                     (function() {{
@@ -1542,22 +1552,24 @@ def render_quiz() -> None:
                         u.lang = 'en-US';
                         u.rate = 0.9;
                         u.onend = function() {{
-                            setTimeout(function() {{
-                                // 「次の問題へ」ボタンをクリック
-                                var buttons = window.parent.document.querySelectorAll('button[kind="primaryFormSubmit"], button[kind="primary"]');
-                                for (var b = 0; b < buttons.length; b++) {{
-                                    if (buttons[b].textContent.trim() === '次の問題へ') {{
-                                        buttons[b].click();
-                                        return;
+                            if ({auto_next_js}) {{
+                                setTimeout(function() {{
+                                    var buttons = window.parent.document.querySelectorAll('button[kind="primaryFormSubmit"], button[kind="primary"]');
+                                    for (var b = 0; b < buttons.length; b++) {{
+                                        if (buttons[b].textContent.trim() === '次の問題へ') {{
+                                            buttons[b].click();
+                                            return;
+                                        }}
                                     }}
-                                }}
-                            }}, 2000);
+                                }}, 2000);
+                            }}
                         }};
                         synth.speak(u);
                     }})();
                     </script>""",
                     height=0,
                 )
+
 
             if st.button("次の問題へ", type="primary"):
                 st.session_state.current_index += 1
@@ -1633,6 +1645,33 @@ def render_quiz() -> None:
             if updated:
                 st.rerun()
 
+    # 📧 この問題を報告（画面一番下）
+    if st.session_state.answered:
+        import urllib.parse as _urlparse
+        _report_subject = f"Quiz問題についての報告: Q{index + 1}"
+        _report_lines = [
+            f"問題番号: Q{index + 1}",
+            f"問題文: {question_text}",
+            f"選択肢:",
+            f"  1. {q.choice1}",
+            f"  2. {q.choice2}",
+            f"  3. {q.choice3}",
+            f"  4. {q.choice4}",
+            f"現在の正解: {q.answer}. {choices[q.answer - 1]}",
+            "",
+            "【問題点を記入してください】",
+            "",
+        ]
+        _report_body = "\n".join(_report_lines)
+        _to_addrs = ",".join(get_share_emails(st.session_state.get("user_name", "")))
+        _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_report_subject)}&body={_urlparse.quote(_report_body)}"
+        st.markdown(
+            f'<a href="{_mailto_url}" target="_blank" style="'
+            "display:inline-block;padding:0.4rem 1rem;background:#ff9800;color:#fff;"
+            'border-radius:8px;text-decoration:none;font-size:0.9rem;">📧 この問題を報告（メール）</a>',
+            unsafe_allow_html=True,
+        )
+
 
 def render_result() -> None:
     answer_history = st.session_state.get("answer_history", [])
@@ -1652,6 +1691,9 @@ def render_result() -> None:
         st.write(f"正答率: {score:.1f}%")
 
     st.subheader("回答サマリー")
+    import urllib.parse as _urlparse
+    _to_addrs = ",".join(get_share_emails(st.session_state.get("user_name", "")))
+
     for idx in range(answered_count):
         question = st.session_state.quiz_questions[idx]
         english_text = html.escape(question.english or "(No English text)")
@@ -1660,20 +1702,55 @@ def render_result() -> None:
         status = "OK" if is_ok else "NG"
         bg_color = "#e6f4ff" if is_ok else "#fdecec"
         correct_text = html.escape(history.get("correct_text", ""))
-        st.markdown(
-            (
-                f"<div style='background:{bg_color};padding:0.55rem 0.7rem;"
-                "border-radius:8px;margin-bottom:0.35rem;white-space: pre-wrap;'>"
-                f"{idx + 1}. [{status}] {english_text}　<b>答: {correct_text}</b>"
-                "</div>"
-            ),
-            unsafe_allow_html=True,
+        choices = [question.choice1, question.choice2, question.choice3, question.choice4]
+        choices_html = "&nbsp;&nbsp;".join(
+            f"<b>{i+1}.{html.escape(c)}</b>" if i + 1 == question.answer else f"{i+1}.{html.escape(c)}"
+            for i, c in enumerate(choices) if c
         )
 
+        col_q, col_report = st.columns([6, 1])
+        with col_q:
+            st.markdown(
+                (
+                    f"<div style='background:{bg_color};padding:0.55rem 0.7rem;"
+                    "border-radius:8px;margin-bottom:0.35rem;white-space: pre-wrap;'>"
+                    f"{idx + 1}. [{status}] {english_text}　<b>答: {correct_text}</b><br>"
+                    f"<small style='color:#555;'>選択肢: {choices_html}</small>"
+                    "</div>"
+                ),
+                unsafe_allow_html=True,
+            )
+        with col_report:
+            _rpt_subject = f"Quiz問題についての報告: Q{idx + 1}"
+            _rpt_lines = [
+                f"問題番号: Q{idx + 1}",
+                f"問題文: {question.english or ''}",
+                f"選択肢:",
+                f"  1. {choices[0]}",
+                f"  2. {choices[1]}",
+                f"  3. {choices[2]}",
+                f"  4. {choices[3]}",
+                f"現在の正解: {question.answer}. {choices[question.answer - 1]}",
+                "",
+                "【問題点を記入してください】",
+                "",
+            ]
+            _rpt_body = "\n".join(_rpt_lines)
+            _rpt_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_rpt_subject)}&body={_urlparse.quote(_rpt_body)}"
+            st.markdown(
+                f'<a href="{_rpt_url}" target="_blank" style="'
+                "display:inline-block;padding:0.3rem 0.6rem;background:#ff9800;color:#fff;"
+                'border-radius:6px;text-decoration:none;font-size:0.8rem;">📧報告</a>',
+                unsafe_allow_html=True,
+            )
+
+    if st.button("もう一度", type="primary"):
+        restart()
+        st.rerun()
+
     # ── メールで成績を送信 ──
-    st.subheader("成績をメールで送信")
-    # メール本文を組み立て
-    import urllib.parse as _urlparse
+    st.divider()
+    st.subheader("📧 成績をメールで送信")
     _lines: list[str] = []
     _lines.append(f"Quiz結果: {correct} / {answered_count} 問正解")
     if answered_count > 0:
@@ -1685,7 +1762,13 @@ def render_result() -> None:
         is_ok = bool(history.get("is_correct"))
         status = "OK" if is_ok else "NG"
         correct_text = history.get("correct_text", "")
-        _lines.append(f"{idx + 1}. [{status}] {question.english or ''}  答: {correct_text}")
+        choices = [question.choice1, question.choice2, question.choice3, question.choice4]
+        choices_str = "  ".join(
+            f"*{i+1}.{c}*" if i + 1 == question.answer else f"{i+1}.{c}"
+            for i, c in enumerate(choices) if c
+        )
+        _lines.append(f"{idx + 1}. [{status}] {question.english or ''}")
+        _lines.append(f"   選択肢: {choices_str}  答: {correct_text}")
     _mail_body = "\n".join(_lines)
     _mail_subject = f"Quiz結果: {correct}/{answered_count} 問正解"
 
@@ -1698,9 +1781,6 @@ def render_result() -> None:
         unsafe_allow_html=True,
     )
 
-    if st.button("もう一度", type="primary"):
-        restart()
-        st.rerun()
 
 
 init_state()

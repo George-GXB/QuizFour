@@ -1099,3 +1099,103 @@ DefaultTag,English,1,2,3,4,Answer,Japanese
 仮定法,She talked to him as though she (          ) him for years.,knows,knew,had known,would know,3,彼女はまるで何年も彼を知っているかのように話しかけた。
 仮定法,I would rather you (          ) the decision without consulting me.,do not make,did not make,had not made,would not make,3,私に相談せずに決断してほしくなかった。
 仮定法,If only the train (          ) on time! We would not have missed the meeting.,is,was,were,had been,4,電車が時間通りだったら！会議に遅れなかったのに。
+比較,She is (          ) tall as her brother.,so,as,more,than,2,彼女は兄と同じくらい背が高い。
+比較,This bag is (          ) expensive as that one.,so,as,more,than,2,このバッグはあのバッグと同じくらい高い。
+比較,He runs (          ) fast as the world champion.,so,as,more,than,2,彼は世界チャンピオンと同じくらい速く走る。
+比較,Please come (          ) soon as possible.,so,as,more,than,2,できるだけ早く来てください。
+比較,This movie is not (          ) interesting as the book.,so,as,more,than,1,この映画は本ほど面白くない。
+比較,She is (          ) kind as her mother.,so,as,more,than,2,彼女は母親と同じくらい親切だ。
+比較,The test was (          ) difficult as I had expected.,not so,not as,twice as,as ... as,2,テストは思っていたほど難しくなかった。
+比較,He earns twice (          ) much as his brother.,so,as,more,than,2,彼は兄の2倍の収入がある。
+比較,She is three times (          ) old as her nephew.,so,as,more,than,2,彼女は甥の3倍の年齢だ。
+比較,This room is half (          ) large as the other one.,so,as,more,than,2,この部屋はもう一方の半分の大きさだ。
+比較,The weather today is not (          ) cold as yesterday.,as,so,more,than,1,今日の天気は昨日ほど寒くない。
+比較,She works (          ) hard as anyone in the office.,more,as,so,than,2,彼女はオフィスで誰とも同じくらい一生懸命働く。
+比較,Tokyo is (          ) than Osaka.,large,larger,largest,more large,2,東京は大阪より大きい。
+比較,She is (          ) than her sister.,tall,taller,tallest,more tall,2,彼女は姉よりも背が高い。
+比較,This problem is (          ) than the previous one.,difficult,difficulter,more difficult,most difficult,3,この問題は前のものより難しい。
+比較,He speaks English (          ) than I do.,fluent,fluenter,more fluent,most fluent,3,彼は私より流暢に英語を話す。
+比較,The new model is (          ) than the old one.,efficient,efficienter,more efficient,most efficient,3,新しいモデルは古いものよりも効率的だ。
+比較,She finished the exam (          ) than anyone else.,quick,quicker,more quickly,most quickly,3,彼女はクラスの誰よりも早く試験を終えた。
+比較,The second chapter is (          ) than the first.,interesting,interestinger,more interesting,most interesting,3,第2章は第1章より面白い。
+比較,He is getting (          ) every day.,strong,stronger,strongest,more strong,2,彼は毎日どんどん強くなっている。
+比較,This jacket is (          ) than that one.,expensive,expensiver,more expensive,most expensive,3,このジャケットはあのジャケットより高い。
+比較,She sings (          ) than her friend.,beautiful,beautifuler,more beautifully,most beautifully,3,彼女は友人よりも美しく歌う。
+比較,This is (          ) more interesting than I thought.,very,much,a lot of,too,2,これは思っていたよりずっと面白い。
+比較,She is (          ) taller than her mother.,very,much,too,so,2,彼女は母親よりずっと背が高い。
+比較,The exam was (          ) more difficult than last year.,very,far,too,so,2,試験は昨年よりはるかに難しかった。
+比較,He arrived (          ) earlier than expected.,very,even,too,so,2,彼は予想よりもさらに早く到着した。
+比較,This method is (          ) more effective than the old one.,very,still,too,so,2,この方法は古いものよりもさらに効果的だ。
+比較,She is the (          ) student in the class.,smart,smarter,smartest,most smart,3,彼女はクラスで最も賢い生徒だ。
+比較,This is the (          ) movie I have ever seen.,interesting,more interesting,most interesting,interestingest,3,これは今まで見た中で最も面白い映画だ。
+比較,Mount Everest is the (          ) mountain in the world.,high,higher,highest,most high,3,エベレスト山は世界で最も高い山だ。
+比較,She is one of the (          ) singers in the country.,famous,more famous,most famous,famousest,3,彼女はその国で最も有名な歌手の一人だ。
+比較,This is the (          ) day of my life.,happy,happier,happiest,most happy,3,これは私の人生で最も幸せな日だ。
+比較,He is the (          ) person I have ever met.,kind,kinder,kindest,most kind,3,彼は今まで会った中で最も親切な人だ。
+比較,That was the (          ) speech I have ever heard.,boring,more boring,most boring,boringest,3,あれは今まで聞いた中で最も退屈なスピーチだった。
+比較,She runs the (          ) of all the athletes.,fast,faster,fastest,most fast,3,彼女はすべての選手の中で最も速く走る。
+比較,This is by far the (          ) restaurant in town.,good,better,best,most good,3,これは町で断然最高のレストランだ。
+比較,He is the (          ) student in his year.,hard-working,more hard-working,most hard-working,hardest-working,3,彼は学年で最も勤勉な学生だ。
+比較,"(          ) you practice, the better you become.",More,The more,Most,The most,2,練習すればするほど、上手になる。
+比較,"(          ) harder he worked, the more he earned.",More,The more,The harder,Most,3,彼は一生懸命働けば働くほど、より多く稼いだ。
+比較,"(          ) sooner we leave, the earlier we arrive.",More,The more,The sooner,Most,3,早く出発するほど、早く到着する。
+比較,"(          ) more I think about it, the more confused I get.",More,The more,Most,The most,2,考えれば考えるほど、混乱してくる。
+比較,"(          ) older she gets, the wiser she becomes.",More,The more,The older,Most,3,彼女は年を取るにつれて、より賢くなる。
+比較,She is no (          ) than a beginner.,more,better,worse,less,2,彼女は初心者に過ぎない。
+比較,He is no (          ) off than before.,more,better,worse,less,2,彼は以前より状況が良くなっていない。
+比較,She is none the (          ) for his explanation.,wiser,wisest,more wise,most wise,1,彼の説明を聞いても、彼女は少しも賢くなっていない。
+比較,I like coffee (          ) than tea.,more,better,most,best,2,私は紅茶より珈琲の方が好きだ。
+比較,She knows (          ) than to argue with him.,more,better,most,best,2,彼女は彼と言い争うほど愚かではない。
+比較,Nothing is (          ) important than your health.,more,most,as,so,1,あなたの健康より大切なものはない。
+比較,No other city in Japan is (          ) populous than Tokyo.,more,most,as,so,1,日本でどの都市も東京より人口が多くない。
+比較,No one in the team works (          ) hard than she does.,more,most,as,so,1,チームで彼女より一生懸命働く人はいない。
+比較,She is the tallest girl in the class. = No other girl in the class is (          ) than she.,tall,taller,tallest,as tall,2,彼女はクラスで最も背が高い女の子だ。
+比較,He is the most diligent student. = No other student is (          ) diligent as he.,as,more,most,so,1,彼は最も勤勉な学生だ。
+比較,This is the cheapest hotel in the city. = No other hotel in the city is (          ) cheap as this one.,as,more,most,so,1,これは市内で最も安いホテルだ。
+比較,She sings (          ) than anyone else in the choir.,more good,better,gooder,more well,2,彼女はコーラスの誰よりも上手に歌う。
+比較,His condition is getting (          ) day by day.,more bad,badder,worse,more worse,3,彼の状態は日に日に悪化している。
+比較,She danced (          ) of all the performers.,more well,best,most well,better,2,彼女はすべての出演者の中で最も上手に踊った。
+比較,The situation is getting from bad to (          ).,worst,worse,more bad,most bad,2,状況はますます悪化している。
+比較,He knows this city (          ) than anyone.,more well,better,best,most well,2,彼は誰よりもこの街をよく知っている。
+比較,She is feeling much (          ) today than yesterday.,more well,better,best,gooder,2,彼女は昨日よりも今日ずっと気分が良い。
+比較,This is the (          ) I can do under these circumstances.,more,most,better,best,4,これが現状でできる最善だ。
+比較,He has the (          ) experience of all the candidates.,less,least,fewer,fewest,2,彼はすべての候補者の中で最も経験が少ない。
+比較,She has (          ) patience than her colleague.,less,fewer,little,least,1,彼女は同僚より辛抱強さが少ない。
+比較,There are (          ) students in this class than in the other.,less,fewer,little,least,2,このクラスはもう一方より生徒数が少ない。
+比較,She is two years (          ) than her brother.,old,older,oldest,more old,2,彼女は兄より2歳年上だ。
+比較,This building is 10 meters (          ) than that one.,tall,taller,tallest,more tall,2,この建物はあのビルより10メートル高い。
+比較,He arrived 30 minutes (          ) than expected.,early,earlier,earliest,more early,2,彼は予想より30分早く到着した。
+比較,He is as cool as (          ).,ice,a cucumber,stone,water,2,彼はとても冷静沈着だ。
+比較,She is as busy as (          ).,a bee,an ant,a bird,a fish,1,彼女はとても忙しい。
+比較,The situation is as clear as (          ).,water,glass,crystal,ice,3,状況はとてもはっきりしている。
+比較,He ran as fast as (          ).,wind,lightning,thunder,a bird,2,彼は稲妻のように速く走った。
+比較,She is more of a leader (          ) a follower.,than,as,that,then,1,彼女はフォロワーというよりリーダータイプだ。
+比較,He is more tired (          ) sick.,than,as,that,then,1,彼は病気というより疲れているだけだ。
+比較,This is less a problem of money (          ) a problem of attitude.,than,as,that,then,1,これはお金の問題というよりも姿勢の問題だ。
+比較,She is not so much strict (          ) thorough.,than,as,that,then,2,彼女は厳しいというよりもむしろ徹底的なのだ。
+比較,The population of Tokyo is larger than (          ) of any other city in Japan.,this,that,those,these,2,東京の人口は日本の他のどの都市よりも多い。
+比較,The climate of London is milder than (          ) of Moscow.,this,that,those,these,2,ロンドンの気候はモスクワのそれよりも温暖だ。
+比較,The winters in Hokkaido are colder than (          ) in Kyushu.,this,that,those,these,3,北海道の冬は九州のそれよりも寒い。
+比較,She is more talented than any other (          ) in the competition.,participant,participants,the participant,the participants,1,彼女はその大会の他のどの参加者よりも才能がある。
+比較,No sooner had he arrived (          ) it began to rain.,when,than,as,while,2,彼が到着するとすぐに雨が降り始めた。
+比較,She speaks English far (          ) fluently than I expected.,more,most,so,very,1,彼女は私が思っていたよりずっと流暢に英語を話す。
+比較,The results were (          ) better than we had hoped.,very,much,too,so,2,結果は私たちが期待していたよりずっと良かった。
+比較,I would rather have quality (          ) quantity.,than,as,that,then,1,私は量より質を取りたい。
+比較,"The more he explained, (          ) I understood.",less,the less,lesser,the lesser,2,彼が説明すればするほど、私はかえって分からなくなった。
+比較,She is (          ) the most dedicated employee in the company.,by far,by long,by much,by most,1,彼女は会社で断然最も献身的な社員だ。
+比較,This summer is (          ) hotter than last year.,very,even,too,so,2,今年の夏は昨年よりもさらに暑い。
+比較,He is the last person I would (          ) to ask for advice.,like,want,prefer,wish,2,彼はアドバイスを求めたい最後の人物だ。
+比較,No mountain in Japan is (          ) than Mt. Fuji.,high,higher,as high,highest,2,日本で富士山より高い山はない。
+比較,She is (          ) less qualified than the other candidates.,by far,very,too,so,1,彼女は他の候補者と比べてはるかに資格が劣っている。
+比較,This novel is (          ) more complex than his previous works.,very,considerably,too,so,2,この小説は彼の以前の作品よりかなり複雑だ。
+比較,The exam was (          ) easier than we had feared.,very,much,too,so,2,試験は私たちが恐れていたよりずっと簡単だった。
+比較,She arrived (          ) earlier than anyone else.,very,far,too,so,2,彼女は誰よりもはるかに早く到着した。
+比較,He is not (          ) intelligent as he thinks he is.,so,as,more,than,1,彼は自分が思っているほど賢くない。
+比較,The project took (          ) longer than anticipated.,very,much,too,so,2,プロジェクトは予想よりずっと時間がかかった。
+比較,She is (          ) more experienced than her colleagues.,very,far,too,so,2,彼女は同僚よりもはるかに経験豊富だ。
+比較,He is (          ) the best player on the team.,by far,by long,by much,by most,1,彼はチームで断然最高の選手だ。
+比較,This is (          ) the most difficult task I have ever faced.,by far,by long,by much,by most,1,これは今まで直面した中で断然最も難しい課題だ。
+比較,She finished the race in (          ) less time than her rival.,very,much,far,so,3,彼女はライバルよりもはるかに短い時間でレースを終えた。
+比較,The new policy is (          ) more controversial than the previous one.,very,far,too,so,2,新しい政策は以前のものよりもはるかに物議を醸している。
+比較,He is (          ) more careful about his health than he used to be.,very,much,too,so,2,彼はかつてよりもずっと健康に気をつけている。
+比較,This restaurant is (          ) better than the one we went to last time.,very,far,too,so,2,このレストランは前回行ったところよりもはるかに良い。
