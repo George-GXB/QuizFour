@@ -578,12 +578,13 @@ def render_setup(all_questions: list[Question]) -> None:
     all_tags = _get_combined_tags()
     question_tags = _get_combined_question_tags()
     tag_filter_options = ["すべて"] + [f"#{t}" for t in all_tags] + ["タグ無し"]
-    selected_tag_filter = st.radio(
-        "タグで絞り込み",
-        options=tag_filter_options,
-        horizontal=True,
-        key="setup_tag_filter",
-    )
+    with st.expander("タグで絞り込み", expanded=False):
+        selected_tag_filter = st.radio(
+            "タグを選択",
+            options=tag_filter_options,
+            horizontal=True,
+            key="setup_tag_filter",
+        )
 
     if selected_tag_filter == "すべて":
         target_questions = all_questions
