@@ -54,6 +54,45 @@ from db_initializer import initialize_db_from_initial_csv
 INPUT_DIR = Path(__file__).parent / "input"
 DB_PATH = Path(__file__).parent / "quiz.db"
 
+
+def _build_html_email(title: str, rows: list[dict], summary: str = "") -> str:
+    """HTML形式のメールコンテンツを生成する。
+
+    rows: list of {"status": "OK"|"NG"|"", "text": str, "choices": str, "answer": str, "rate": str}
+    """
+    style = (
+        "body{font-family:'Segoe UI',Meiryo,sans-serif;margin:0;padding:20px;background:#f5f5f5;}"
+        "h2{color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;}"
+        ".summary{font-size:1.1em;margin:12px 0 20px;}"
+        ".q{padding:10px 14px;margin:6px 0;border-radius:8px;border-left:4px solid #ccc;}"
+        ".q-ok{background:#e8f5e9;border-left-color:#4caf50;}"
+        ".q-ng{background:#ffebee;border-left-color:#f44336;}"
+        ".q-plain{background:#fff;border-left-color:#90a4ae;}"
+        ".choices{color:#555;font-size:0.92em;margin-top:4px;}"
+        ".answer{font-weight:bold;}"
+        ".rate{display:inline-block;background:#e3f2fd;color:#1565c0;padding:1px 8px;"
+        "border-radius:10px;font-size:0.85em;margin-right:6px;}"
+    )
+    rows_html = []
+    for i, r in enumerate(rows, 1):
+        status = r.get("status", "")
+        cls = "q-ok" if status == "OK" else ("q-ng" if status == "NG" else "q-plain")
+        badge = f"[{status}] " if status else ""
+        rate_html = f'<span class="rate">{r["rate"]}</span>' if r.get("rate") else ""
+        choices_html = f'<div class="choices">選択肢: {html.escape(r.get("choices", ""))}</div>' if r.get("choices") else ""
+        answer_html = f'　<span class="answer">答: {html.escape(r.get("answer", ""))}</span>' if r.get("answer") else ""
+        rows_html.append(
+            f'<div class="q {cls}">{rate_html}{i}. {badge}{html.escape(r.get("text", ""))}'
+            f'{answer_html}{choices_html}</div>'
+        )
+    return (
+        f"<!DOCTYPE html><html><head><meta charset='utf-8'><style>{style}</style></head><body>"
+        f"<h2>{html.escape(title)}</h2>"
+        f"{'<div class=summary>' + html.escape(summary) + '</div>' if summary else ''}"
+        f"{''.join(rows_html)}"
+        f"</body></html>"
+    )
+
 st.set_page_config(page_title="English Quiz", page_icon="📘", layout="centered")
 
 # ── ブラウザ localStorage の初期化 ──────────────────────────
@@ -923,12 +962,26 @@ def render_history() -> None:
         _mail_subject = f"Quiz復習リスト: 正解率100%未満 {len(incomplete)}問"
         _to_addrs = ",".join(get_share_emails(user_name))
         _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_mail_subject)}&body={_urlparse.quote(_mail_body)}"
-        st.markdown(
-            f'<a href="{_mailto_url}" target="_blank" style="'
-            "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
-            'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
-            unsafe_allow_html=True,
+        # HTML版を生成
+        _html_rows = [
+            {"text": text, "rate": f"{rate*100:.0f}%", "choices": f"正解{cor}/不正解{incor}/計{ask}回"}
+            for rate, ask, cor, incor, text in incomplete
+        ]
+        _html_content = _build_html_email(
+            f"Quiz復習リスト: 正解率100%未満 {len(incomplete)}問",
+            _html_rows,
+            summary=f"正解率100%未満の問題一覧 ({len(incomplete)}問)",
         )
+        col_mailto, col_dl = st.columns(2)
+        with col_mailto:
+            st.markdown(
+                f'<a href="{_mailto_url}" onclick="window.location.href=this.href;return false;" style="'
+                "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
+                'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
+                unsafe_allow_html=True,
+            )
+        with col_dl:
+            st.download_button("📄 HTML版をダウンロード", _html_content, file_name="quiz_review.html", mime="text/html")
     else:
         st.info("正解率100%未満の問題はありません。")
 
@@ -1093,6 +1146,7 @@ def render_tag_manage() -> None:
 
 
 def render_quiz() -> None:
+
     questions = st.session_state.quiz_questions
     index = st.session_state.current_index
 
@@ -1666,10 +1720,31 @@ def render_quiz() -> None:
         _to_addrs = ",".join(get_share_emails(st.session_state.get("user_name", "")))
         _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_report_subject)}&body={_urlparse.quote(_report_body)}"
         st.markdown(
-            f'<a href="{_mailto_url}" target="_blank" style="'
+            f'<a href="{_mailto_url}" onclick="window.location.href=this.href;return false;" style="'
             "display:inline-block;padding:0.4rem 1rem;background:#ff9800;color:#fff;"
             'border-radius:8px;text-decoration:none;font-size:0.9rem;">📧 この問題を報告（メール）</a>',
             unsafe_allow_html=True,
+        )
+
+    # ── ページ最上部にスクロール（未回答状態＝次の問題に遷移した直後のみ） ──
+    if not st.session_state.get("answered", False):
+        import time as _time
+        st.components.v1.html(
+            f"<!-- t={_time.time()} --><script>"
+            "function scrollTop(){"
+            "  try{"
+            "    var d=window.parent.document;"
+            "    d.querySelectorAll('*').forEach(function(el){"
+            "      if(el.scrollTop>0) el.scrollTop=0;"
+            "    });"
+            "    window.parent.scrollTo(0,0);"
+            "  }catch(e){}"
+            "}"
+            "scrollTop();"
+            "setTimeout(scrollTop,100);"
+            "setTimeout(scrollTop,300);"
+            "</script>",
+            height=0,
         )
 
 
@@ -1738,7 +1813,7 @@ def render_result() -> None:
             _rpt_body = "\n".join(_rpt_lines)
             _rpt_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_rpt_subject)}&body={_urlparse.quote(_rpt_body)}"
             st.markdown(
-                f'<a href="{_rpt_url}" target="_blank" style="'
+                f'<a href="{_rpt_url}" onclick="window.location.href=this.href;return false;" style="'
                 "display:inline-block;padding:0.3rem 0.6rem;background:#ff9800;color:#fff;"
                 'border-radius:6px;text-decoration:none;font-size:0.8rem;">📧報告</a>',
                 unsafe_allow_html=True,
@@ -1756,6 +1831,7 @@ def render_result() -> None:
     if answered_count > 0:
         _lines.append(f"正答率: {(correct / answered_count) * 100:.1f}%")
     _lines.append("")
+    _html_rows_result: list[dict] = []
     for idx in range(answered_count):
         question = st.session_state.quiz_questions[idx]
         history = answer_history[idx]
@@ -1769,17 +1845,29 @@ def render_result() -> None:
         )
         _lines.append(f"{idx + 1}. [{status}] {question.english or ''}")
         _lines.append(f"   選択肢: {choices_str}  答: {correct_text}")
+        _html_rows_result.append({
+            "status": status,
+            "text": question.english or "",
+            "choices": choices_str.replace("*", ""),
+            "answer": correct_text,
+        })
     _mail_body = "\n".join(_lines)
     _mail_subject = f"Quiz結果: {correct}/{answered_count} 問正解"
 
     _to_addrs = ",".join(get_share_emails(st.session_state.get("user_name", "")))
     _mailto_url = f"mailto:{_urlparse.quote(_to_addrs)}?subject={_urlparse.quote(_mail_subject)}&body={_urlparse.quote(_mail_body)}"
-    st.markdown(
-        f'<a href="{_mailto_url}" target="_blank" style="'
-        "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
-        'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
-        unsafe_allow_html=True,
-    )
+    _summary_text = f"Quiz結果: {correct} / {answered_count} 問正解" + (f"　正答率: {(correct / answered_count) * 100:.1f}%" if answered_count > 0 else "")
+    _html_result = _build_html_email(_mail_subject, _html_rows_result, summary=_summary_text)
+    col_mailto2, col_dl2 = st.columns(2)
+    with col_mailto2:
+        st.markdown(
+            f'<a href="{_mailto_url}" onclick="window.location.href=this.href;return false;" style="'
+            "display:inline-block;padding:0.5rem 1.2rem;background:#0068c9;color:#fff;"
+            'border-radius:8px;text-decoration:none;font-weight:bold;">📧 メールで送信</a>',
+            unsafe_allow_html=True,
+        )
+    with col_dl2:
+        st.download_button("📄 HTML版をダウンロード", _html_result, file_name="quiz_result.html", mime="text/html")
 
 
 
