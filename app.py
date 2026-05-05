@@ -9,7 +9,7 @@ from pathlib import Path
 from quiz_logic import Question, sync_csvs_to_db, load_questions_from_db, reload_db_from_csvs, limit_questions, is_correct
 from local_storage_helper import (
     init_local_storage, ensure_loaded, record_answer, get_question_stats, get_daily_stats, add_daily_study_seconds, record_quiz_session, get_fastest_time_for_count, reset_user_stats, set_default_tags, set_default_question_tags,
-    get_all_tags, get_question_tags, get_default_tags, get_default_question_tags, get_system_tags, get_system_question_tags,
+    get_all_tags, get_question_tags, get_default_tags, get_default_question_tags, get_system_tags, set_system_tags, get_system_question_tags,
     set_question_tags, set_system_question_tags, set_all_tags, save_app_data, get_registered_users, get_last_user, set_last_user, user_exists, register_user, delete_user, get_share_emails, set_share_emails,
     get_user_settings, set_user_settings
 )
@@ -1889,8 +1889,41 @@ def _update_system_tags_on_answer(question_id: int, is_correct: bool) -> None:
     pass
 
 def _apply_default_tags() -> None:
-    # デフォルトタグの再適用処理（必要に応じて実装）
-    pass
+    # DB由来のデフォルトタグを localStorage に同期する。
+    # ブラウザごとに localStorage が分かれるため、初回起動時に投入しておく。
+    from quiz_logic import load_default_tags
+
+    raw_default = load_default_tags(DB_PATH)  # {question_id: tag}
+    norm_default_tags: list[str] = []
+    norm_default_question_tags: dict[str, list[str]] = {}
+
+    for qid, tag in raw_default.items():
+        t = (tag or "").strip()
+        if not t or t.lower() == "none":
+            continue
+        qid_key = str(int(qid))
+        norm_default_question_tags.setdefault(qid_key, [])
+        if t not in norm_default_question_tags[qid_key]:
+            norm_default_question_tags[qid_key].append(t)
+        if t not in norm_default_tags:
+            norm_default_tags.append(t)
+
+    set_default_tags(norm_default_tags)
+    set_default_question_tags(norm_default_question_tags)
+
+    # システムタグの基準セットを最低限投入して、空表示を防ぐ。
+    base_system_tags = ["間違えた問題", "習得済み", "正解率30%未満", "正解率60%未満", "正解率90%未満"]
+    current_system_tags = get_system_tags()
+    merged_system_tags = list(current_system_tags)
+    for tag in base_system_tags:
+        if tag not in merged_system_tags:
+            merged_system_tags.append(tag)
+    set_system_tags(merged_system_tags)
+
+    try:
+        save_app_data(LS)
+    except Exception:
+        pass
 
 def _get_combined_tags() -> list[str]:
     # ユーザー・デフォルト・システムタグを統合したリストを返す
@@ -2380,6 +2413,15 @@ def main() -> None:
             st.rerun()
 
     all_questions = load_questions()
+
+    # ブラウザ初回表示時でもデフォルト/システムタグを確実に表示するため、
+    # DB由来タグを localStorage に1回同期する。
+    if not st.session_state.get("_default_tags_applied", False):
+        try:
+            _apply_default_tags()
+        except Exception:
+            pass
+        st.session_state["_default_tags_applied"] = True
 
     stage = st.session_state.get("stage", "login")
 
