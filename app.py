@@ -762,6 +762,41 @@ def _render_learning_calendar(user_name: str) -> None:
     today = _date.today()
 
     # --- カレンダー（月ナビ＋グリッド）を一番上に表示 ---
+    # スマホでも月ナビが1行に収まるようCSSとJSで強制する
+    st.markdown("""
+<style>
+.cal-nav-row {
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 0.2rem !important;
+}
+.cal-nav-row > div[data-testid="column"] {
+    min-width: 0 !important;
+    flex-shrink: 1 !important;
+}
+.cal-nav-row .stButton > button {
+    min-width: 36px !important;
+    padding: 0.25rem 0.5rem !important;
+    white-space: nowrap !important;
+}
+</style>
+<script>
+(function() {
+    function tagCalNav() {
+        var blocks = document.querySelectorAll('[data-testid="stHorizontalBlock"]');
+        blocks.forEach(function(block) {
+            var btns = Array.from(block.querySelectorAll('button')).map(function(b){ return b.textContent.trim(); });
+            if (btns.indexOf('◀') !== -1 && btns.indexOf('▶') !== -1) {
+                block.classList.add('cal-nav-row');
+            }
+        });
+    }
+    var obs = new MutationObserver(tagCalNav);
+    obs.observe(document.body, {childList: true, subtree: true});
+    tagCalNav();
+})();
+</script>
+""", unsafe_allow_html=True)
     col_prev, col_title, col_next = st.columns([1, 4, 1])
     with col_prev:
         if st.button("◀", key=f"cal_prev_{year}_{month}"):
