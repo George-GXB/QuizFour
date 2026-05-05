@@ -342,6 +342,14 @@ def _toggle_selection(state_key: str, value: str) -> None:
     else:
         current_values.append(value)
     st.session_state[state_key] = current_values
+def _render_back_to_login_button() -> None:
+    """全ログイン後画面の一番下に表示する「ログイン画面に戻る」ボタン。"""
+    st.divider()
+    if st.button("🔙 ログイン画面に戻る", key=f"back_to_login_{st.session_state.get('stage','')}", use_container_width=True):
+        st.session_state.stage = "login"
+        st.rerun()
+
+
 # --- 結果画面の実装 ---
 def render_result() -> None:
     """クイズ終了後の結果表示画面。
@@ -501,6 +509,8 @@ def render_result() -> None:
         save_app_data(LS)
     except Exception:
         pass
+
+    _render_back_to_login_button()
 
 
 def _clear_selection(state_key: str) -> None:
@@ -801,15 +811,19 @@ def _render_learning_calendar(user_name: str) -> None:
         --fc-page-bg-color: {bg_color};
         --fc-neutral-bg-color: {dow_bg};
     }}
-    .fc {{ color: {text_color}; background: {bg_color}; border-radius: 8px; padding: 4px; }}
-    .fc-toolbar-title {{ font-size: 1.1rem !important; font-weight: 700 !important; color: {text_color} !important; }}
-    .fc-button {{ color: {text_color} !important; font-size: 1rem !important; padding: 2px 10px !important; }}
+    .fc {{ color: {text_color}; background: {bg_color}; border-radius: 8px; padding: 2px; font-size: 0.78rem; }}
+    .fc-toolbar {{ margin-bottom: 4px !important; }}
+    .fc-toolbar-title {{ font-size: 0.95rem !important; font-weight: 700 !important; color: {text_color} !important; }}
+    .fc-button {{ color: {text_color} !important; font-size: 0.85rem !important; padding: 1px 7px !important; }}
     .fc-button:focus {{ box-shadow: none !important; }}
     .fc-day-today {{ background: {today_bg} !important; }}
     .fc-day-today .fc-daygrid-day-number {{ color: {today_text} !important; font-weight: bold !important; }}
-    .fc-daygrid-event {{ font-size: 0.78rem !important; border-radius: 4px !important; }}
-    .fc-col-header-cell {{ background: {dow_bg}; color: {text_color}; }}
+    .fc-daygrid-day-number {{ font-size: 0.72rem !important; padding: 1px 3px !important; }}
+    .fc-daygrid-event {{ font-size: 0.65rem !important; border-radius: 3px !important; padding: 0 !important; }}
+    .fc-col-header-cell {{ background: {dow_bg}; color: {text_color}; font-size: 0.72rem !important; padding: 2px 0 !important; }}
     .fc-scrollgrid {{ border-radius: 8px; overflow: hidden; }}
+    .fc-daygrid-day {{ height: 52px !important; max-height: 52px !important; }}
+    .fc-daygrid-day-frame {{ min-height: unset !important; }}
     """
 
     st_calendar(events=events, options=calendar_options, custom_css=custom_css, key="learning_calendar")
@@ -1131,57 +1145,69 @@ def render_setup(all_questions: list[Question]) -> None:
         diff_tags = sorted({t for tags in diff_qt.values() for t in tags})
 
         with st.expander("タグで絞り込み", expanded=False):
-            with st.expander("🏷️ ユーザータグ", expanded=True):
-                if user_tags:
-                    cur = list(st.session_state.get("setup_sel_user_tags", []))
-                    cols = st.columns(min(4, len(user_tags)))
-                    for i, t in enumerate(user_tags):
-                        col = cols[i % len(cols)]
-                        label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
-                        if col.button(label, key=f"setup_user_btn_{t}"):
-                            _toggle_selection("setup_sel_user_tags", f"#{t}")
-                            st.rerun()
-                else:
-                    st.caption("ユーザータグがありません")
+            # ── ユーザータグ ──
+            st.markdown("**🏷️ ユーザータグ**")
+            if user_tags:
+                cur = list(st.session_state.get("setup_sel_user_tags", []))
+                cols = st.columns(min(4, len(user_tags)))
+                for i, t in enumerate(user_tags):
+                    col = cols[i % len(cols)]
+                    label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
+                    if col.button(label, key=f"setup_user_btn_{t}"):
+                        _toggle_selection("setup_sel_user_tags", f"#{t}")
+                        st.rerun()
+            else:
+                st.caption("ユーザータグがありません")
 
-            with st.expander("📋 デフォルトタグ", expanded=True):
-                if default_tags:
-                    cur = list(st.session_state.get("setup_sel_default_tags", []))
-                    cols = st.columns(min(4, len(default_tags)))
-                    for i, t in enumerate(default_tags):
-                        col = cols[i % len(cols)]
-                        label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
-                        if col.button(label, key=f"setup_default_btn_{t}"):
-                            _toggle_selection("setup_sel_default_tags", f"#{t}")
-                            st.rerun()
-                else:
-                    st.caption("デフォルトタグがありません")
+            st.divider()
 
-            with st.expander("⚙️ システムタグ", expanded=True):
-                if system_tags:
-                    cur = list(st.session_state.get("setup_sel_system_tags", []))
-                    cols = st.columns(min(4, len(system_tags)))
-                    for i, t in enumerate(system_tags):
-                        col = cols[i % len(cols)]
-                        label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
-                        if col.button(label, key=f"setup_system_btn_{t}"):
-                            _toggle_selection("setup_sel_system_tags", f"#{t}")
-                            st.rerun()
-                else:
-                    st.caption("システムタグがありません")
+            # ── デフォルトタグ ──
+            st.markdown("**📋 デフォルトタグ**")
+            if default_tags:
+                cur = list(st.session_state.get("setup_sel_default_tags", []))
+                cols = st.columns(min(4, len(default_tags)))
+                for i, t in enumerate(default_tags):
+                    col = cols[i % len(cols)]
+                    label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
+                    if col.button(label, key=f"setup_default_btn_{t}"):
+                        _toggle_selection("setup_sel_default_tags", f"#{t}")
+                        st.rerun()
+            else:
+                st.caption("デフォルトタグがありません")
 
-            with st.expander("🎯 難易度タグ", expanded=True):
-                if diff_tags:
-                    cur = list(st.session_state.get("setup_sel_diff_tags", []))
-                    cols = st.columns(min(4, len(diff_tags)))
-                    for i, t in enumerate(diff_tags):
-                        col = cols[i % len(cols)]
-                        label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
-                        if col.button(label, key=f"setup_diff_btn_{t}"):
-                            _toggle_selection("setup_sel_diff_tags", f"#{t}")
-                            st.rerun()
-                else:
-                    st.caption("難易度タグがありません")
+            st.divider()
+
+            # ── システムタグ ──
+            st.markdown("**⚙️ システムタグ**")
+            if system_tags:
+                cur = list(st.session_state.get("setup_sel_system_tags", []))
+                cols = st.columns(min(4, len(system_tags)))
+                for i, t in enumerate(system_tags):
+                    col = cols[i % len(cols)]
+                    label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
+                    if col.button(label, key=f"setup_system_btn_{t}"):
+                        _toggle_selection("setup_sel_system_tags", f"#{t}")
+                        st.rerun()
+            else:
+                st.caption("システムタグがありません")
+
+            st.divider()
+
+            # ── 難易度タグ ──
+            st.markdown("**🎯 難易度タグ**")
+            if diff_tags:
+                cur = list(st.session_state.get("setup_sel_diff_tags", []))
+                cols = st.columns(min(4, len(diff_tags)))
+                for i, t in enumerate(diff_tags):
+                    col = cols[i % len(cols)]
+                    label = f"✅ #{t}" if f"#{t}" in cur else f"#{t}"
+                    if col.button(label, key=f"setup_diff_btn_{t}"):
+                        _toggle_selection("setup_sel_diff_tags", f"#{t}")
+                        st.rerun()
+            else:
+                st.caption("難易度タグがありません")
+
+            st.divider()
 
             st.checkbox("タグ無しを含める", key="setup_include_untagged")
     else:
@@ -1284,6 +1310,8 @@ def render_setup(all_questions: list[Question]) -> None:
                     st.rerun()
 
     # (成績シェア用メールアドレス設定はログイン画面の一番下に移動しました)
+
+    _render_back_to_login_button()
 
 
 def _rate_bar(rate: float) -> str:
@@ -1430,19 +1458,16 @@ def render_login() -> None:
     try:
         current_forced = st.session_state.get("forced_theme", None)
         default_idx = 0 if (current_forced is None or current_forced == "light") else 1
-        col_radio, col_apply = st.columns([4, 1])
-        with col_radio:
-            theme_choice = st.radio("表示テーマ", options=["ライト", "ダーク"], horizontal=True, index=default_idx, key="login_theme_radio")
-        with col_apply:
-            if st.button("適用", key="theme_apply_btn"):
-                selected_theme = "light" if theme_choice == "ライト" else "dark"
-                if st.session_state.get("forced_theme") != selected_theme:
-                    st.session_state["forced_theme"] = selected_theme
-                    try:
-                        save_app_data(LS)
-                    except Exception:
-                        pass
-                    st.rerun()
+        theme_choice = st.radio("表示テーマ", options=["ライト", "ダーク"], horizontal=True, index=default_idx, key="login_theme_radio")
+        if st.button("適用", key="theme_apply_btn"):
+            selected_theme = "light" if theme_choice == "ライト" else "dark"
+            if st.session_state.get("forced_theme") != selected_theme:
+                st.session_state["forced_theme"] = selected_theme
+                try:
+                    save_app_data(LS)
+                except Exception:
+                    pass
+                st.rerun()
     except Exception:
         # 安全性: 何か問題があってもログイン表示を妨げない
         pass
@@ -1677,6 +1702,8 @@ def render_history() -> None:
         st.session_state.stage = "setup"
         st.rerun()
 
+    _render_back_to_login_button()
+
 
 def render_tag_manage() -> None:
     # タグ管理画面：どの問題にどのハッシュタグが付いているかを一覧・編集できる。
@@ -1810,6 +1837,8 @@ def render_tag_manage() -> None:
 
     else:
         st.caption("👆 テーブルの行をクリックすると、タグを編集できます。")
+
+    _render_back_to_login_button()
 
 
 # --- 未定義補助関数の仮実装（先頭に移動） ---
@@ -2291,6 +2320,8 @@ def render_quiz() -> None:
             f'<a href="{_mailto_url}" onclick="window.location.href=this.href;return false;" style="display:inline-block;padding:0.4rem 1rem;background:{_theme_color("#ff9800", "#7c2d12")};color:{_theme_text_color("#ffffff", "#fff7ed")};border:1px solid {_theme_color("#ff9800", "#9a3412")};border-radius:8px;text-decoration:none;font-size:0.9rem;">📧 この問題を報告（メール）</a>',
             unsafe_allow_html=True,
         )
+
+    _render_back_to_login_button()
 
 
 # ─── メインルーティング ───────────────────────────────────────────────────────
