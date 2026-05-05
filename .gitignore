@@ -67,6 +67,9 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# QuizFour: DBはCSVから自動生成されるためGit管理不要
+quiz.db
+
 # Flask stuff:
 instance/
 .webassets-cache

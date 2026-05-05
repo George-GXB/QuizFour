@@ -1311,6 +1311,38 @@ def render_setup(all_questions: list[Question]) -> None:
 
     # (成績シェア用メールアドレス設定はログイン画面の一番下に移動しました)
 
+    # ── 学習成績をリセット ──
+    st.divider()
+    _reset_user = st.session_state.get("user_name", "") or st.session_state.get("login_selected_user", "")
+    if _reset_user:
+        if st.button(f"🗑️ 学習成績をリセット（{_reset_user}）", key="reset_score_btn_setup"):
+            st.session_state["confirm_reset_setup"] = True
+        if st.session_state.get("confirm_reset_setup", False):
+            st.warning(f"「{_reset_user}」の学習成績を削除します。パスワードを入力してください。")
+            confirm_pw_setup = st.text_input(
+                "パスワードを入力",
+                type="password",
+                key="reset_confirm_input_setup",
+            )
+            rs1, rs2 = st.columns(2)
+            with rs1:
+                if st.button("リセット実行", key="reset_exec_btn_setup"):
+                    if confirm_pw_setup.strip() == "1234":
+                        try:
+                            _reset_answer_history_only()
+                        except Exception as exc:
+                            st.error(f"成績リセットに失敗しました: {exc}")
+                            st.session_state["confirm_reset_setup"] = False
+                        else:
+                            st.session_state["confirm_reset_setup"] = False
+                            st.rerun()
+                    else:
+                        st.error("パスワードが一致しません。リセットを中止しました。")
+            with rs2:
+                if st.button("キャンセル", key="reset_cancel_btn_setup"):
+                    st.session_state["confirm_reset_setup"] = False
+                    st.rerun()
+
     _render_back_to_login_button()
 
 
@@ -1557,35 +1589,6 @@ def render_login() -> None:
 
     # (READMEは画面一番下に移動しました)
 
-    # --- 学習成績をリセットボタンを画面一番下に移動 ---
-    st.divider()
-    if st.button("学習成績をリセット", key="reset_score_btn"):
-        st.session_state["confirm_reset"] = True
-    if st.session_state.get("confirm_reset", False):
-        st.warning("本当にリセットしますか？ パスワードを入力してください。")
-        confirm_pw = st.text_input(
-            "パスワードを入力",
-            type="password",
-            key="reset_confirm_input_login",
-        )
-        rc1, rc2 = st.columns(2)
-        with rc1:
-            if st.button("リセット実行", key="reset_exec_btn_login"):
-                if confirm_pw.strip() == "1234":
-                    try:
-                        _reset_answer_history_only()
-                    except Exception as exc:
-                        st.error(f"成績リセットに失敗しました: {exc}")
-                        st.session_state["confirm_reset"] = False
-                    else:
-                        st.session_state["confirm_reset"] = False
-                        st.rerun()
-                else:
-                    st.error("パスワードが一致しません。リセットを中止しました。")
-        with rc2:
-            if st.button("キャンセル", key="reset_cancel_btn_login"):
-                st.session_state["confirm_reset"] = False
-                st.rerun()
 
     # ── シェア用メールアドレス設定（画面一番下） ──
     st.divider()
@@ -1628,7 +1631,7 @@ def render_login() -> None:
                     else:
                         st.error("有効なメールアドレスを入力してください。")
 
-    # ── README表示（画面最下部） ──
+    # ── README表示 ──
     st.divider()
     with st.expander("📖 README（利用規約・免責事項）"):
         readme_path = Path(__file__).parent / "README.md"
@@ -1636,6 +1639,45 @@ def render_login() -> None:
             st.markdown(readme_path.read_text(encoding="utf-8"), unsafe_allow_html=False)
         else:
             st.caption("README.md が見つかりません。")
+
+    # ── すべてのユーザーデータを削除（画面最下部） ──
+    st.divider()
+    if st.button("🗑️ すべてのユーザーデータを削除する", key="delete_all_users_btn"):
+        st.session_state["confirm_delete_all_users"] = True
+    if st.session_state.get("confirm_delete_all_users", False):
+        st.warning("⚠️ 全ユーザーの学習成績・タグ・設定をすべて削除します。この操作は取り消せません。パスワードを入力してください。")
+        confirm_pw_all = st.text_input(
+            "パスワードを入力",
+            type="password",
+            key="delete_all_users_pw_input",
+        )
+        da1, da2 = st.columns(2)
+        with da1:
+            if st.button("削除実行", key="delete_all_users_exec_btn"):
+                if confirm_pw_all.strip() == "1234":
+                    try:
+                        all_registered = get_registered_users()
+                        for u in all_registered:
+                            delete_user(u["user_name"])
+                        try:
+                            save_app_data(LS)
+                        except Exception:
+                            pass
+                        # セッション状態もクリア
+                        st.session_state["user_name"] = ""
+                        st.session_state["login_selected_user"] = ""
+                        st.session_state["confirm_delete_all_users"] = False
+                        st.session_state["reload_notice"] = "すべてのユーザーデータを削除しました。"
+                        st.rerun()
+                    except Exception as exc:
+                        st.error(f"削除に失敗しました: {exc}")
+                        st.session_state["confirm_delete_all_users"] = False
+                else:
+                    st.error("パスワードが一致しません。削除を中止しました。")
+        with da2:
+            if st.button("キャンセル", key="delete_all_users_cancel_btn"):
+                st.session_state["confirm_delete_all_users"] = False
+                st.rerun()
 
 def render_history() -> None:
     st.title("成績リスト")
