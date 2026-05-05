@@ -1,0 +1,10 @@
+■ポイント
+　Such be〜that（倒置構文）
+■解説
+　"Such was the impact of the speech that many were moved to tears." で「スピーチの影響はとても大きかったので多くの人が感動して涙した」という倒置構文。Such が文頭に来ると倒置が起きる。
+■誤りの選択肢
+　is：現在形（過去の文脈）
+　were：主語が the impact（単数）なので was
+　had been：過去完了
+■コツ
+"Such was 〜 that..."（〜はとても〜だったので）→ Such が文頭の倒置

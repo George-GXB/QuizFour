@@ -1,0 +1,10 @@
+■ポイント
+　受動態（現在形）
+■解説
+　「郵便は毎日正午に配達される」という受動の現在形には is delivered を使う。
+■誤りの選択肢
+　delivers：能動態の三単現
+　delivered：過去形または過去分詞のみ
+　was delivered：過去の受動態
+■コツ
+"every day"（毎日）→ 現在の受動態（is delivered）

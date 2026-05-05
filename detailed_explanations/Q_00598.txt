@@ -1,0 +1,10 @@
+■ポイント
+　強調構文の疑問詞 who
+■解説
+　"It was __ that told me the secret."（〜が秘密を教えてくれた）という強調構文の who を使った疑問文。"who it was that 〜" で「〜したのが誰なのか」という意味の間接疑問。
+■誤りの選択肢
+　whom：主語（told の主語）なので主格 who が適切
+　which：人を指す場合は who/whom を使う
+　whose：所有格で意味が変わる
+■コツ
+強調構文＋疑問詞の間接疑問→ "who it was that 〜"（〜したのは誰なのか）

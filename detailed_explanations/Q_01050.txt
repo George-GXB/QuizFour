@@ -1,0 +1,10 @@
+■ポイント
+　as if＋仮定法過去完了（主節より前の出来事に反する様態）
+■解説
+　「まるで何も起きなかったかのように微笑んだ」という主節（smiled）より前の出来事に反する様態には had happened を使う。
+■誤りの選択肢
+　happens：直説法現在形
+　happened：as if＋仮定法過去（現在と同時の場合）
+　would happen：意志の助動詞
+■コツ
+"smiled as if nothing had happened"→ 主節（過去）より前の出来事→ 過去完了

@@ -1,0 +1,10 @@
+■ポイント
+　比較級（less）・不可算名詞
+■解説
+　「彼女は同僚より忍耐力が少ない」という比較には less を使う。patience は不可算名詞なので little の比較級 less を使う。
+■誤りの選択肢
+　fewer：可算名詞の比較級（patience は不可算）
+　little：原級（比較級が必要）
+　least：最上級（比較級が必要）
+■コツ
+不可算名詞の比較級→ less（little → less → least）

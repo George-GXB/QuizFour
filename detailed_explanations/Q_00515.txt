@@ -1,0 +1,10 @@
+■ポイント
+　関係代名詞 whose（先行詞が物でも所有格）
+■解説
+　「家の屋根」という所有関係を表すには whose を使う。先行詞が物（house）でも所有格には whose を使う。"the house whose roof was damaged" で「屋根が損傷した家」。
+■誤りの選択肢
+　who：主格で、先行詞が物には通常使わない
+　which：関係代名詞の所有格には whose を使う
+　whom：目的格なので所有関係を表せない
+■コツ
+先行詞が物でも所有格は whose（"of which" も可だが whose が一般的）

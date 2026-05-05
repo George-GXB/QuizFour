@@ -1,0 +1,10 @@
+■ポイント
+　cannot＋能動態（succeed は自動詞）
+■解説
+　「適切な計画なしにプロジェクトは成功できない」。succeed は自動詞なので受動態は作れない。cannot succeed が正しい。
+■誤りの選択肢
+　cannot be succeeded：succeed は自動詞で受動態は不可
+　could not succeed：過去形（現在の状況を話している）
+　could not be succeeded：自動詞の受動態は不可
+■コツ
+succeed は自動詞（他動詞がない）→ 受動態にできない

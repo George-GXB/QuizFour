@@ -1,0 +1,10 @@
+■ポイント
+　should not（〜ではないはずだ・期待の否定）
+■解説
+　「昼食を食べたばかりなので、彼はお腹が空いていないはずだ」という期待の否定には should not を使う。
+■誤りの選択肢
+　can：cannot is 「〜のはずがない」（cannot は可）
+　must：must not は「〜してはならない」（禁止）
+　could：could not は「〜できないはずだ」
+■コツ
+論理的に「〜ではないはずだ」→ should not

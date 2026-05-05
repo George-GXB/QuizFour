@@ -1,0 +1,10 @@
+■ポイント
+　as though＋仮定法過去完了（主節より前の出来事に反する様態）
+■解説
+　「まるで何年も彼を知っているかのように話した」という主節（talked）より前から続く状態に反する様態には as though＋仮定法過去完了（had known）を使う。
+■誤りの選択肢
+　knows：直説法現在形
+　knew：as though＋仮定法過去（現在と同時の場合）
+　would know：意志
+■コツ
+"talked as though she had known"→ 主節（過去）より前からの状態→ 過去完了

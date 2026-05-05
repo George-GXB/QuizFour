@@ -1,0 +1,10 @@
+■ポイント
+　否定副詞 Seldom が文頭→倒置
+■解説
+　否定の副詞 Seldom が文頭に来ると倒置が起きる。現在形の場合〈does/do＋主語＋動詞原形〉の形になる。"Seldom does she go to bed before midnight." の does が省略された形で "goes she" となる。
+■誤りの選択肢
+　she goes：倒置なし（文頭に Seldom があるので不可）
+　did she go：過去形の倒置（現在の習慣を表すので不自然）
+　she went：倒置なし・過去形
+■コツ
+Seldom + 倒置 → 一般動詞の場合は does/do が主語の前に出る

@@ -1,0 +1,10 @@
+■ポイント
+　make＋O＋動詞原形 → 受動態では to 不定詞
+■解説
+　「彼は自分の行動について謝らされた」という受動態。能動態の "made him apologize" → 受動態 "was made to apologize"。
+■誤りの選択肢
+　apologize：能動態では原形だが受動態では to 不定詞が必要
+　apologizing：分詞（was made apologizing は不自然）
+　apologized：過去分詞
+■コツ
+make＋O＋原形 → 受動態：was made to＋動詞原形

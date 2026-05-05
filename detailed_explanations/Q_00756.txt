@@ -1,0 +1,10 @@
+■ポイント
+　間接疑問の語順（疑問文の語順にしない）
+■解説
+　間接疑問は〈疑問詞＋S＋V〉の語順。"what time the train leaves"（電車が何時に出発するか）が正しい語順。
+■誤りの選択肢
+　does the train leave：直接疑問文の語順
+　leaves the train：倒置形で不可
+　the train is leaving：進行形で文脈に合わない
+■コツ
+"what time the train leaves"（電車が何時に出るか）→ 間接疑問の語順

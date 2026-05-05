@@ -1,0 +1,10 @@
+■ポイント
+　否定副詞 Little が文頭→倒置
+■解説
+　Little（ほとんど〜ない）が文頭に来ると倒置が起きる。"Little did he know that he was being watched." で「彼は監視されていることをほとんど知らなかった」。
+■誤りの選択肢
+　he knew：倒置なし
+　he did know：倒置なし（強調の do）
+　knew he：be動詞ではなく一般動詞の場合は did が必要
+■コツ
+"Little did S know that 〜"（〜をほとんど知らなかった）は倒置の慣用表現

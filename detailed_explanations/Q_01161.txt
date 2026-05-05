@@ -1,0 +1,10 @@
+■ポイント
+　最上級（least）・不可算名詞
+■解説
+　「彼はすべての候補者の中で最も経験が少ない」という最上級には least を使う。experience は不可算名詞なので little の最上級 least を使う。
+■誤りの選択肢
+　less：比較級（最上級が必要）
+　fewer：可算名詞の比較級（experience は不可算）
+　fewest：可算名詞の最上級（experience は不可算）
+■コツ
+不可算名詞の最上級→ least（little → less → least）

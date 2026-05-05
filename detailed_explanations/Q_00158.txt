@@ -1,0 +1,10 @@
+■ポイント
+　過去の受動態の否定形
+■解説
+　「新しい政策は従業員たちに歓迎されなかった」という過去の受動態の否定形には was not welcomed を使う。
+■誤りの選択肢
+　did not welcome：能動態の否定（主語が歓迎しなかった）
+　is not welcoming：現在進行形の否定
+　has not welcoming：文法的に誤り
+■コツ
+過去の受動態の否定 → was/were not＋過去分詞

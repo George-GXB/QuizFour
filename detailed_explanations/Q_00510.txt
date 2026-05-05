@@ -1,0 +1,10 @@
+■ポイント
+　関係代名詞 whom（先行詞が人・目的格・正式）
+■解説
+　先行詞 "the professor"（人）で、"spoke to" の目的語。前置詞の目的語として目的格 whom を使う。"I spoke to whom" → "whom I spoke to" の語順。
+■誤りの選択肢
+　who：口語では可だが、この問題では whom が正解
+　which：先行詞が人のとき使わない
+　whose：所有格で意味が変わる
+■コツ
+前置詞の目的語になる関係代名詞→正式には whom（"to whom I spoke"）

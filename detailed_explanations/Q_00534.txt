@@ -1,0 +1,10 @@
+■ポイント
+　関係副詞 where（先行詞が場所）
+■解説
+　先行詞 "the town"（場所）に続く節で「その町で生まれた」という場所の意味を表すには関係副詞 where を使う。"the town where I was born" で「私が生まれた町」。
+■誤りの選択肢
+　which：関係代名詞なので前置詞が必要（in which）
+　that：that は関係副詞として使えない
+　when：時を表す関係副詞で場所には使えない
+■コツ
+先行詞が場所（town, city, place など）→ where（または in which）

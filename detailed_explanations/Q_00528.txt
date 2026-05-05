@@ -1,0 +1,10 @@
+■ポイント
+　関係代名詞 that（先行詞が everything など不定代名詞の場合）
+■解説
+　先行詞 "everything"（不定代名詞・物を指す）の場合、関係代名詞は that を使う。which も使えるが、everything/anything/nothing/all などの後は that が一般的。
+■誤りの選択肢
+　who：先行詞が物（everything）なので不適切
+　which：使えるが everything の後は that が好まれる
+　whom：目的格で先行詞が人のとき使う
+■コツ
+everything/anything/nothing が先行詞→ that を使う

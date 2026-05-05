@@ -1,0 +1,10 @@
+■ポイント
+　未来の受動態
+■解説
+　「荷物は3日以内に配達される」という未来の受動動作には will be delivered を使う。
+■誤りの選択肢
+　will deliver：能動態
+　is delivered：現在の受動態
+　was delivered：過去の受動態
+■コツ
+"within three days"（3日以内に）→ 未来の受動態（will be delivered）

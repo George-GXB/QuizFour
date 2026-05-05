@@ -1,0 +1,10 @@
+■ポイント
+　完了分詞構文（主節より前の動作）
+■解説
+　「すべての選択肢を（すでに）検討した上で」という、主節の動作より前に完了した動作を表すには完了分詞 Having considered を使う。"Having considered all the options" で「すべての選択肢を検討した後で」。
+■誤りの選択肢
+　Considering：現在分詞では主節と同時進行の意味になる
+　Not considered：否定の受動分詞で意味が変わる
+　Being considering：be＋ing は進行形だが分詞構文では不自然
+■コツ
+主節より前に完了した動作→完了分詞構文（Having＋過去分詞）

@@ -1,0 +1,10 @@
+■ポイント
+　現在進行形の受動態（複数主語）
+■解説
+　「書類は今チームによってレビューされている」という現在進行中の受動動作。複数主語なので are being reviewed。
+■誤りの選択肢
+　review：能動態の複数形
+　were reviewed：過去の受動態
+　have been reviewed：現在完了の受動態
+■コツ
+"right now" ＋ 複数主語 → are being＋過去分詞

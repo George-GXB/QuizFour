@@ -1,0 +1,10 @@
+■ポイント
+　as を使った倒置の譲歩構文（形容詞 as S V）
+■解説
+　"Tired as he was, he kept on walking." で「疲れてはいたが、歩き続けた」という倒置の譲歩構文。形容詞（Tired）が文頭に出て as が続く。although と同じ逆接の意味だが語順が異なる。
+■誤りの選択肢
+　although：although Tired he was は不自然な語順
+　because：理由の接続詞
+　since：理由・時
+■コツ
+"形容詞＋as＋S＋V"（〜であるにもかかわらず）→ as を使った倒置の譲歩

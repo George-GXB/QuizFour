@@ -1,0 +1,10 @@
+■ポイント
+　関係代名詞 whom（先行詞が人・目的格）
+■解説
+　先行詞 "the man"（人）で、"married" の目的語。目的格の whom を使う。"she married whom" → "whom she married" の語順。
+■誤りの選択肢
+　who：主格なので目的語の役割には正式でない
+　which：先行詞が人のとき使わない
+　whose：所有格で意味が変わる
+■コツ
+先行詞が人で他動詞の目的語→ whom が正式

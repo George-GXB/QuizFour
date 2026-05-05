@@ -1,0 +1,10 @@
+■ポイント
+　should have＋過去分詞（期待・はずだったのに）
+■解説
+　「今頃は到着しているはずだったのに（していない）、何かおかしい」という期待が外れた場合には should have＋過去分詞を使う。
+■誤りの選択肢
+　must：must have arrived は「到着したに違いない」（强い推量）
+　may：may have arrived は「到着したかもしれない」（不確かな推量）
+　can：不自然
+■コツ
+"should have arrived by now"（今頃はもう着いているはずだったのに）→ 期待外れ

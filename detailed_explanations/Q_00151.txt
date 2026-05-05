@@ -1,0 +1,10 @@
+■ポイント
+　現在進行形の受動態
+■解説
+　「道路は今修理されている（工事中）」という現在進行中の受動動作には is being repaired を使う。
+■誤りの選択肢
+　repairs：能動態の三単現
+　was repaired：過去の受動態
+　has been repaired：現在完了の受動態（修理済みの意味）
+■コツ
+"at the moment"（今この瞬間）→ 現在進行形の受動態（is being repaired）

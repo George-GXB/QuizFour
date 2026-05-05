@@ -1,0 +1,10 @@
+■ポイント
+　未来の受動態
+■解説
+　「全従業員は変更について通知される」という未来の受動動作には will be informed を使う。
+■誤りの選択肢
+　will inform：能動態
+　are informed：現在の受動態
+　were informed：過去の受動態
+■コツ
+未来の通知・受動動作 → will be informed

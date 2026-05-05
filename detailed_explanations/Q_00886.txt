@@ -1,0 +1,10 @@
+■ポイント
+　仮定法の倒置（if の省略）
+■解説
+　"Had we known about it earlier, we could have helped." で「もし早くそれを知っていたら助けられたのに」という仮定法過去完了の倒置形。if を省略して had を主語の前に出す。
+■誤りの選択肢
+　us：目的格（主語には we）
+　our：所有格
+　ours：所有代名詞
+■コツ
+仮定法の if 省略→ Had S＋過去分詞（"If we had known" → "Had we known"）

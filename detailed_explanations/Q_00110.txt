@@ -1,0 +1,10 @@
+■ポイント
+　受動態（現在形・複数主語）
+■解説
+　「結果は毎月オンラインで公開される」という受動の現在形。主語 The results は複数なので are published。
+■誤りの選択肢
+　publish：能動態の複数形
+　published：過去分詞のみ
+　were published：過去の受動態
+■コツ
+複数主語＋"every month" → 現在の受動態（are published）

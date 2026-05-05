@@ -1,0 +1,10 @@
+■ポイント
+　否定の倒置構文 Not a single 〜
+■解説
+　"Not a single word did she speak during the entire ceremony." で「式典全体を通して彼女は一言も発しなかった」という否定の倒置。"Not a single word" が文頭→ did が主語の前。
+■誤りの選択肢
+　she spoke：倒置なし
+　she did speak：倒置なし（do の強調）
+　spoke she：動詞のみの倒置（did が必要）
+■コツ
+"Not a single 〜 did S..."（一つも〜しなかった）→ 否定倒置

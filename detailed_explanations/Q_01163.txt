@@ -1,0 +1,10 @@
+■ポイント
+　比較級（fewer）・可算名詞
+■解説
+　「このクラスは他のクラスより生徒数が少ない」という比較には fewer を使う。students は可算名詞の複数形なので few の比較級 fewer を使う。
+■誤りの選択肢
+　less：不可算名詞の比較級（students は可算）
+　little：不可算名詞の原級
+　least：最上級
+■コツ
+可算名詞の比較級→ fewer（few → fewer → fewest）、不可算→ less

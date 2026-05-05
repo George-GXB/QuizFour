@@ -1,0 +1,10 @@
+■ポイント
+　否定副詞句 No sooner が文頭→倒置
+■解説
+　No sooner が文頭に来ると倒置が起きる。"No sooner had he arrived than it started to rain." で「着くとすぐに雨が降り始めた」。No sooner had A than B の形。
+■誤りの選択肢
+　he had：倒置なし
+　he has：現在完了・倒置なし
+　has he：現在完了の倒置（過去の出来事なので過去完了）
+■コツ
+"No sooner had S＋過去分詞 than 〜"（〜するとすぐに）→ had が主語の前

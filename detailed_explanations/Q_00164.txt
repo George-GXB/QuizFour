@@ -1,0 +1,10 @@
+■ポイント
+　make＋O＋動詞原形 → 受動態では to 不定詞
+■解説
+　「彼は皿を洗わされた」という受動態。能動態の "made him wash" を受動態にすると to 不定詞が必要（was made to wash）。
+■誤りの選択肢
+　wash：能動態では原形だが、受動態では to 不定詞が必要
+　washing：分詞（was made washing は不自然）
+　washed：過去分詞（was made washed は不自然）
+■コツ
+make＋O＋原形 → 受動態：be made to＋動詞原形（to が加わる）

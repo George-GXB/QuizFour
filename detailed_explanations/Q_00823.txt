@@ -1,0 +1,10 @@
+■ポイント
+　方向の副詞 Down が文頭→倒置
+■解説
+　方向を表す副詞 Down が文頭に来ると〈動詞＋主語〉の倒置が起きる。"Down came the mountain the hikers." → "Down the mountain came the hikers." で「ハイカーたちが山を下りてきた」。
+■誤りの選択肢
+　come：現在形（過去の文脈）
+　were coming：倒置なし
+　had come：過去完了
+■コツ
+方向副詞（Up/Down/Out/In など）が文頭→動詞＋主語の倒置

@@ -1,0 +1,10 @@
+■ポイント
+　neither＋助動詞＋主語（現在完了の否定同意）
+■解説
+　"I have never been to Paris, and neither has she." で「私はパリに行ったことがない、彼女もそうだ」という現在完了の否定の同意表現。have を主語（she）に合わせて has にする。
+■誤りの選択肢
+　does：一般動詞の do（have の代わりにはならない）
+　is：be 動詞
+　was：過去の be 動詞
+■コツ
+"neither has/have S"→ 前の文が現在完了なら have/has を使う

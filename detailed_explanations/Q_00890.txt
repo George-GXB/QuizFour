@@ -1,0 +1,10 @@
+■ポイント
+　Never before が文頭→倒置（現在完了）
+■解説
+　"Never before have so many people gathered in one place." で「これほど多くの人が一か所に集まったことはかつてなかった」という倒置。Never before が文頭→ have が主語の前。
+■誤りの選択肢
+　they have：倒置なし
+　they had：倒置なし・過去完了
+　had they：過去完了の倒置（Never before は現在完了が自然）
+■コツ
+"Never before have S＋過去分詞"（かつてこれほど〜したことはない）→ 倒置

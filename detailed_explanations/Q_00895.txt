@@ -1,0 +1,10 @@
+■ポイント
+　as を使った倒置の譲歩構文（名詞 as S V）
+■解説
+　"Child as she is, she understands the situation well." で「子どもであるにもかかわらず、状況をよく理解している」という倒置の譲歩構文。名詞（Child）が無冠詞で文頭に出て as が続く。
+■誤りの選択肢
+　although：Although (a) child she is は不自然
+　because：理由の接続詞
+　since：理由・時
+■コツ
+"名詞（無冠詞）＋as＋S＋V"（〜であるにもかかわらず）→ 名詞の倒置譲歩

@@ -1,0 +1,10 @@
+■ポイント
+　「数量表現 of whom/which」の構文
+■解説
+　先行詞 "two sons"（人）で "both of them" の them を関係代名詞に変えると "both of whom" になる。"both of whom are doctors" で「その両方が医者だ」という意味。
+■誤りの選択肢
+　who：「of who」の形は正式でない（of の後は目的格 whom）
+　which：先行詞が人のとき使わない
+　that：前置詞＋that の形は使えない
+■コツ
+「数量表現 of whom/which」→ 先行詞が人なら whom、物なら which

@@ -1,0 +1,10 @@
+■ポイント
+　受動態（過去形・複数主語）
+■解説
+　「古い記録は昨年破棄された」という受動の過去形。主語 The old records は複数、"last year" があるため were destroyed。
+■誤りの選択肢
+　destroyed：過去分詞のみ（be 動詞が必要）
+　are destroyed：現在の受動態
+　have been destroyed：現在完了の受動態（"last year" と一緒に使えない）
+■コツ
+"last year" ＋ 複数主語 → were destroyed

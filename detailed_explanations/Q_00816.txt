@@ -1,0 +1,10 @@
+■ポイント
+　否定副詞 Rarely が文頭→倒置
+■解説
+　Rarely が文頭に来ると倒置が起きる。一般動詞の現在形なので do が主語の前に出る。"Rarely do I meet someone so talented." で「こんなに才能ある人に会うことはめったにない」。
+■誤りの選択肢
+　I meet：倒置なし
+　I have met：現在完了・倒置なし
+　have I met：現在完了の倒置
+■コツ
+Rarely/Seldom + 一般動詞 → do/does が主語の前（"Rarely do I..."）

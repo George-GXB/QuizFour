@@ -1,0 +1,10 @@
+■ポイント
+　条件の should（万が一〜するなら）
+■解説
+　「万が一誰かが聞いたら、会議中だと伝えてください」という条件の should を使う。"Should anyone ask" は "If anyone should ask" の if 省略・倒置形。
+■誤りの選択肢
+　Must：義務
+　May：許可・推量
+　Might：弱い推量
+■コツ
+"Should S 〜"（万が一〜するなら）→ if の省略による should の倒置

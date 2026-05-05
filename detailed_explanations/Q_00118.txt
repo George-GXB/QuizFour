@@ -1,0 +1,10 @@
+■ポイント
+　受動態（過去形）
+■解説
+　「その絵はピカソによって描かれた」という過去の受動動作には was created を使う。
+■誤りの選択肢
+　created：過去分詞のみ（be 動詞が必要）
+　is created：現在の受動態
+　has been created：現在完了の受動態
+■コツ
+歴史的な制作（過去の出来事）→ was/were created by 〜

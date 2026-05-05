@@ -1,0 +1,10 @@
+■ポイント
+　仮定法の倒置（if の省略・should）
+■解説
+　"Should you need any assistance, please contact us." で「万が一ご支援が必要な場合はご連絡ください」という仮定法の倒置形。"If you should need 〜" の if を省略して should を主語の前に出す。
+■誤りの選択肢
+　your：所有格
+　yours：所有代名詞
+　yourself：再帰代名詞
+■コツ
+"Should S＋動詞原形"（万が一〜するなら）→ if の省略で should が文頭

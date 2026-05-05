@@ -1,0 +1,10 @@
+■ポイント
+　仮定法の倒置（if の省略・Should）
+■解説
+　"Should you need any assistance, please let me know." で「万が一ご支援が必要な場合はお知らせください」という仮定法の倒置形。"If you should need" の if を省略して should を主語の前に出す。
+■誤りの選択肢
+　If：If you should need（if を省略しない形）
+　Had：Had は過去完了の倒置
+　Were：Were you to need（仮定法過去の倒置）
+■コツ
+"Should S＋動詞原形"（万が一〜するなら）→ if の省略・倒置

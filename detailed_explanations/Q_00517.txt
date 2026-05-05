@@ -1,0 +1,10 @@
+■ポイント
+　関係代名詞 whose（先行詞が組織・物でも所有格）
+■解説
+　「会社の CEO」という所有関係を表すには whose を使う。先行詞が組織（company）でも whose が使える。"the company whose CEO resigned" で「CEO が辞任した会社」。
+■誤りの選択肢
+　who：人以外の先行詞には通常使わない
+　which：所有格には whose を使う
+　whom：目的格なので所有関係を表せない
+■コツ
+組織・団体が先行詞でも所有格は whose を使う
