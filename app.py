@@ -696,8 +696,8 @@ def _build_recommended_pool(
 def _render_learning_calendar(user_name: str) -> None:
     """メイン画面用: 指定ユーザーの学習日をカレンダーで表示する。"""
 
-    import calendar as _cal
-    from datetime import date as _date, datetime as _dt
+    from streamlit_calendar import calendar as st_calendar
+    from datetime import date as _date, datetime as _dt, timedelta as _timedelta
 
     if not user_name:
         st.info("ログインすると学習カレンダーが表示されます。")
@@ -713,6 +713,7 @@ def _render_learning_calendar(user_name: str) -> None:
                 return None
 
     daily = get_daily_stats(user_name) or {}
+    today = _date.today()
 
     LEARNING_DAY_THRESHOLD = 10
     learned = set()
@@ -724,175 +725,117 @@ def _render_learning_calendar(user_name: str) -> None:
         if total >= LEARNING_DAY_THRESHOLD:
             learned.add(d)
 
-    today = _date.today()
-    if "cal_year" not in st.session_state:
-        st.session_state["cal_year"] = today.year
-    if "cal_month" not in st.session_state:
-        st.session_state["cal_month"] = today.month
-
-    year = st.session_state["cal_year"]
-    month = st.session_state["cal_month"]
-
-    if _is_dark_mode():
-        cal_border = "#374151"
-        cal_header_bg = "#111827"
-        cal_cell_bg = "#0f172a"
-        cal_text = "#e5e7eb"
-        empty_bg = "#0b1220"
-        empty_color = "#4b5563"
-        # 空セルの罫線は他のセルと揃える
-        empty_border = cal_border
-        today_outline = "#7f1d1d"
-        learned_color = "#2563eb"
+    # --- 連続学習日数・最古/最新学習日付の表示（カレンダーの上） ---
+    learned_dates = sorted(list(learned))
+    streak = 0
+    if learned_dates:
+        streak = 1
+        for i in range(len(learned_dates)-1, 0, -1):
+            if (learned_dates[i] - learned_dates[i-1]).days == 1:
+                streak += 1
+            else:
+                break
+        oldest = learned_dates[0]
+        newest = learned_dates[-1]
+        st.caption(f"連続学習日数: {streak}日　最古の学習日: {oldest.strftime('%Y-%m-%d')}　最新の学習日: {newest.strftime('%Y-%m-%d')}")
     else:
-        cal_border = "#dddddd"
-        cal_header_bg = "transparent"
-        cal_cell_bg = "transparent"
-        cal_text = "inherit"
-        empty_bg = "transparent"
-        empty_color = "#bbbbbb"
-        # 空セルの罫線は他のセルと揃える
-        empty_border = cal_border
-        today_outline = "#e53935"
-        learned_color = "#2196f3"
+        st.caption("学習履歴がありません。")
 
+    # FullCalendar用イベントリスト（学習済みの日に〇マーク）
+    events = []
+    for d in sorted(learned):
+        key_str = d.isoformat()
+        v = daily.get(key_str, {})
+        total = v.get("total", "?") if isinstance(v, dict) else "?"
+        correct = v.get("correct", "?") if isinstance(v, dict) else "?"
+        events.append({
+            "title": f"〇 {correct}/{total}",
+            "start": key_str,
+            "allDay": True,
+            "color": "#2196f3",
+            "textColor": "#ffffff",
+        })
 
-    from datetime import timedelta as _timedelta
-    daily = get_daily_stats(user_name) or {}
-    today = _date.today()
+    # ダークモード対応CSS
+    if _is_dark_mode():
+        today_bg = "#7f1d1d"
+        today_text = "#ffffff"
+        header_bg = "#111827"
+        bg_color = "#0f172a"
+        text_color = "#e5e7eb"
+        border_color = "#374151"
+        dow_bg = "#1e293b"
+    else:
+        today_bg = "#ffebee"
+        today_text = "#c62828"
+        header_bg = "#f8f9fa"
+        bg_color = "#ffffff"
+        text_color = "#212121"
+        border_color = "#e0e0e0"
+        dow_bg = "#f5f5f5"
 
-    # --- カレンダー（月ナビ＋グリッド）を一番上に表示 ---
-    # スマホでも月ナビが1行に収まるようCSSとJSで強制する
-    st.markdown("""
-<style>
-.cal-nav-row {
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    gap: 0.2rem !important;
-}
-.cal-nav-row > div[data-testid="column"] {
-    min-width: 0 !important;
-    flex-shrink: 1 !important;
-}
-.cal-nav-row .stButton > button {
-    min-width: 36px !important;
-    padding: 0.25rem 0.5rem !important;
-    white-space: nowrap !important;
-}
-</style>
-<script>
-(function() {
-    function tagCalNav() {
-        var blocks = document.querySelectorAll('[data-testid="stHorizontalBlock"]');
-        blocks.forEach(function(block) {
-            var btns = Array.from(block.querySelectorAll('button')).map(function(b){ return b.textContent.trim(); });
-            if (btns.indexOf('◀') !== -1 && btns.indexOf('▶') !== -1) {
-                block.classList.add('cal-nav-row');
-            }
-        });
+    calendar_options = {
+        "initialView": "dayGridMonth",
+        "locale": "ja",
+        "firstDay": 0,  # 日曜始まり
+        "headerToolbar": {
+            "left": "prev",
+            "center": "title",
+            "right": "next",
+        },
+        "height": "auto",
+        "fixedWeekCount": False,
+        "dayMaxEvents": True,
+        "eventDisplay": "block",
+        "initialDate": today.isoformat(),
     }
-    var obs = new MutationObserver(tagCalNav);
-    obs.observe(document.body, {childList: true, subtree: true});
-    tagCalNav();
-})();
-</script>
-""", unsafe_allow_html=True)
-    col_prev, col_title, col_next = st.columns([1, 4, 1])
-    with col_prev:
-        if st.button("◀", key=f"cal_prev_{year}_{month}"):
-            if month == 1:
-                st.session_state["cal_year"] = year - 1
-                st.session_state["cal_month"] = 12
-            else:
-                st.session_state["cal_month"] = month - 1
-            st.rerun()
-    with col_title:
-        st.markdown(
-            f"<div style='text-align:center;white-space:nowrap;font-size:1.05rem;font-weight:600;padding-top:6px;'>{year}年 {month}月</div>",
-            unsafe_allow_html=True,
-        )
-    with col_next:
-        if st.button("▶", key=f"cal_next_{year}_{month}"):
-            if month == 12:
-                st.session_state["cal_year"] = year + 1
-                st.session_state["cal_month"] = 1
-            else:
-                st.session_state["cal_month"] = month + 1
-            st.rerun()
 
-    _cal.setfirstweekday(_cal.SUNDAY)
-    weeks = _cal.monthcalendar(year, month)
-    weekdays = ["日", "月", "火", "水", "木", "金", "土"]
+    custom_css = f"""
+    :root {{
+        --fc-border-color: {border_color};
+        --fc-button-bg-color: transparent;
+        --fc-button-border-color: {border_color};
+        --fc-button-hover-bg-color: {dow_bg};
+        --fc-button-active-bg-color: {dow_bg};
+        --fc-today-bg-color: {today_bg};
+        --fc-page-bg-color: {bg_color};
+        --fc-neutral-bg-color: {dow_bg};
+    }}
+    .fc {{ color: {text_color}; background: {bg_color}; border-radius: 8px; padding: 4px; }}
+    .fc-toolbar-title {{ font-size: 1.1rem !important; font-weight: 700 !important; color: {text_color} !important; }}
+    .fc-button {{ color: {text_color} !important; font-size: 1rem !important; padding: 2px 10px !important; }}
+    .fc-button:focus {{ box-shadow: none !important; }}
+    .fc-day-today {{ background: {today_bg} !important; }}
+    .fc-day-today .fc-daygrid-day-number {{ color: {today_text} !important; font-weight: bold !important; }}
+    .fc-daygrid-event {{ font-size: 0.78rem !important; border-radius: 4px !important; }}
+    .fc-col-header-cell {{ background: {dow_bg}; color: {text_color}; }}
+    .fc-scrollgrid {{ border-radius: 8px; overflow: hidden; }}
+    """
 
-    html_parts = [
-        "<style>"
-        ".learn-cal{border-collapse:collapse;width:100%;max-width:560px}"
-        # th/td の罫線を強制的に統一（!important を付与して外部スタイルより優先）
-        f".learn-cal th,.learn-cal td{{border:1px solid {cal_border} !important;padding:6px;text-align:center;width:14%;min-height:48px;background:{cal_cell_bg};color:{cal_text};}}"
-        f".learn-cal th{{background:{cal_header_bg};}}"
-        f".learn-cal .today{{outline:2px solid {today_outline};}}"
-        # empty: 背景・文字色は上書きするが、罫線は th/td の定義を使い色合わせする（border-colorで保険）
-        f".learn-cal .empty{{background:{empty_bg} !important;color:{empty_color} !important;border-color:{cal_border} !important;}}"
-        ".date-num{font-size:1rem}"
-        "</style>",
-        "<table class='learn-cal'><thead><tr>"
-        + "".join(f"<th>{wd}</th>" for wd in weekdays)
-        + "</tr></thead><tbody>"
-    ]
-    for wk in weeks:
-        html_parts.append("<tr>")
-        for d in wk:
-            if d == 0:
-                html_parts.append("<td class='empty'></td>")
-            else:
-                cur_date = _date(year, month, d)
-                key_str = cur_date.isoformat()
-                classes = []
-                if cur_date in learned:
-                    classes.append("learned")
-                if cur_date == today:
-                    classes.append("today")
-                class_attr = f" class='{' '.join(classes)}'" if classes else ""
-                stats_text = ""
-                if key_str in daily:
-                    v = daily[key_str]
-                    stats_text = f" title='出題: {v.get('total', '')} / 正解: {v.get('correct', '')}'"
-                inner = f"<div class='date-num'>{d}</div>"
-                if cur_date in learned:
-                    inner += f"<div style='font-size:1.2rem;color:{learned_color};'>〇</div>"
-                html_parts.append(f"<td{class_attr}{stats_text}>{inner}</td>")
-        html_parts.append("</tr>")
-    html_parts.append("</tbody></table>")
+    st_calendar(events=events, options=calendar_options, custom_css=custom_css, key="learning_calendar")
 
-    st.markdown("".join(html_parts), unsafe_allow_html=True)
-
-    # --- 一日に解いた問題数の最大値を表示 ---
+    # --- 統計情報 ---
     try:
         if isinstance(daily, dict) and daily:
-            max_daily = max(int(v.get("total", 0)) for v in daily.values())
+            max_daily = max(int(v.get("total", 0)) for v in daily.values() if isinstance(v, dict))
         else:
             max_daily = 0
     except Exception:
         max_daily = 0
     st.caption(f"一日に解いた問題数（最大）: {max_daily}問")
-    # 10問の最速タイム（存在すれば表示）
     try:
         fastest_10 = get_fastest_time_for_count(user_name, 10) if user_name else None
         if fastest_10 is None:
             st.caption("10問の最速タイム: 記録なし")
         else:
-            # 表示を mm:ss に整形
             m = fastest_10 // 60
             s = fastest_10 % 60
-            if m > 0:
-                fmt = f"{m}分{s}秒"
-            else:
-                fmt = f"{s}秒"
+            fmt = f"{m}分{s}秒" if m > 0 else f"{s}秒"
             st.caption(f"10問の最速タイム: {fmt}")
     except Exception:
         pass
 
-    # --- ラジオボタン＋学習スタートボタン（カレンダーの直下） ---
+    # --- ラジオボタン＋学習スタートボタン ---
     time_select = st.radio(
         "学習する日付を選択",
         options=["過去の分", "今日の分", "未来の分"],
@@ -951,7 +894,6 @@ def _render_learning_calendar(user_name: str) -> None:
                 st.session_state["pending_start_type"] = "future"
                 st.rerun()
 
-    # --- 連続学習日数・最古/最新学習日付の表示 ---
     # --- pending_start_date があれば確認ダイアログを表示 ---
     if st.session_state.get("pending_start_date"):
         pd_str = st.session_state.get("pending_start_display", st.session_state.get("pending_start_date"))
@@ -959,12 +901,10 @@ def _render_learning_calendar(user_name: str) -> None:
         col_yes, col_no = st.columns([1, 1])
         with col_yes:
             if st.button("はい", key="confirm_start_yes"):
-                # 実際に学習開始の処理を行う（以前の即時開始ロジックを再現）
                 try:
                     target_iso = st.session_state.pop("pending_start_date")
                 except Exception:
                     target_iso = None
-                # set override and start
                 if target_iso:
                     st.session_state["override_record_date"] = target_iso
                     st.session_state["_override_clear_on_end"] = True
@@ -973,33 +913,16 @@ def _render_learning_calendar(user_name: str) -> None:
                     st.session_state.answered = False
                     st.session_state.selected_index = None
                     st.session_state.stage = "quiz"
-                    # clear display/type
                     st.session_state.pop("pending_start_display", None)
                     st.session_state.pop("pending_start_type", None)
                 st.rerun()
         with col_no:
             if st.button("キャンセル", key="confirm_start_no"):
-                # 取り消し
                 st.session_state.pop("pending_start_date", None)
                 st.session_state.pop("pending_start_display", None)
                 st.session_state.pop("pending_start_type", None)
                 st.rerun()
 
-    learned_dates = sorted(list(learned))
-    streak = 0
-    if learned_dates:
-        # streakは既存のget_learning_streak等で算出してもよい
-        streak = 1
-        for i in range(len(learned_dates)-1, 0, -1):
-            if (learned_dates[i] - learned_dates[i-1]).days == 1:
-                streak += 1
-            else:
-                break
-        oldest = learned_dates[0]
-        newest = learned_dates[-1]
-        st.caption(f"連続学習日数: {streak}日　最古の学習日: {oldest.strftime('%Y-%m-%d')}　最新の学習日: {newest.strftime('%Y-%m-%d')}")
-    else:
-        st.caption("学習履歴がありません。")
 
 
 def _reload_db_from_input() -> None:
