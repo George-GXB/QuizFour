@@ -22,6 +22,7 @@ from __future__ import annotations
 import json
 from typing import Any
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import streamlit as st
 from streamlit_local_storage import LocalStorage
@@ -29,6 +30,15 @@ from streamlit_local_storage import LocalStorage
 _LS_INIT_KEY = "quiz_ls_init"
 _DATA_KEY = "quiz_app_data"
 _SESSION_KEY = "_app_data"
+_JST = ZoneInfo("Asia/Tokyo")
+
+
+def _now_jst() -> datetime:
+    return datetime.now(_JST)
+
+
+def _today_jst_str() -> str:
+    return _now_jst().strftime("%Y-%m-%d")
 
 
 def _default_data() -> dict[str, Any]:
@@ -162,14 +172,14 @@ def record_quiz_session(user_name: str, seconds: int, count: int, date: str | No
             datetime.fromisoformat(date)
             day_key = date
         else:
-            day_key = datetime.now().strftime("%Y-%m-%d")
+            day_key = _today_jst_str()
     except Exception:
-        day_key = datetime.now().strftime("%Y-%m-%d")
+        day_key = _today_jst_str()
 
     data = _get_data()
     sessions = data.setdefault("quiz_sessions", {})
     user_sessions = sessions.setdefault(user_name, [])
-    entry = {"date": day_key, "count": int(count), "seconds": int(seconds), "ts": datetime.now().isoformat()}
+    entry = {"date": day_key, "count": int(count), "seconds": int(seconds), "ts": _now_jst().isoformat()}
     user_sessions.append(entry)
     data["quiz_sessions"] = sessions
     _set_data(data)
@@ -348,9 +358,9 @@ def record_answer(question_id: int, is_correct_answer: bool, user_name: str) -> 
             # 形式 YYYY-MM-DD を期待
             today = datetime.fromisoformat(override).strftime("%Y-%m-%d")
         except Exception:
-            today = datetime.now().strftime("%Y-%m-%d")
+            today = _today_jst_str()
     else:
-        today = datetime.now().strftime("%Y-%m-%d")
+        today = _today_jst_str()
     daily = data.setdefault("daily_stats", {})
     user_daily = daily.setdefault(user_name, {})
     day = user_daily.setdefault(today, {"total": 0, "correct": 0, "seconds": 0})
@@ -374,9 +384,9 @@ def add_daily_study_seconds(user_name: str, seconds: int, date: str | None = Non
             datetime.fromisoformat(date)
             day_key = date
         else:
-            day_key = datetime.now().strftime("%Y-%m-%d")
+            day_key = _today_jst_str()
     except Exception:
-        day_key = datetime.now().strftime("%Y-%m-%d")
+        day_key = _today_jst_str()
 
     data = _get_data()
     daily = data.setdefault("daily_stats", {})
@@ -408,7 +418,7 @@ def get_learning_streak(user_name: str) -> int:
         return 0
     dates = sorted(learned_dates, reverse=True)
     streak = 0
-    today = datetime.now().date()
+    today = _now_jst().date()
     # 日付文字列をdate型に変換
     date_objs = [datetime.strptime(d, "%Y-%m-%d").date() for d in dates]
     for i, d in enumerate(date_objs):

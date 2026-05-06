@@ -342,10 +342,23 @@ def _toggle_selection(state_key: str, value: str) -> None:
     else:
         current_values.append(value)
     st.session_state[state_key] = current_values
+
+
+def _clear_override_record_date_if_needed() -> None:
+    """一時的な学習日付オーバーライドを必要時に解除する。"""
+    try:
+        if st.session_state.get("_override_clear_on_end", False):
+            st.session_state.pop("override_record_date", None)
+            st.session_state.pop("_override_clear_on_end", None)
+    except Exception:
+        pass
+
+
 def _render_back_to_login_button() -> None:
     """全ログイン後画面の一番下に表示する「ログイン画面に戻る」ボタン。"""
     st.divider()
     if st.button("🔙 ログイン画面に戻る", key=f"back_to_login_{st.session_state.get('stage','')}", use_container_width=True):
+        _clear_override_record_date_if_needed()
         st.session_state.stage = "login"
         st.rerun()
 
@@ -707,7 +720,8 @@ def _render_learning_calendar(user_name: str) -> None:
     """メイン画面用: 指定ユーザーの学習日をカレンダーで表示する。"""
 
     from streamlit_calendar import calendar as st_calendar
-    from datetime import date as _date, datetime as _dt, timedelta as _timedelta
+    from datetime import datetime as _dt, timedelta as _timedelta
+    from zoneinfo import ZoneInfo as _ZoneInfo
 
     if not user_name:
         st.info("ログインすると学習カレンダーが表示されます。")
@@ -723,7 +737,7 @@ def _render_learning_calendar(user_name: str) -> None:
                 return None
 
     daily = get_daily_stats(user_name) or {}
-    today = _date.today()
+    today = _dt.now(_ZoneInfo("Asia/Tokyo")).date()
 
     LEARNING_DAY_THRESHOLD = 10
     learned = set()
@@ -2063,6 +2077,7 @@ def render_quiz() -> None:
         except Exception:
             # If preparation fails, show an error and return to setup
             st.error("出題の準備に失敗しました。設定を確認してください。")
+            _clear_override_record_date_if_needed()
             st.session_state.stage = "setup"
             st.rerun()
 
@@ -2104,6 +2119,7 @@ def render_quiz() -> None:
                     pass
         except Exception:
             pass
+        _clear_override_record_date_if_needed()
         st.session_state.stage = "result"
         st.rerun()
 
@@ -2139,6 +2155,7 @@ def render_quiz() -> None:
                     add_daily_study_seconds(user_name, seconds)
             except Exception:
                 pass
+            _clear_override_record_date_if_needed()
             st.session_state.stage = "result"
             st.rerun()
 

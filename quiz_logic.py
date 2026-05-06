@@ -1,14 +1,21 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 import sqlite3
 from typing import Literal
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 
 Mode = Literal["category", "all"]
 CSV_ENCODINGS = ("utf-8-sig", "cp932", "shift_jis", "utf-8")
+_JST = ZoneInfo("Asia/Tokyo")
+
+
+def _today_jst_str() -> str:
+    return datetime.now(_JST).strftime("%Y-%m-%d")
 
 
 @dataclass(frozen=True)
@@ -95,7 +102,7 @@ def init_db(db_path: Path) -> None:
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 question_id INTEGER NOT NULL,
                 user_name TEXT NOT NULL DEFAULT '',
-                answered_date TEXT NOT NULL DEFAULT (date('now', 'localtime')),
+                answered_date TEXT NOT NULL DEFAULT (date('now', '+9 hours')),
                 total_asked INTEGER NOT NULL,
                 total_correct INTEGER NOT NULL,
                 total_incorrect INTEGER NOT NULL,
@@ -385,9 +392,9 @@ def record_answer_history(db_path: Path, question_id: int, is_correct_answer: bo
             """
             INSERT INTO answer_history (
                 question_id, user_name, answered_date, total_asked, total_correct, total_incorrect, was_correct
-            ) VALUES (?, ?, date('now', 'localtime'), ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)
             """,
-            (question_id, user_name, asked, correct, incorrect, 1 if is_correct_answer else 0),
+            (question_id, user_name, _today_jst_str(), asked, correct, incorrect, 1 if is_correct_answer else 0),
         )
         conn.commit()
 
